@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/is/kazuki-a/Desktop/matlab'
+let g:netrw_dirhist_2='/home/is/kazuki-a/Desktop/matlab/dog_ecg_acc'
+let g:netrw_dirhist_3='/home/is/kazuki-a/bin/matlab.scptd'
+let g:netrw_dirhist_4='/home/is/kazuki-a/library/libsvm-3.20/matlab'
+let g:netrw_dirhist_5='/home/is/kazuki-a/workspace/lane_changing/10_TimeToCollisionFrom1'
+let g:netrw_dirhist_6='/home/is/kazuki-a/Desktop/mont'
+let g:netrw_dirhist_7='/home/is/kazuki-a/workspace/dog_ecg_acc'
+let g:netrw_dirhist_8='/home/is/kazuki-a/dotfiles/.vim'
