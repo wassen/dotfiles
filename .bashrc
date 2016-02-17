@@ -19,6 +19,7 @@ case "${OSTYPE}" in
     ;;
 esac
 
+alias python='python3'
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
