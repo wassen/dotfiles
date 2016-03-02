@@ -9,7 +9,6 @@ else
  PS1="\e[36m\e[40m\][\d \t \u@\h $ssh\W]\[\e[0m\]\n\\$ "
 fi
 
-alias sudo='sudo '
 case "${OSTYPE}" in
     linux*)
     alias ls='ls --color=auto'
@@ -26,6 +25,7 @@ function _killpid() {
 	done
 }
 
+alias sudo='sudo '
 alias python='python3'
 alias l='ls'
 alias ll='ls -l'
