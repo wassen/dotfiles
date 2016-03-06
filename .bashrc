@@ -19,6 +19,13 @@ case "${OSTYPE}" in
     ;;
 esac
 
+function _killpid() {
+	for arg in "$@"
+	do
+		cat /var/run/$arg.pid | xargs kill
+	done
+}
+
 alias python='python3'
 alias l='ls'
 alias ll='ls -l'
@@ -31,6 +38,7 @@ alias git='git '
 alias commit='commit -m'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
+alias killpid='_killpid'
 
 # added by Anaconda3 2.4.1 installer
 export PATH="/home/is/kazuki-a/anaconda3/bin:$PATH"
