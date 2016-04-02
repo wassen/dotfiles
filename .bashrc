@@ -42,3 +42,7 @@ alias killpid='_killpid'
 
 # added by Anaconda3 2.4.1 installer
 export PATH="/home/is/kazuki-a/anaconda3/bin:$PATH"
+
+if which rbenv > /dev/null
+	then eval "$(rbenv init -)"
+fi
