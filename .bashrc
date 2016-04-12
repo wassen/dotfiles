@@ -26,7 +26,6 @@ function _killpid() {
 	done
 }
 
-alias python='python3'
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
