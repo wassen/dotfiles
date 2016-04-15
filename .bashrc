@@ -38,6 +38,3 @@ alias git='git '
 alias commit='commit -m'
 #alias sctl='systemctl '
 alias killpid='_killpid'
-
-# added by Anaconda3 2.4.1 installer
-export PATH="/home/is/kazuki-a/anaconda3/bin:$PATH"
