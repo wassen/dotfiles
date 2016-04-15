@@ -26,7 +26,6 @@ function _killpid() {
 }
 
 alias sudo='sudo '
-alias python='python3'
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
@@ -37,4 +36,11 @@ alias mv='mv -i'
 alias git='git '
 alias commit='commit -m'
 #alias sctl='systemctl '
+alias tunnel='ssh -f -N'
 alias killpid='_killpid'
+
+source ~/.nvm/nvm.sh
+
+if which rbenv > /dev/null
+	then eval "$(rbenv init -)"
+fi
