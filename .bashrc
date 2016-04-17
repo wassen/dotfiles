@@ -37,6 +37,7 @@ alias commit='commit -m'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
+alias vim='vim -u $HOME/.vimrc'
 
 #PATH設定
 export PATH="$HOME/usr/bin:$PATH"
