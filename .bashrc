@@ -1,4 +1,3 @@
-#myself
 if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
 fi
 
@@ -9,7 +8,6 @@ else
  PS1="\e[36m\e[40m\][\d \t \u@\h $ssh\W]\[\e[0m\]\n\\$ "
 fi
 
-alias sudo='sudo -E '
 case "${OSTYPE}" in
     linux*)
     alias ls='ls --color=auto'
@@ -26,6 +24,8 @@ function _killpid() {
 	done
 }
 
+#alias
+alias sudo='sudo -E '
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
@@ -39,12 +39,11 @@ alias commit='commit -m'
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
 
-# added by Anaconda3 2.4.1 installer
-export PATH="/home/is/kazuki-a/anaconda3/bin:$PATH"
-source ~/.nvm/nvm.sh
+#PATH設定
+export PATH="$HOME/usr/bin:$PATH"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 
-if which rbenv > /dev/null
-	then eval "$(rbenv init -)"
+if [ -d $HOME/.anyenv ] ; then
+	export PATH="$HOME/.anyenv/bin:$PATH"
+	eval "$(anyenv init -)"
 fi
-
-#source /opt/rh/devtoolset-2/enable
