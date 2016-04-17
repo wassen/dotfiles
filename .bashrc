@@ -1,4 +1,3 @@
-#myself
 if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
 fi
 
@@ -39,8 +38,12 @@ alias commit='commit -m'
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
 
-source ~/.nvm/nvm.sh
+#PATH設定
+export PATH="$HOME/usr/bin:$PATH"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 
-if which rbenv > /dev/null
-	then eval "$(rbenv init -)"
+if [ -d $HOME/.anyenv ] ; then
+	export PATH="$HOME/.anyenv/bin:$PATH"
+	eval "$(anyenv init -)"
 fi
+

@@ -1,18 +1,7 @@
 let g:netrw_dirhistmax  =10
-<<<<<<< HEAD
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/home/is/kazuki-a/.Trashes'
-let g:netrw_dirhist_2='/home/is/kazuki-a/bin/matlab.scptd'
-let g:netrw_dirhist_3='/home/is/kazuki-a/.ssh'
-=======
-<<<<<<< HEAD
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/kazuki/Desktop/Firefox'
-let g:netrw_dirhist_2='/home/kazuki-a/.mozilla'
-=======
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/Users/kazuki/Desktop/Firefox'
 let g:netrw_dirhist_2='/Users/kazuki/.ssh'
 let g:netrw_dirhist_3='/Library/LaunchDaemons'
->>>>>>> 9fcd8ba47ece3b2a333a9a600181bef8bc2438bb
->>>>>>> eea27da7e33fe354afc56c1832ee0a119fe2ba39
+let g:netrw_dirhist_4='/home/is/kazuki-a/usr'
+let g:netrw_dirhist_5='/home/is/kazuki-a/workspace/driving/.git'
