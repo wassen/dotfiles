@@ -9,7 +9,7 @@ else
  PS1="\e[36m\e[40m\][\d \t \u@\h $ssh\W]\[\e[0m\]\n\\$ "
 fi
 
-alias sudo='sudo '
+alias sudo='sudo -E '
 case "${OSTYPE}" in
     linux*)
     alias ls='ls --color=auto'
@@ -46,3 +46,5 @@ source ~/.nvm/nvm.sh
 if which rbenv > /dev/null
 	then eval "$(rbenv init -)"
 fi
+
+#source /opt/rh/devtoolset-2/enable
