@@ -24,7 +24,8 @@ function _killpid() {
 	done
 }
 
-alias sudo='sudo '
+#alias
+alias sudo='sudo -E '
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
@@ -47,4 +48,3 @@ if [ -d $HOME/.anyenv ] ; then
 	export PATH="$HOME/.anyenv/bin:$PATH"
 	eval "$(anyenv init -)"
 fi
-
