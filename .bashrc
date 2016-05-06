@@ -9,7 +9,6 @@ else
  PS1="\e[36m\e[40m\][\d \t \u@\h $ssh\W]\[\e[0m\]\n\\$ "
 fi
 
-alias sudo='sudo '
 case "${OSTYPE}" in
     linux*)
     alias ls='ls --color=auto'
@@ -23,9 +22,16 @@ function _killpid() {
 	for arg in "$@"
 	do
 		cat /var/run/$arg.pid | xargs kill
+		#kill `cat /var/run/$arg.pid`
 	done
 }
 
+function _tunnel(){
+	ssh -f -N $@
+	#echo $!
+}
+
+alias sudo='sudo '
 alias python='python3'
 alias l='ls'
 alias ll='ls -l'
@@ -37,12 +43,13 @@ alias mv='mv -i'
 alias git='git '
 alias commit='commit -m'
 #alias sctl='systemctl '
-alias tunnel='ssh -f -N'
+alias tunnel='_tunnel'
 alias killpid='_killpid'
 
 # added by Anaconda3 2.4.1 installer
 export PATH="/home/is/kazuki-a/anaconda3/bin:$PATH"
 
+export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null
 	then eval "$(rbenv init -)"
 fi
