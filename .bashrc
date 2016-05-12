@@ -25,7 +25,7 @@ function _killpid() {
 }
 
 #alias
-alias sudo='sudo -E '
+alias sudo='sudo '
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
@@ -33,7 +33,7 @@ alias c='cd ..'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias git='git '
+#alias git='git '
 alias commit='commit -m'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
