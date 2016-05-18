@@ -39,6 +39,7 @@ alias commit='git commit -m'
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
 alias vim='vim -u $HOME/.vimrc'
+alias tree='tree --charset=C -NC'
 
 #PATH設定
 export PATH="$HOME/usr/bin:$PATH"
