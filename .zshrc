@@ -1,3 +1,15 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
 # export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
 autoload select-word-style
 select-word-style bash
@@ -23,14 +35,14 @@ FG_GREEN="%{[38;5;037m%}"
 FG_RED="%{[38;5;001m%}"
 RESET_COLOR="%{[0m%}"
 
-if [ $(id -u) -eq 0 ];
-then
- PROMPT="${FG_RED}[%W %T %n@%m $ssh%~]${RESET_COLOR}
-# "
-else
- PROMPT="${FG_GREEN}[%W %T %n@%m $ssh%~]${RESET_COLOR}
-$ "
-fi
+#if [ $(id -u) -eq 0 ];
+#then
+# PROMPT="${FG_RED}[%W %T %n@%m $ssh%~]${RESET_COLOR}
+## "
+#else
+# PROMPT="${FG_GREEN}[%W %T %n@%m $ssh%~]${RESET_COLOR}
+#$ "
+#fi
 
 case "${OSTYPE}" in
     linux*)
