@@ -1,7 +1,10 @@
 let g:netrw_dirhistmax  =10
+<<<<<<< .merge_file_ZFqGqR
 <<<<<<< .merge_file_FRz333
 let g:netrw_dirhist_cnt =9
 =======
+=======
+>>>>>>> .merge_file_3hjkjO
 <<<<<<< HEAD
 let g:netrw_dirhist_cnt =7
 let g:netrw_dirhist_1='/Users/kazuki/Desktop/Firefox'
@@ -19,6 +22,7 @@ let g:netrw_dirhist_2='/Users/kazuki/.ssh'
 let g:netrw_dirhist_3='/Library/LaunchDaemons'
 let g:netrw_dirhist_4='/home/is/kazuki-a/usr'
 let g:netrw_dirhist_5='/home/is/kazuki-a/workspace/driving/.git'
+<<<<<<< .merge_file_ZFqGqR
 <<<<<<< .merge_file_FRz333
 let g:netrw_dirhist_6='/home/is/kazuki-a/workspace/ProgressBar'
 let g:netrw_dirhist_7='/home/is/kazuki-a/.ssh'
@@ -27,3 +31,6 @@ let g:netrw_dirhist_9='/home/is/kazuki-a/dotfiles'
 =======
 >>>>>>> 10074d2fdc92b30e89de3cfbfaffbf9d62e5802c
 >>>>>>> .merge_file_BEdXU1
+=======
+>>>>>>> 10074d2fdc92b30e89de3cfbfaffbf9d62e5802c
+>>>>>>> .merge_file_3hjkjO
