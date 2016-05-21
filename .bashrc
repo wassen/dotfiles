@@ -1,4 +1,3 @@
-#myself
 if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
 fi
 
@@ -31,8 +30,8 @@ function _tunnel(){
 	#echo $!
 }
 
+#alias
 alias sudo='sudo '
-alias python='python3'
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
@@ -46,10 +45,11 @@ alias commit='commit -m'
 alias tunnel='_tunnel'
 alias killpid='_killpid'
 
-# added by Anaconda3 2.4.1 installer
-export PATH="/home/is/kazuki-a/anaconda3/bin:$PATH"
+#PATH設定
+export PATH="$HOME/usr/bin:$PATH"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-if which rbenv > /dev/null
-	then eval "$(rbenv init -)"
+if [ -d $HOME/.anyenv ] ; then
+	export PATH="$HOME/.anyenv/bin:$PATH"
+	eval "$(anyenv init -)"
 fi
