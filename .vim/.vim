@@ -1,1 +1,1 @@
-/home/is/kazuki-a/dotfiles/.vim
+/Users/kazuki/dotfiles/.vim

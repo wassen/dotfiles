@@ -21,7 +21,13 @@ function _killpid() {
 	for arg in "$@"
 	do
 		cat /var/run/$arg.pid | xargs kill
+		#kill `cat /var/run/$arg.pid`
 	done
+}
+
+function _tunnel(){
+	ssh -f -N $@
+	#echo $!
 }
 
 #alias
@@ -36,7 +42,7 @@ alias mv='mv -i'
 #alias git='git '
 alias commit='git commit -m'
 #alias sctl='systemctl '
-alias tunnel='ssh -f -N'
+alias tunnel='_tunnel'
 alias killpid='_killpid'
 alias vim='vim -u $HOME/.vimrc'
 alias tree='tree --charset=C -NC'

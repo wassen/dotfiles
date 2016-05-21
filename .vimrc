@@ -26,7 +26,12 @@ let loaded_matchparen = 1
 nnoremap ; :
 nnoremap : ;
 
-:set tabstop=4
 :set autoindent
-" :set expandtab
-:set shiftwidth=4
+" タブを表示するときの幅
+set tabstop=4
+" タブを挿入するときの幅
+set shiftwidth=4
+" タブをタブとして扱う(スペースに展開しない)
+set noexpandtab
+" 
+set softtabstop=0
