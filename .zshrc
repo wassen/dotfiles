@@ -1,11 +1,35 @@
+# export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
+autoload select-word-style
+select-word-style bash
+
+# Keybinding
+
+## Del, Home and End
+## [3~ = Ctrl+V -> Del
+bindkey "[3~" delete-char
+bindkey "[1~" beginning-of-line
+bindkey "[4~" end-of-line
+
+#bindkey "" backward-kill-word
+#bindkey "" kill-word
+# (delete-word)もあり)
+# Shift + Tab 補完逆周り
+bindkey "[Z" reverse-menu-complete
+
 if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
 fi
 
+FG_GREEN="%{[38;5;037m%}"
+FG_RED="%{[38;5;001m%}"
+RESET_COLOR="%{[0m%}"
+
 if [ $(id -u) -eq 0 ];
 then
- PS1="\e[91m\e[40m\][\d \t \u@\h $ssh\W]\[\e[0m\]\n\\$ "
+ PROMPT="${FG_RED}[%W %T %n@%m $ssh%~]${RESET_COLOR}
+# "
 else
- PS1="\e[36m\e[40m\][\d \t \u@\h $ssh\W]\[\e[0m\]\n\\$ "
+ PROMPT="${FG_GREEN}[%W %T %n@%m $ssh%~]${RESET_COLOR}
+$ "
 fi
 
 case "${OSTYPE}" in
@@ -21,13 +45,7 @@ function _killpid() {
 	for arg in "$@"
 	do
 		cat /var/run/$arg.pid | xargs kill
-		#kill `cat /var/run/$arg.pid`
 	done
-}
-
-function _tunnel(){
-	ssh -f -N $@
-	#echo $!
 }
 
 #alias
@@ -42,10 +60,12 @@ alias mv='mv -i'
 #alias git='git '
 alias commit='git commit -m'
 #alias sctl='systemctl '
-alias tunnel='_tunnel'
+alias tunnel='ssh -f -N'
 alias killpid='_killpid'
+alias vim='vim -u $HOME/.vimrc'
 
-#PATH設定
+#env設定
+export EDITOR=vim
 export PATH="$HOME/usr/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 
