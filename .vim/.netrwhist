@@ -1,9 +1,13 @@
 let g:netrw_dirhistmax  =10
+<<<<<<< HEAD
 <<<<<<< .merge_file_VJ2L8w
 let g:netrw_dirhist_cnt =9
 =======
 <<<<<<< HEAD
 >>>>>>> .merge_file_fIN32t
+=======
+<<<<<<< HEAD
+>>>>>>> 4669f06478bffab92e44962342ccaff0bb107cb1
 let g:netrw_dirhist_cnt =7
 let g:netrw_dirhist_1='/Users/kazuki/Desktop/Firefox'
 let g:netrw_dirhist_2='/Users/kazuki/.ssh'
@@ -12,19 +16,27 @@ let g:netrw_dirhist_4='/Users/kazuki/.ssh'
 let g:netrw_dirhist_5='/usr/local/etc/nginx'
 let g:netrw_dirhist_6='/Users/kazuki/.vim'
 let g:netrw_dirhist_7='/Users/kazuki/.ssh'
+<<<<<<< HEAD
 <<<<<<< .merge_file_VJ2L8w
 =======
 =======
 >>>>>>> .merge_file_fIN32t
+=======
+=======
+>>>>>>> 4669f06478bffab92e44962342ccaff0bb107cb1
 let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/Users/kazuki/Desktop/Firefox'
 let g:netrw_dirhist_2='/Users/kazuki/.ssh'
 let g:netrw_dirhist_3='/Library/LaunchDaemons'
 let g:netrw_dirhist_4='/home/is/kazuki-a/usr'
 let g:netrw_dirhist_5='/home/is/kazuki-a/workspace/driving/.git'
+<<<<<<< HEAD
 <<<<<<< .merge_file_VJ2L8w
 let g:netrw_dirhist_8='/home/is/kazuki-a/.ipython/profile_grid'
 let g:netrw_dirhist_9='/home/is/kazuki-a/dotfiles'
 =======
 >>>>>>> 10074d2fdc92b30e89de3cfbfaffbf9d62e5802c
 >>>>>>> .merge_file_fIN32t
+=======
+>>>>>>> 10074d2fdc92b30e89de3cfbfaffbf9d62e5802c
+>>>>>>> 4669f06478bffab92e44962342ccaff0bb107cb1
