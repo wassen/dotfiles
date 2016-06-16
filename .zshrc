@@ -10,12 +10,12 @@ autoload select-word-style
 select-word-style bash
 
 # Keybinding
-
+bindkey -v
 ## Del, Home and End
 ## [3~ = Ctrl+V -> Del
-bindkey "[3~" delete-char
-bindkey "[1~" beginning-of-line
-bindkey "[4~" end-of-line
+#bindkey "[3~" delete-char
+#bindkey "[1~" beginning-of-line
+#bindkey "[4~" end-of-line
 
 #bindkey "" backward-kill-word
 #bindkey "" kill-word
@@ -69,19 +69,25 @@ alias commit='git commit -m'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
-alias vim='vim -u $HOME/.vimrc'
 alias hconf='./configure --prefix=$HOME/usr'
+
+VIM_VERSION=`vim --version | head -1 | perl -ne '$_=($_=~/(\b\d+\.\d+\b)/)[0];s/\.//;print$_'`
+alias vless='/usr/share/vim/vim${VIM_VERSION}/macros/less.sh'
 
 #env設定
 export EDITOR=vim
+export VISUAL=vim
 export PATH="$HOME/usr/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/usr/lib:$HOME/usr/lib64"
 
-#if [ -d $HOME/.anyenv ] ; then
-#	export PATH="$HOME/.anyenv/bin:$PATH"
-#	eval "$(anyenv init -)"
-#fi
+if [ -d $HOME/.anyenv ] ; then
+	export PATH="$HOME/.anyenv/bin:$PATH"
+	eval "$(anyenv init -)"
+fi
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+#export PATH="$HOME/.rbenv/bin:$PATH"
+#eval "$(rbenv init -)"
+
+export LESS='--RAW-CONTROL-CHARS'
+export LESSOPEN='| /usr/local/bin/erc'
