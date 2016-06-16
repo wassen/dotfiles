@@ -1,9 +1,9 @@
 #!/bin/sh
-
-ln -sf ~/Dropbox/dotfiles/.vimrc ~/.vimrc
-ln -sf ~/Dropbox/dotfiles/.vim ~/.vim
-ln -sf ~/Dropbox/dotfiles/.bashrc ~/.bashrc
-ln -sf ~/Dropbox/dotfiles/.bash_profile ~/.bash_profile
-ln -sf ~/Dropbox/dotfiles/.zshrc ~/.zshrc
-ln -sf ~/Dropbox/dotfiles/.zpreztorc ~/.zpreztorc
-ln -sf ~/Dropbox/dotfiles/.gitignore_global ~/.gitignore_global
+ln -sf ~/Dropbox/dotfiles ~/dotfiles
+ln -sf ~/dotfiles/.vimrc ~/.vimrc
+ln -sf ~/dotfiles/.vim ~/.vim
+ln -sf ~/dotfiles/.bashrc ~/.bashrc
+ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
+ln -sf ~/dotfiles/.zshrc ~/.zshrc
+ln -sf ~/dotfiles/.zpreztorc ~/.zpreztorc
+ln -sf ~/dotfiles/.gitignore_global ~/.gitignore_global
