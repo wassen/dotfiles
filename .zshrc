@@ -1,14 +1,9 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+unsetopt cdable_vars
 
 # export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
 autoload select-word-style
@@ -28,12 +23,12 @@ bindkey "[4~" end-of-line
 # Shift + Tab 補完逆周り
 bindkey "[Z" reverse-menu-complete
 
-if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
-fi
+#if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
+#fi
 
-FG_GREEN="%{[38;5;037m%}"
-FG_RED="%{[38;5;001m%}"
-RESET_COLOR="%{[0m%}"
+#FG_GREEN="%{[38;5;037m%}"
+#FG_RED="%{[38;5;001m%}"
+#RESET_COLOR="%{[0m%}"
 
 #if [ $(id -u) -eq 0 ];
 #then
@@ -75,13 +70,18 @@ alias commit='git commit -m'
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
 alias vim='vim -u $HOME/.vimrc'
+alias hconf='./configure --prefix=$HOME/usr'
 
 #env設定
 export EDITOR=vim
 export PATH="$HOME/usr/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/usr/lib:$HOME/usr/lib64"
 
-if [ -d $HOME/.anyenv ] ; then
-	export PATH="$HOME/.anyenv/bin:$PATH"
-	eval "$(anyenv init -)"
-fi
+#if [ -d $HOME/.anyenv ] ; then
+#	export PATH="$HOME/.anyenv/bin:$PATH"
+#	eval "$(anyenv init -)"
+#fi
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
