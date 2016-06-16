@@ -47,7 +47,8 @@ RESET_COLOR="%{[0m%}"
 case "${OSTYPE}" in
     linux*)
     alias ls='ls --color=auto'
-    ;;
+	alias open='gnome-open'
+	;;
     darwin*)
     alias ls='ls -G'
     ;;
@@ -75,6 +76,9 @@ alias commit='git commit -m'
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
 alias vim='vim -u $HOME/.vimrc'
+#xclipとの違い
+alias cboard='xsel --clipboard --input'
+
 
 #env設定
 export EDITOR=vim
