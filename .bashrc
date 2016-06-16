@@ -51,7 +51,7 @@ alias tree='tree --charset=C -NC'
 export PATH="$HOME/usr/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 
-if [ -d $HOME/.anyenv ] ; then
-	export PATH="$HOME/.anyenv/bin:$PATH"
-	eval "$(anyenv init -)"
-fi
+#if [ -d $HOME/.anyenv ] ; then
+#	export PATH="$HOME/.anyenv/bin:$PATH"
+#	eval "$(anyenv init -)"
+#fi

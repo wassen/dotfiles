@@ -1,14 +1,9 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+unsetopt cdable_vars
 
 # export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
 autoload select-word-style
@@ -28,12 +23,12 @@ bindkey -v
 # Shift + Tab 補完逆周り
 bindkey "[Z" reverse-menu-complete
 
-if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
-fi
+#if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
+#fi
 
-FG_GREEN="%{[38;5;037m%}"
-FG_RED="%{[38;5;001m%}"
-RESET_COLOR="%{[0m%}"
+#FG_GREEN="%{[38;5;037m%}"
+#FG_RED="%{[38;5;001m%}"
+#RESET_COLOR="%{[0m%}"
 
 #if [ $(id -u) -eq 0 ];
 #then
@@ -74,6 +69,8 @@ alias commit='git commit -m'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
+alias hconf='./configure --prefix=$HOME/usr'
+
 VIM_VERSION=`vim --version | head -1 | perl -ne '$_=($_=~/(\b\d+\.\d+\b)/)[0];s/\.//;print$_'`
 alias vless='/usr/share/vim/vim${VIM_VERSION}/macros/less.sh'
 
@@ -82,11 +79,16 @@ export EDITOR=vim
 export VISUAL=vim
 export PATH="$HOME/usr/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/usr/lib:$HOME/usr/lib64"
 
 export LESS='--RAW-CONTROL-CHARS'
 export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
+
 
 if [ -d $HOME/.anyenv ] ; then
 	export PATH="$HOME/.anyenv/bin:$PATH"
 	eval "$(anyenv init -)"
 fi
+
+#export PATH="$HOME/.rbenv/bin:$PATH"
+#eval "$(rbenv init -)"
