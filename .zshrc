@@ -84,7 +84,7 @@ export PATH="$HOME/usr/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 
 export LESS='--RAW-CONTROL-CHARS'
-export LESSOPEN='| /usr/local/bin/erc'
+export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
 
 if [ -d $HOME/.anyenv ] ; then
 	export PATH="$HOME/.anyenv/bin:$PATH"
