@@ -1,1 +1,0 @@
-/home/is/kazuki-a/dotfiles/.vim
