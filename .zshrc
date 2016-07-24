@@ -10,7 +10,7 @@ autoload select-word-style
 select-word-style bash
 
 # Keybinding
-bindkey -v
+bindkey -e
 ## Del, Home and End
 ## [3~ = Ctrl+V -> Del
 #bindkey "[3~" delete-char
@@ -42,7 +42,7 @@ bindkey "[Z" reverse-menu-complete
 case "${OSTYPE}" in
     linux*)
     alias ls='ls --color=auto'
-	alias open='gnome-open'
+	alias open='xdg-open'
 	;;
     darwin*)
     alias ls='ls -G'
@@ -57,7 +57,7 @@ function _killpid() {
 }
 
 #alias
-alias sudo='sudo '
+alias sudo='nocorrect sudo'
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
@@ -75,17 +75,30 @@ alias cboard='xsel --clipboard --input'
 alias hconf='./configure --prefix=$HOME/usr'
 VIM_VERSION=`vim --version | head -1 | perl -ne '$_=($_=~/(\b\d+\.\d+\b)/)[0];s/\.//;print$_'`
 alias vless='/usr/share/vim/vim${VIM_VERSION}/macros/less.sh'
+alias tmux="TERM=xterm-256color tmux"
+# du files(many file -> ff)
+alias duff="du -hs *"
+alias tree='tree --charset=C -NC'
 
 #env設定
+
 export EDITOR=vim
 export VISUAL=vim
-export PATH="$HOME/usr/bin:$PATH"
+export PATH="$HOME/bin:$HOME/usr/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
+#export LD_LIBRARY_PATH=""
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/usr/lib:$HOME/usr/lib64"
+export XDG_CONFIG_HOME=$HOME/.local/share
+
+#brew
+export PATH="$HOME/.linuxbrew/sbin:$PATH"
+export PATH="$HOME/.linuxbrew/bin:$PATH"
+export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+#export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
 
 export LESS='--RAW-CONTROL-CHARS'
 export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
-
 
 if [ -d $HOME/.anyenv ] ; then
 	export PATH="$HOME/.anyenv/bin:$PATH"
