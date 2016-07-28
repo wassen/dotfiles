@@ -76,7 +76,7 @@ alias killpid='_killpid'
 alias cboard='xsel --clipboard --input'
 alias hconf='./configure --prefix=$HOME/usr'
 VIM_VERSION=`vim --version | head -1 | perl -ne '$_=($_=~/(\b\d+\.\d+\b)/)[0];s/\.//;print$_'`
-alias vless='/usr/share/vim/vim${VIM_VERSION}/macros/less.sh'
+alias vless='/usr/local/share/vim/vim${VIM_VERSION}/macros/less.sh'
 alias tmux="TERM=xterm-256color tmux"
 # du files(many file -> ff)
 alias duff="du -hs *"

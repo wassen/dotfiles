@@ -29,6 +29,7 @@ colorscheme molokai
 " alias
 :command Cal Calendar
 
+
 " key bind
 "{{{
 noremap  
@@ -50,7 +51,7 @@ inoremap <silent> jj <Right><ESC>
 " Enterで行の挿入
 nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
 nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
-
+nnoremap <ESC><ESC> :noh<CR>
 "}}}
 " 行区切り
 " set showbreak=↪
@@ -87,7 +88,8 @@ set shiftwidth=4
 set noexpandtab
 " 
 set softtabstop=0
-
+" ハイライト
+set hlsearch
 
 " Google Calendar
 let g:calendar_google_calendar = 1
