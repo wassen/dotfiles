@@ -1,5 +1,3 @@
-SHELL=$(which zsh) 
-
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -83,10 +81,12 @@ alias duff="du -hs *"
 alias tree='tree --charset=C -NC'
 
 #env設定
+# zprofileに移行
 
 export EDITOR=vim
 export VISUAL=vim
 export PATH="$HOME/bin:$HOME/usr/bin:$PATH"
+export PATH="$HOME/bin:$HOME/local/bin:$PATH"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
 #export LD_LIBRARY_PATH=""
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/usr/lib:$HOME/usr/lib64"
@@ -109,3 +109,6 @@ fi
 
 #export PATH="$HOME/.rbenv/bin:$PATH"
 #eval "$(rbenv init -)"
+
+# powerline-daemon -q
+# . ~/.anyenv/envs/pyenv/versions/3.5.1/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
