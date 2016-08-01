@@ -1,3 +1,5 @@
+echo "Run-Control zsh"
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -22,22 +24,6 @@ bindkey -e
 # (delete-word)もあり)
 # Shift + Tab 補完逆周り
 bindkey "[Z" reverse-menu-complete
-
-#if [ -n "$SSH_CLIENT" ]; then ssh="from `echo $SSH_CLIENT|cut -f1 -d " "` "
-#fi
-
-#FG_GREEN="%{[38;5;037m%}"
-#FG_RED="%{[38;5;001m%}"
-#RESET_COLOR="%{[0m%}"
-
-#if [ $(id -u) -eq 0 ];
-#then
-# PROMPT="${FG_RED}[%W %T %n@%m $ssh%~]${RESET_COLOR}
-## "
-#else
-# PROMPT="${FG_GREEN}[%W %T %n@%m $ssh%~]${RESET_COLOR}
-#$ "
-#fi
 
 case "${OSTYPE}" in
     linux*)
@@ -83,32 +69,3 @@ alias tree='tree --charset=C -NC'
 #env設定
 # zprofileに移行
 
-export EDITOR=vim
-export VISUAL=vim
-export PATH="$HOME/bin:$HOME/usr/bin:$PATH"
-export PATH="$HOME/bin:$HOME/local/bin:$PATH"
-export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOME/usr/lib/pkgconfig"
-#export LD_LIBRARY_PATH=""
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/usr/lib:$HOME/usr/lib64"
-export XDG_CONFIG_HOME=$HOME/.local/share
-
-#brew
-export PATH="$HOME/.linuxbrew/sbin:$PATH"
-export PATH="$HOME/.linuxbrew/bin:$PATH"
-export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
-#export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
-
-export LESS='--RAW-CONTROL-CHARS'
-export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
-
-if [ -d $HOME/.anyenv ] ; then
-	export PATH="$HOME/.anyenv/bin:$PATH"
-	eval "$(anyenv init -)"
-fi
-
-#export PATH="$HOME/.rbenv/bin:$PATH"
-#eval "$(rbenv init -)"
-
-# powerline-daemon -q
-# . ~/.anyenv/envs/pyenv/versions/3.5.1/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh

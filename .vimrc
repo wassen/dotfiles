@@ -58,7 +58,7 @@ inoremap <silent> jj <Right><ESC>
 " Enterで行の挿入
 nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
 nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
-nnoremap <ESC><ESC> :noh<CR>
+nnoremap <ESC><ESC> :noh<CR>:set nopaste<CR>
 "}}}
 " 行区切り
 " set showbreak=↪
@@ -101,3 +101,4 @@ set hlsearch
 " Google Calendar
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
+
