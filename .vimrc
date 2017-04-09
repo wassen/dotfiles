@@ -1,0 +1,209 @@
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+" python import sys
+" python print(sys.version)
+set laststatus=2
+set showtabline=2
+"set showmode
+
+" {{{ dein
+if &compatible
+  set nocompatible
+endif
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state(expand('~/.vim/dein'))
+	call dein#begin(expand('~/.vim/dein'))
+
+	"" basic plugin
+	call dein#add('Shougo/dein.vim')
+	call dein#add('Shougo/neocomplete.vim')
+	" file tree
+	call dein#add('scrooloose/nerdtree')
+	" md plugin
+	call dein#add('plasticboy/vim-markdown')
+	" color theme
+	call dein#add('chriskempson/vim-tomorrow-theme')
+	call dein#add('w0ng/vim-hybrid')
+	" wakatime omoi
+	" call dein#add('wakatime/vim-wakatime.git')
+	call dein#add('kana/vim-submode')
+	"call dein#add('kannokanno/previm')
+	" Calendar plugin
+	"call dein#add('itchyny/calendar.vim')
+	"
+	" call dein#add('')
+
+	call dein#end()
+	call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+" if dein#check_install()
+" 	call dein#install()
+" endif
+" }}}
+" {{{ transeparent
+if !has('gui_running')
+    augroup seiya
+        autocmd!
+        autocmd VimEnter,ColorScheme * highlight Normal ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight LineNr ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight SignColumn ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight VertSplit ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
+    augroup END
+endif
+" }}}
+
+"set background=dark
+
+" color scheme
+" colorscheme molokai
+" colorscheme hybrid
+colorscheme Tomorrow-Night
+
+" alias
+:command Cal Calendar
+
+
+" key bind
+"{{{
+noremap  
+noremap!  
+nnoremap ; :
+nnoremap : ;
+" 矢印キーでなら行内を動けるように
+nnoremap <Down> gj
+nnoremap <Up>   gk
+" インサートモードでも移動したい
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+inoremap <C-g> <C-h>
+inoremap <C-d> <Del>
+" 検索で常に中央に
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+" 
+noremap <S-h>   ^
+noremap <S-j>   }
+noremap <S-k>   {
+noremap <S-l>   $
+" jj->ESC
+inoremap <silent> jj <Right><ESC>
+" Enterで行の挿入
+nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
+" nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
+nnoremap <ESC><ESC> :noh<CR>:set nopaste<CR>:<CR>
+" デクリメント
+nnoremap <C-e> <C-x>
+
+nnoremap <C-c> :ToggleCopy<CR>
+
+" 画面分割関連
+"{{{
+"nnoremap s <Nop>
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap sJ <C-w>J
+nnoremap sK <C-w>K
+nnoremap sL <C-w>L
+nnoremap sH <C-w>H
+nnoremap sn gt
+nnoremap sp gT
+nnoremap sr <C-w>r
+nnoremap s= <C-w>=
+nnoremap sw <C-w>w
+nnoremap so <C-w>_<C-w>|
+nnoremap sO <C-w>=
+nnoremap sN :<C-u>bn<CR>
+nnoremap sP :<C-u>bp<CR>
+nnoremap st :<C-u>tabnew<CR>
+nnoremap sT :<C-u>Unite tab<CR>
+nnoremap ss :<C-u>sp<CR>
+nnoremap sv :<C-u>vs<CR>
+nnoremap sq :<C-u>q<CR>
+nnoremap sQ :<C-u>bd<CR>
+nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
+nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
+
+call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
+call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
+call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
+call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+call submode#map('bufmove', 'n', '', '>', '<C-w>>')
+call submode#map('bufmove', 'n', '', '<', '<C-w><')
+call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+"}}}
+
+"}}}
+" 行区切り
+
+" setting
+" 折り返しに文字を割り当てる
+set showbreak=↪
+set list
+set listchars=tab:>-,trail:.
+set cursorline
+set scrolloff=4
+set backspace=indent,eol,start
+
+let g:neocomplcache_enable_at_startup = 1
+
+" detect marker{*3 }*3
+set foldmethod=marker
+
+syntax enable
+
+set t_Co=256
+
+" show line
+set number
+" size of command history
+set history=256
+filetype plugin indent on
+set ruler
+set encoding=utf-8
+set cindent
+let loaded_matchparen = 1
+
+set ignorecase
+set smartcase
+
+set autoindent
+" タブを表示するときの幅
+set tabstop=4
+" タブを挿入するときの幅
+set shiftwidth=4
+" タブをタブとして扱う(スペースに展開しない)
+set noexpandtab
+" 展開する
+"set expandtab
+" 
+set softtabstop=0
+" ハイライト
+set hlsearch
+
+" Google Calendar
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
+
+" template
+au BufNewFile *.py :0r ~/.vim/snippet/utf8.py
+au BufNewFile *.sh :0r ~/.vim/snippet/template.sh
+
+" function
+function ToggleCopyFunc()
+    set invnumber
+    set invlist
+endfunction
+command ToggleCopy :call ToggleCopyFunc()

@@ -1,0 +1,10 @@
+__pycache__/
+tmp/
+*DS_Store
+*~
+,/
+.ruby_version
+*.swp
+
+.dropbox.attr
+
