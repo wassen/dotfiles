@@ -200,6 +200,7 @@ let g:calendar_google_task = 1
 " template
 au BufNewFile *.py :0r ~/.vim/snippet/utf8.py
 au BufNewFile *.sh :0r ~/.vim/snippet/template.sh
+au BufNewFile *.html :0r ~/.vim/snippet/template.html
 
 " function
 function ToggleCopyFunc()
