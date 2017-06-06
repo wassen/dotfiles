@@ -5,7 +5,6 @@ if has('vim_starting')
     set fileformats=unix,mac,dos
 endif
 
-
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
@@ -174,6 +173,8 @@ augroup END
 set cursorline
 set scrolloff=4
 set backspace=indent,eol,start
+
+set dictionary+=/usr/share/dict/words
 
 let g:neocomplcache_enable_at_startup = 1
 
