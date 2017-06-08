@@ -199,12 +199,11 @@ set ignorecase
 set smartcase
 
 set undofile
-
 set autoindent
 " タブを表示するときの幅
-set tabstop=4
+set tabstop=2
 " タブを挿入するときの幅
-set shiftwidth=4
+set shiftwidth=2
 " タブをタブとして扱う(スペースに展開しない)
 set noexpandtab
 " 展開する
@@ -224,6 +223,13 @@ let g:calendar_google_task = 1
 au BufNewFile *.py :0r ~/.vim/snippet/utf8.py
 au BufNewFile *.sh :0r ~/.vim/snippet/template.sh
 au BufNewFile *.html :0r ~/.vim/snippet/template.html
+
+augroup filetypedetect
+  au BufRead,BufNewFile *.rb setfiletype ruby
+  au BufRead,BufNewFile *.php setfiletype php
+  au BufRead,BufNewFile *.swift setfiletype swift
+  au BufRead,BufNewFile *.html setfiletype html
+augroup END
 
 " function
 function ToggleCopyFunc()
