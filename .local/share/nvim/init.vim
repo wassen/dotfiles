@@ -124,7 +124,7 @@ nnoremap <ESC><ESC> :noh<CR>:set nopaste<CR>:<CR>
 nnoremap <C-e> <C-x>
 
 " termianl
-tnoremap <ESC><ESC> <C-\><C-n>
+tnoremap <silent> jj <C-\><C-n>
 
 nnoremap <C-c> :ToggleCopy<CR>
 
