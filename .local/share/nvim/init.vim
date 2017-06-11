@@ -32,6 +32,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('tamelion/neovim-molokai')
 	call dein#add('vim-airline/vim-airline')
 	call dein#add('vim-airline/vim-airline-themes')
+	call dein#add('thinca/vim-zenspace')
+
 	" wakatime omoi
 	" call dein#add('wakatime/vim-wakatime.git')
 	call dein#add('kana/vim-submode')
@@ -174,14 +176,16 @@ set showbreak=↪
 set list
 set listchars=tab:▸\ ,trail:·
 " set listchars=tab:»\ ,trail:•
-augroup highlightIdegraphicSpace
-  autocmd!
-  autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-  autocmd VimEnter,WinEnter * match IdeographicSpace /　/
-augroup END
-
+" neovimからエラーが出るので、うまくやってくれるプラグインで対応
+" augroup highlightIdegraphicSpace
+"   autocmd!
+"   autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+"   autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+" augroup END
+" 
 " highlight ZSpace cterm=underline ctermfg=7 guifg=7
 " au BufRead,BufNew * match ZSpace /　/
+
 set cursorline
 set scrolloff=4
 set backspace=indent,eol,start
