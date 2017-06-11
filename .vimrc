@@ -1,3 +1,10 @@
+if has('vim_starting')
+    " Changing encoding in Vim at runtime is undefined behavior.
+    set encoding=utf-8
+    set fileencodings=utf-8,sjis,cp932,euc-jp
+    set fileformats=unix,mac,dos
+endif
+
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
@@ -75,6 +82,8 @@ noremap  
 noremap!  
 nnoremap ; :
 nnoremap : ;
+vnoremap ; :
+vnoremap : ;
 " 矢印キーでなら行内を動けるように
 nnoremap <Down> gj
 nnoremap <Up>   gk
@@ -155,9 +164,19 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 set showbreak=↪
 set list
 set listchars=tab:>-,trail:.
+augroup highlightIdegraphicSpace
+  autocmd!
+  autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+  autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+augroup END
+
+" highlight ZSpace cterm=underline ctermfg=7 guifg=7
+" au BufRead,BufNew * match ZSpace /　/
 set cursorline
 set scrolloff=4
 set backspace=indent,eol,start
+
+set dictionary+=/usr/share/dict/words
 
 let g:neocomplcache_enable_at_startup = 1
 
@@ -181,6 +200,8 @@ let loaded_matchparen = 1
 set ignorecase
 set smartcase
 
+set undofile
+
 set autoindent
 " タブを表示するときの幅
 set tabstop=4
@@ -195,6 +216,8 @@ set softtabstop=0
 " ハイライト
 set hlsearch
 
+" set clipboard+=unnamed
+
 " Google Calendar
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
@@ -202,6 +225,7 @@ let g:calendar_google_task = 1
 " template
 au BufNewFile *.py :0r ~/.vim/snippet/utf8.py
 au BufNewFile *.sh :0r ~/.vim/snippet/template.sh
+au BufNewFile *.html :0r ~/.vim/snippet/template.html
 
 " function
 function ToggleCopyFunc()
@@ -209,3 +233,8 @@ function ToggleCopyFunc()
     set invlist
 endfunction
 command ToggleCopy :call ToggleCopyFunc()
+
+function TodoFunc()
+	e ~/TODO
+endfunction
+command Todo :call TodoFunc()

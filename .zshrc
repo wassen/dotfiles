@@ -41,6 +41,10 @@ function _killpid() {
 		cat /var/run/$arg.pid | xargs kill
 	done
 }
+# ひとつは**の中にわたし、その他を外に入れたい感じ
+function wfind(){
+	find . -name *$arg[0]*
+}
 
 #alias
 alias sudo='nocorrect sudo'
