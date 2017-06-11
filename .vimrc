@@ -91,9 +91,11 @@ nmap N Nzz
 nmap * *zz
 nmap # #zz
 " 
+noremap <S-C-h> <S-h>
+noremap <S-C-l> <S-l>
 noremap <S-h>   ^
-noremap <S-j>   }
-noremap <S-k>   {
+" noremap <S-j>   }
+" noremap <S-k>   {
 noremap <S-l>   $
 " jj->ESC
 inoremap <silent> jj <Right><ESC>
