@@ -5,13 +5,9 @@ if has('vim_starting')
     set fileformats=unix,mac,dos
 endif
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
-" python import sys
-" python print(sys.version)
 set laststatus=2
 set showtabline=2
+"set showmode
 "set showmode
 
 " {{{ dein
@@ -164,6 +160,7 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 set showbreak=↪
 set list
 set listchars=tab:>-,trail:.
+
 augroup highlightIdegraphicSpace
   autocmd!
   autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
@@ -175,6 +172,7 @@ augroup END
 set cursorline
 set scrolloff=4
 set backspace=indent,eol,start
+
 
 set dictionary+=/usr/share/dict/words
 
