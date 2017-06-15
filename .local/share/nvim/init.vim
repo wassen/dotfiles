@@ -14,6 +14,7 @@ if &compatible
   set nocompatible
 endif
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
+" set runtimepath+=$XDG_CONFIG_HOME/nvim/.vim/
 
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
@@ -124,7 +125,7 @@ nnoremap <ESC><ESC> :noh<CR>:set nopaste<CR>:<CR>
 nnoremap <C-e> <C-x>
 
 " termianl
-tnoremap <ESC><ESC> <C-\><C-n>
+tnoremap jj <C-\><C-n>
 
 nnoremap <C-c> :ToggleCopy<CR>
 
@@ -220,9 +221,9 @@ set tabstop=2
 " タブを挿入するときの幅
 set shiftwidth=2
 " タブをタブとして扱う(スペースに展開しない)
-set noexpandtab
+" set noexpandtab
 " 展開する
-"set expandtab
+set expandtab
 " 
 set softtabstop=0
 " ハイライト
@@ -238,6 +239,15 @@ let g:calendar_google_task = 1
 au BufNewFile *.py :0r ~/.vim/snippet/utf8.py
 au BufNewFile *.sh :0r ~/.vim/snippet/template.sh
 au BufNewFile *.html :0r ~/.vim/snippet/template.html
+
+" augroup filetypedetect
+au BufRead,BufNewFile *.php nested setfiletype php
+au BufRead,BufNewFile *.swift nested setfiletype swift
+au BufRead,BufNewFile *.html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au BufRead,BufNewFile *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au BufRead,BufNewFile *.js setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+au BufRead,BufNewFile *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+" augroup END
 
 " function
 function ToggleCopyFunc()

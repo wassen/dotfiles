@@ -1,7 +1,7 @@
 echo "login to zsh"
 
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
 
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"

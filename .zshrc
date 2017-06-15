@@ -46,6 +46,37 @@ function wfind(){
 	find . -name *$arg[0]*
 }
 
+function peco-src () {
+  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^]' peco-src
+
+function peco-history-selection() {
+    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+
+zle -N peco-history-selection
+bindkey '^R' peco-history-selection
+
+# キャン��ルした時cdしちゃう不具合
+function peco-cd() {
+		local selected_dir=`dirs | tr ' ' '\n' | peco --query "LBUFFER"`
+    if [ -n "$selected_dir" ]; then
+      BUFFER="cd ${selected_dir}"
+      zle accept-line
+    fi
+}
+zle -N peco-cd
+bindkey '^B' peco-cd
+
 #alias
 alias sudo='nocorrect sudo'
 alias l='ls'
@@ -57,7 +88,8 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 #alias git='git '
-alias commit='git commit -m'
+#alias commit='git commit -m'
+alias gst='git status'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
@@ -72,6 +104,7 @@ alias duff="du -hs *"
 alias tree='tree --charset=C -NC'
 alias grep='grep --color=auto'
 alias latexmake='latexmk -pdfdvi -pvc'
+
 
 if hash porg 2> /dev/null
 then
