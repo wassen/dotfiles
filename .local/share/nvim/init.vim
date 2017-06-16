@@ -34,6 +34,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('vim-airline/vim-airline')
 	call dein#add('vim-airline/vim-airline-themes')
 	call dein#add('thinca/vim-zenspace')
+	call dein#add('tpope/vim-surround')
+  
 
 	" wakatime omoi
 	" call dein#add('wakatime/vim-wakatime.git')

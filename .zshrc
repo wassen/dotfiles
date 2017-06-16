@@ -68,7 +68,7 @@ bindkey '^R' peco-history-selection
 
 # キャン��ルした時cdしちゃう不具合
 function peco-cd() {
-		local selected_dir=`dirs | tr ' ' '\n' | peco --query "LBUFFER"`
+		local selected_dir=`dirs | tr ' ' '\n' | peco --query "$LBUFFER"`
     if [ -n "$selected_dir" ]; then
       BUFFER="cd ${selected_dir}"
       zle accept-line
@@ -76,6 +76,14 @@ function peco-cd() {
 }
 zle -N peco-cd
 bindkey '^B' peco-cd
+
+function project_commands() {
+		local command=`cat ~/.local/share/coBalt | peco --query "$LBUFFER"`
+    BUFFER="${command}"
+    CURSOR=$#BUFFER
+}
+zle -N project_commands
+bindkey '^B' project_commands
 
 #alias
 alias sudo='nocorrect sudo'
