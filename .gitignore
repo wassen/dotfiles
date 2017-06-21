@@ -1,4 +1,4 @@
 .vim/dein/
-.local/share/nvim/dein/
-.local/share/nvim/shada/
-.local/share/nvim/undo/
+.config/nvim/dein/
+.config/nvim/shada/
+.config/nvim/undo/
