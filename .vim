@@ -1,1 +1,1 @@
-.local/share/nvim/.vim
+.config/nvim/.vim

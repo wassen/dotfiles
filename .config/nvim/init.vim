@@ -22,9 +22,10 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	"" basic plugin
 	call dein#add('Shougo/dein.vim')
 	call dein#add('Shougo/neocomplete.vim')
+	call dein#add('Shougo/unite.vim')
+	call dein#add('Shougo/vimfiler')
 	" file tree
-	call dein#add('scrooloose/nerdtree')
-	call dein#add('scrooloose/nerdtree')
+  " call dein#add('scrooloose/nerdtree')
 	" md plugin
 	call dein#add('plasticboy/vim-markdown')
 	" color theme
@@ -197,6 +198,8 @@ set undofile
 set dictionary+=/usr/share/dict/words
 
 let g:neocomplcache_enable_at_startup = 1
+
+let g:vimfiler_as_default_explorer = 1
 
 " detect marker{*3 }*3
 set foldmethod=marker

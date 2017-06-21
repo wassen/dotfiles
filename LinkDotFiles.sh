@@ -17,5 +17,5 @@ done
 
 rm -fr ~/.vim
 ln -sf ~/dotfiles/.vim ~/.vim
-rm -fr ~/.local
-ln -sf ~/dotfiles/.local ~/.local
+rm -fr ~/.config
+ln -sf ~/dotfiles/.config ~/.config
