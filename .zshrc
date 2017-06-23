@@ -77,13 +77,13 @@ function peco-cd() {
 zle -N peco-cd
 bindkey '^B' peco-cd
 
-function project_commands() {
-		local command=`cat ~/.local/share/coBalt | peco --query "$LBUFFER"`
-    BUFFER="${command}"
-    CURSOR=$#BUFFER
-}
-zle -N project_commands
-bindkey '^B' project_commands
+# function project_commands() {
+# 		local command=`cat ~/.local/share/coBalt | peco --query "$LBUFFER"`
+#     BUFFER="${command}"
+#     CURSOR=$#BUFFER
+# }
+# zle -N project_commands
+# bindkey '^B' project_commands
 
 #alias
 alias sudo='nocorrect sudo'
