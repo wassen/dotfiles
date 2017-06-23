@@ -1,14 +1,14 @@
 if has('vim_starting')
-
     " Changing encoding in Vim at runtime is undefined behavior.
     set encoding=utf-8
     set fileencodings=utf-8,sjis,cp932,euc-jp
     set fileformats=unix,mac,dos
+
 endif
 
+" ステータスバーとタブバーの表示
 set laststatus=2
 set showtabline=2
-"set showmode
 
 " {{{ dein
 if &compatible
@@ -212,7 +212,6 @@ set relativenumber
 set history=256
 filetype plugin indent on
 set ruler
-set encoding=utf-8
 set cindent
 let loaded_matchparen = 1
 
