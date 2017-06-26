@@ -129,7 +129,9 @@ nnoremap <ESC><ESC> :noh<CR>:set nopaste<CR>:<CR>
 nnoremap <C-e> <C-x>
 
 " termianl
-tnoremap <silent> jj <C-\><C-n>
+if has('nvim')
+  tnoremap <silent> jj <C-\><C-n>
+endif
 
 nnoremap <C-c> :ToggleCopy<CR>
 
