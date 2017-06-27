@@ -12,7 +12,6 @@ set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
-	"" basic plugin
 	call dein#add('Shougo/dein.vim')
 	call dein#add('Shougo/neocomplete.vim')
 	call dein#add('Shougo/unite.vim')
@@ -132,8 +131,6 @@ nnoremap <C-e> <C-x>
 if has('nvim')
   tnoremap <silent> jj <C-\><C-n>
 endif
-
-nnoremap <C-c> :ToggleCopy<CR>
 
 " 画面分割関連
 "{{{
@@ -255,10 +252,16 @@ au BufRead,BufNewFile *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth
 function ToggleCopyFunc()
     set invnumber
     set invlist
+    set invrelativenumber
 endfunction
-command ToggleCopy :call ToggleCopyFunc()
 
 function TodoFunc()
 	e ~/TODO
 endfunction
+
+command ToggleCopy :call ToggleCopyFunc()
+
 command Todo :call TodoFunc()
+
+command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
+                \ | diffthis | wincmd p | diffthis
