@@ -1,34 +1,25 @@
 if has('vim_starting')
+
     " Changing encoding in Vim at runtime is undefined behavior.
     set encoding=utf-8
     set fileencodings=utf-8,sjis,cp932,euc-jp
     set fileformats=unix,mac,dos
 endif
 
-set laststatus=2
-set showtabline=2
-"set showmode
 
 " {{{ dein
-if &compatible
-  set nocompatible
-endif
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
-" set runtimepath+=$XDG_CONFIG_HOME/nvim/.vim/
 
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
-
 	"" basic plugin
 	call dein#add('Shougo/dein.vim')
 	call dein#add('Shougo/neocomplete.vim')
 	call dein#add('Shougo/unite.vim')
-	call dein#add('Shougo/vimfiler')
-	" file tree
-  " call dein#add('scrooloose/nerdtree')
-	" md plugin
+	call dein#add('kana/vim-submode')
+  call dein#add('scrooloose/nerdtree')
 	call dein#add('plasticboy/vim-markdown')
-	" color theme
+	call dein#add('szw/vim-maximizer')
 	call dein#add('chriskempson/vim-tomorrow-theme')
 	call dein#add('w0ng/vim-hybrid')
 	call dein#add('tamelion/neovim-molokai')
@@ -36,27 +27,20 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('vim-airline/vim-airline-themes')
 	call dein#add('thinca/vim-zenspace')
 	call dein#add('tpope/vim-surround')
-  
-
-	" wakatime omoi
+	" call dein#add('Shougo/vimfiler')
 	" call dein#add('wakatime/vim-wakatime.git')
-	call dein#add('kana/vim-submode')
-	"call dein#add('kannokanno/previm')
-	" Calendar plugin
-	"call dein#add('itchyny/calendar.vim')
-	"
-	" call dein#add('')
-
+	" call dein#add('kannokanno/previm')
 	call dein#end()
 	call dein#save_state()
 endif
 
 filetype plugin indent on
 syntax enable
-" if dein#check_install()
-" 	call dein#install()
-" endif
+if dein#check_install()
+	call dein#install()
+endif
 " }}}
+
 " {{{ transeparent
 if !has('gui_running')
    augroup seiya
@@ -70,16 +54,19 @@ if !has('gui_running')
 endif
 " }}}
 
-" autocmd ColorScheme * highlight Comment ctermfg=22 guifg=#008800
+
+" View
+" color scheme
+set background=dark
+" colorscheme設定時に上書き
+autocmd ColorScheme * highlight Comment ctermfg=243 guifg=#008799
 autocmd ColorScheme * highlight NonText ctermfg=043
 autocmd ColorScheme * highlight SpecialKey ctermfg=043
+colorscheme hybrid
 
-"set background=dark
-" color scheme   
-colorscheme Tomorrow-Night-Bright
-
-" alias
-:command Cal Calendar
+" ステータスバーとタブバーの表示
+set laststatus=2
+set showtabline=2
 
 " airline
 let g:airline_powerline_fonts = 1
@@ -87,6 +74,20 @@ let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#buffer_idx_mode = 0
+
+" 折り返しに文字を割り当てる
+set showbreak=↪
+set list
+set listchars=tab:▸\ ,trail:·
+" set listchars=tab:»\ ,trail:•
+
+
+set guicursor=n-v-c:hor20-Cursor/lCursor,i-ci:ver25-Cursor/lCursor " ,r-cr:hor20-Cursor/lCursor
+" lCursorの意味がわからん
+" いろいろ意味わからん
+" set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
+" au VimLeave * set guicursor=a:block-blinkon0
+
 
 " key bind
 "{{{
@@ -128,7 +129,9 @@ nnoremap <ESC><ESC> :noh<CR>:set nopaste<CR>:<CR>
 nnoremap <C-e> <C-x>
 
 " termianl
-tnoremap <silent> jj <C-\><C-n>
+if has('nvim')
+  tnoremap <silent> jj <C-\><C-n>
+endif
 
 nnoremap <C-c> :ToggleCopy<CR>
 
@@ -175,11 +178,7 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 " 行区切り
 
 " setting
-" 折り返しに文字を割り当てる
-set showbreak=↪
-set list
-set listchars=tab:▸\ ,trail:·
-" set listchars=tab:»\ ,trail:•
+
 " neovimからエラーが出るので、うまくやってくれるプラグインで対応
 " augroup highlightIdegraphicSpace
 "   autocmd!
@@ -199,7 +198,6 @@ set dictionary+=/usr/share/dict/words
 
 let g:neocomplcache_enable_at_startup = 1
 
-let g:vimfiler_as_default_explorer = 1
 
 " detect marker{*3 }*3
 set foldmethod=marker
@@ -213,7 +211,6 @@ set relativenumber
 set history=256
 filetype plugin indent on
 set ruler
-set encoding=utf-8
 set cindent
 let loaded_matchparen = 1
 
