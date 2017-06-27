@@ -7,6 +7,7 @@ dotfiles="
 .zshrc
 .zprofile
 .zpreztorc
+.gitconfig
 .gitignore_global
 .tmux.conf
 "
