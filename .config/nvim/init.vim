@@ -1,10 +1,3 @@
-if has('vim_starting')
-
-    " Changing encoding in Vim at runtime is undefined behavior.
-    set encoding=utf-8
-    set fileencodings=utf-8,sjis,cp932,euc-jp
-    set fileformats=unix,mac,dos
-endif
 
 
 " {{{ dein
@@ -247,6 +240,13 @@ au BufRead,BufNewFile *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidt
 au BufRead,BufNewFile *.js setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 au BufRead,BufNewFile *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 " augroup END
+
+if has('vim_starting')
+    " Changing encoding in Vim at runtime is undefined behavior.
+    set encoding=utf-8
+    set fileencodings=utf-8,sjis,cp932,euc-jp
+    set fileformats=unix,mac,dos
+endif
 
 " function
 function ToggleCopyFunc()
