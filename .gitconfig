@@ -1,15 +1,16 @@
-[ghq]
-    root = ~/workspace
+[core]
+  excludesfile = /Users/kazuki/.gitignore_global
 [user]
 	name = wassen
 	email = kazuki-a@outlook.com
-
-
-[core]
-	excludesfile = /Users/kazuki/.gitignore_global
 [merge]
 	tool = vimdiff
 [color]
 	ui = true
 [mergetool]
 	keepBackup = false
+	path = nvim
+[alias]
+  graph=log --graph --oneline --decorate=full
+[ghq]
+    root = ~/workspace

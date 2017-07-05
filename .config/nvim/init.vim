@@ -221,7 +221,8 @@ set softtabstop=0
 " ハイライト
 set hlsearch
 
-" set clipboard+=unnamed
+" レジスタへのyankをclipboardへ
+set clipboard+=unnamed
 
 " Google Calendar
 let g:calendar_google_calendar = 1
