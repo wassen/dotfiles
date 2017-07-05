@@ -1,5 +1,3 @@
-
-
 " {{{ dein
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 
@@ -19,6 +17,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('vim-airline/vim-airline-themes')
 	call dein#add('thinca/vim-zenspace')
 	call dein#add('tpope/vim-surround')
+	call dein#add('JuliaEditorSupport/julia-vim')
+
 	" call dein#add('Shougo/vimfiler')
 	" call dein#add('wakatime/vim-wakatime.git')
 	" call dein#add('kannokanno/previm')

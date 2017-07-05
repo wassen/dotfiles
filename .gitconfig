@@ -1,2 +1,15 @@
 [ghq]
     root = ~/workspace
+[user]
+	name = wassen
+	email = kazuki-a@outlook.com
+
+
+[core]
+	excludesfile = /Users/kazuki/.gitignore_global
+[merge]
+	tool = vimdiff
+[color]
+	ui = true
+[mergetool]
+	keepBackup = false
