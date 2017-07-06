@@ -260,9 +260,23 @@ function TodoFunc()
 	e ~/TODO
 endfunction
 
+function NippoFunc()
+  let now = localtime()
+  let month = strftime("%B", now)
+  let day = strftime("%d", now)
+  echo month
+  " 変数をうまい具合に展開したい
+  " workspace/アタリが重複している
+  " eval???
+  execute "!mkdir -p ~/workspace/mdnote/dairy_reports/" . month
+  execute 'edit' "~/workspace/mdnote/dairy_reports/" . month."/" . day . ".md"
+endfunction
+
 command ToggleCopy :call ToggleCopyFunc()
 
 command Todo :call TodoFunc()
 
 command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
                 \ | diffthis | wincmd p | diffthis
+
+command Nippo :call NippoFunc()
