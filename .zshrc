@@ -75,7 +75,9 @@ function peco-cd() {
     fi
 }
 zle -N peco-cd
-bindkey '^B' peco-cd
+bindkey '^Bc' peco-cd
+
+# find . -type f | grep .java | peco
 
 # function project_commands() {
 # 		local command=`cat ~/.local/share/coBalt | peco --query "$LBUFFER"`
@@ -84,6 +86,11 @@ bindkey '^B' peco-cd
 # }
 # zle -N project_commands
 # bindkey '^B' project_commands
+
+# 拡張子指定と見つかったファイルディレクトリの表示、ハイライト
+function _search() {
+  find . -type f | grep -v .git | xargs -I{} grep $1 {}
+}
 
 #alias
 alias sudo='nocorrect sudo'
@@ -97,11 +104,13 @@ alias cp='cp -i'
 alias mv='mv -i'
 #alias git='git '
 #alias commit='git commit -m'
+alias gs='git stash --keep-index'
 alias gst='git status'
 alias gti='git'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
+alias search='_search'
 #xclipとの違い
 alias cboard='xsel --clipboard --input'
 alias hconf='./configure --prefix=$HOME/usr/local'
@@ -113,6 +122,7 @@ alias duff="du -hs *"
 alias tree='tree --charset=C -NC'
 alias grep='grep --color=auto'
 alias latexmake='latexmk -pdfdvi -pvc'
+
 
 
 if hash porg 2> /dev/null

@@ -6,6 +6,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('Shougo/dein.vim')
 	call dein#add('Shougo/neocomplete.vim')
 	call dein#add('Shougo/unite.vim')
+	call dein#add('Shougo/junkfile.vim')
 	call dein#add('kana/vim-submode')
   call dein#add('scrooloose/nerdtree')
   " call dein#add('plasticboy/vim-markdown')
@@ -18,7 +19,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('thinca/vim-zenspace')
 	call dein#add('tpope/vim-surround')
 	call dein#add('JuliaEditorSupport/julia-vim')
-
+	call dein#add('mtth/scratch.vim')
 	" call dein#add('Shougo/vimfiler')
 	" call dein#add('wakatime/vim-wakatime.git')
 	" call dein#add('kannokanno/previm')
@@ -163,6 +164,9 @@ call submode#map('bufmove', 'n', '', '<', '<C-w><')
 call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 "}}}
+"
+let g:junkfile#directory = $HOME . "/workspace/junkfile"
+nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 
 "}}}
 " 行区切り
@@ -268,8 +272,8 @@ function NippoFunc()
   " 変数をうまい具合に展開したい
   " workspace/アタリが重複している
   " eval???
-  execute "!mkdir -p ~/workspace/mdnote/dairy_reports/" . month
-  execute 'edit' "~/workspace/mdnote/dairy_reports/" . month."/" . day . ".md"
+  execute "!mkdir -p ~/workspace/github.o-in.dwango.co.jp/wassen/working-note/" . month
+  execute 'edit' "~/workspace/github.o-in.dwango.co.jp/wassen/working-note/" . month. "/" . day . ".md"
 endfunction
 
 command ToggleCopy :call ToggleCopyFunc()
