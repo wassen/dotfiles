@@ -1,3 +1,6 @@
+set runtimepath+=/Users/kazuki_asayama/workspace/github.com/wassen/nippo.vim
+let g:nippo#directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/working-note"
+
 " {{{ dein
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 
@@ -46,7 +49,6 @@ if !has('gui_running')
     augroup END
 endif
 " }}}
-
 
 " View
 " color scheme
@@ -264,18 +266,6 @@ function TodoFunc()
 	e ~/TODO
 endfunction
 
-function NippoFunc()
-  let now = localtime()
-  let month = strftime("%B", now)
-  let day = strftime("%d", now)
-  echo month
-  " 変数をうまい具合に展開したい
-  " workspace/アタリが重複している
-  " eval???
-  execute "!mkdir -p ~/workspace/github.o-in.dwango.co.jp/wassen/working-note/" . month
-  execute 'edit' "~/workspace/github.o-in.dwango.co.jp/wassen/working-note/" . month. "/" . day . ".md"
-endfunction
-
 command ToggleCopy :call ToggleCopyFunc()
 
 command Todo :call TodoFunc()
@@ -283,4 +273,15 @@ command Todo :call TodoFunc()
 command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
                 \ | diffthis | wincmd p | diffthis
 
-command Nippo :call NippoFunc()
+" function NippoFunc()
+"   let now = localtime()
+"   let month = strftime("%B", now)
+"   let day = strftime("%d", now)
+"   echo month
+"   " 変数をうまい具合に展開したい
+"   " workspace/アタリが重複している
+"   " eval???
+"   execute "!mkdir -p ~/workspace/github.o-in.dwango.co.jp/wassen/working-note/" . month
+"   execute 'edit' "~/workspace/github.o-in.dwango.co.jp/wassen/working-note/" . month. "/" . day . ".md"
+" endfunction
+" command Nippo :call NippoFunc()
