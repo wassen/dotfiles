@@ -1,5 +1,5 @@
-set runtimepath+=/Users/kazuki_asayama/workspace/github.com/wassen/nippo.vim
-let g:nippo#directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/working-note"
+set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
+let g:nippo#directory = $HOME . "/workspace/tmp"
 
 " {{{ dein
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
@@ -32,9 +32,6 @@ endif
 
 filetype plugin indent on
 syntax enable
-if dein#check_install()
-	call dein#install()
-endif
 " }}}
 
 " {{{ transeparent
