@@ -5,6 +5,7 @@ tmp/
 ,/
 .ruby_version
 *.swp
+.idea/
 
 .dropbox.attr
 

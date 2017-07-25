@@ -188,6 +188,7 @@ set backspace=indent,eol,start
 
 set undofile
 set dictionary+=/usr/share/dict/words
+set hidden
 
 let g:neocomplcache_enable_at_startup = 1
 

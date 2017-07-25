@@ -14,3 +14,5 @@
   graph=log --graph --oneline --decorate=full
 [ghq]
     root = ~/workspace
+[credential]
+	helper = osxkeychain
