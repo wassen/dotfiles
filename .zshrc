@@ -58,7 +58,7 @@ zle -N peco-src
 bindkey '^]' peco-src
 
 function peco-history-selection() {
-    BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query $LBUFFER)
+    BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query "$LBUFFER")
     CURSOR=$#BUFFER
     zle reset-prompt
 }
@@ -89,7 +89,7 @@ bindkey '^Bc' peco-cd
 
 # 拡張子指定と見つかったファイルディレクトリの表示、ハイライト
 function _search() {
-  find . -type f | grep -v .git | xargs -I{} grep $1 {}
+  find . -type f | grep -v .git | grep $1
 }
 
 #alias
@@ -103,10 +103,9 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 #alias git='git '
-#alias commit='git commit -m'
-alias gs='git stash --keep-index'
-alias gst='git status'
 alias gti='git'
+alias gl='git log'
+alias gs='git status'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'

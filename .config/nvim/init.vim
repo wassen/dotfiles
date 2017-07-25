@@ -191,6 +191,8 @@ set dictionary+=/usr/share/dict/words
 
 let g:neocomplcache_enable_at_startup = 1
 
+set hidden
+
 
 " detect marker{*3 }*3
 set foldmethod=marker

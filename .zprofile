@@ -37,10 +37,10 @@ export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
 
 if [ -d $HOME/.anyenv ] ; then
 	export PATH="$HOME/.anyenv/bin:$PATH"
-	eval "$(anyenv init - zsh)"
+	eval "$(anyenv init - --no-rehash zsh)"
 fi
 if type pyenv > /dev/null ; then
-    eval "$(pyenv virtualenv-init - zsh)"
+    eval "$(pyenv virtualenv-init - --no-rehash zsh)"
 fi
 
 #powerline-daemon -q
