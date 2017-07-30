@@ -117,8 +117,6 @@ inoremap <silent> jj <Right><ESC>
 nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
 " nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
 nnoremap <ESC><ESC> :noh<CR>:set nopaste<CR>:<CR>
-" デクリメント
-nnoremap <C-e> <C-x>
 
 " termianl
 if has('nvim')
@@ -187,6 +185,8 @@ set scrolloff=4
 set backspace=indent,eol,start
 
 set undofile
+" BufNewFile, BufReadPre, StdinReadPreなどは効かなかった, BufWrite, BufEnterならいけた
+autocmd BufEnter,BufWrite /dev/null set noundofile
 set dictionary+=/usr/share/dict/words
 set hidden
 
