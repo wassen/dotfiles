@@ -1,5 +1,3 @@
-set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
-let g:nippo#directory = $HOME . "/workspace/tmp"
 
 " {{{ dein
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
@@ -23,6 +21,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('tpope/vim-surround')
 	call dein#add('JuliaEditorSupport/julia-vim')
 	call dein#add('mtth/scratch.vim')
+	call dein#add('scrooloose/syntastic')
 	" call dein#add('Shougo/vimfiler')
 	" call dein#add('wakatime/vim-wakatime.git')
 	" call dein#add('kannokanno/previm')
@@ -45,6 +44,14 @@ if !has('gui_running')
         autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
     augroup END
 endif
+" }}}
+
+" {{{ plugin settings
+" nippo
+set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
+let g:nippo#directory = $HOME . "/workspace/tmp"
+" scrooloose/syntastic
+let g:syntastic_python_checkers = ["flake8"]
 " }}}
 
 " View
@@ -112,7 +119,7 @@ noremap <S-h>   ^
 " noremap <S-k>   {
 noremap <S-l>   $
 " jj->ESC
-inoremap <silent> jj <Right><ESC>
+inoremap <silent> jj <ESC>
 " Enterで行の挿入
 nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
 " nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
