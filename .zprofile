@@ -7,6 +7,8 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/usr/local/bin:$PATH"
 
+export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
+
 HOME_OPT=$HOME/opt
 if [ -d $HOME_OPT ] 
 then

@@ -92,6 +92,10 @@ function _search() {
   find . -type f | grep -v .git | grep $1
 }
 
+function hist(){
+  history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
+}
+
 #alias
 alias sudo='nocorrect sudo'
 alias l='ls'
