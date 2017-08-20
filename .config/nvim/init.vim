@@ -105,15 +105,17 @@ nnoremap <Up>   gk
 " インサートモードでも移動したい
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
-inoremap <C-h> <Left>
 inoremap <C-l> <Right>
+inoremap <C-h> <Left>
 inoremap <C-g> <C-h>
 inoremap <C-d> <Del>
+" inoremap <C-S-l> <C-o>$とかはむりっぽい(insertmodeではlとLが区別されてない？)
 " 検索で常に中央に
 nmap n nzz
 nmap N Nzz
 nmap * *zz
 nmap # #zz
+
 " 
 noremap <S-C-h> <S-h>
 noremap <S-C-l> <S-l>
