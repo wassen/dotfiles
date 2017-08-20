@@ -1,5 +1,5 @@
 
-" {{{ dein
+" {{{ plugin
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
@@ -49,7 +49,10 @@ endif
 " {{{ plugin settings
 " nippo
 set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
-let g:nippo#directory = $HOME . "/workspace/tmp"
+let g:nippo#home_directory = $HOME . "/workspace/tmp"
+let g:junkfile#directory = $HOME . "/workspace/github.com/wassen/mdnote/junkfile"
+nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
+let g:syntastic_python_flake8_args = '--ignore="E203,E221,E402,E501"'
 " scrooloose/syntastic
 let g:syntastic_python_checkers = ["flake8"]
 " }}}
@@ -169,8 +172,6 @@ call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 "}}}
 "
-let g:junkfile#directory = $HOME . "/workspace/junkfile"
-nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 
 "}}}
 " 行区切り
