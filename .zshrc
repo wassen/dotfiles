@@ -96,8 +96,13 @@ function hist(){
   history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
 }
 
+function meshi(){
+  python -c "import random;m=['鳥藤', 'カレー', 'コンビニ'];print(random.choice(m))"
+}
+
 #alias
 alias sudo='nocorrect sudo'
+alias ls='exa'
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'

@@ -10,7 +10,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('Shougo/junkfile.vim')
 	call dein#add('kana/vim-submode')
   call dein#add('scrooloose/nerdtree')
-  " call dein#add('plasticboy/vim-markdown')
+  call dein#add('plasticboy/vim-markdown')
 	call dein#add('szw/vim-maximizer')
 	call dein#add('chriskempson/vim-tomorrow-theme')
 	call dein#add('w0ng/vim-hybrid')
@@ -22,6 +22,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('JuliaEditorSupport/julia-vim')
 	call dein#add('mtth/scratch.vim')
 	call dein#add('scrooloose/syntastic')
+	call dein#add('leafgarland/typescript-vim.git')
 	" call dein#add('Shougo/vimfiler')
 	" call dein#add('wakatime/vim-wakatime.git')
 	" call dein#add('kannokanno/previm')
@@ -49,7 +50,7 @@ endif
 " {{{ plugin settings
 " nippo
 set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
-let g:nippo#directory = $HOME . "/workspace/tmp"
+let g:nippo#home_directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/working-note"
 " scrooloose/syntastic
 let g:syntastic_python_checkers = ["flake8"]
 " }}}
@@ -169,9 +170,8 @@ call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 "}}}
 "
-let g:junkfile#directory = $HOME . "/workspace/junkfile"
+let g:junkfile#directory = $HOME . "/workspace/github.com/wassen/mdnote/junkfile"
 nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
-
 "}}}
 " 行区切り
 

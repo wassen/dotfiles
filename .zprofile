@@ -8,6 +8,7 @@ export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/usr/local/bin:$PATH"
 
 export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
+export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
 
 HOME_OPT=$HOME/opt
 if [ -d $HOME_OPT ] 
@@ -44,6 +45,8 @@ fi
 if type pyenv > /dev/null ; then
     eval "$(pyenv virtualenv-init - --no-rehash zsh)"
 fi
+
+eval "$(direnv hook zsh)"
 
 #powerline-daemon -q
 #. ~/usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
