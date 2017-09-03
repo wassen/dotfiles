@@ -12,6 +12,7 @@
 	path = nvim
 [alias]
   graph=log --graph --oneline --decorate=full
+  open=! git config remote.origin.url | xargs open
 [ghq]
     root = ~/workspace
 [credential]
