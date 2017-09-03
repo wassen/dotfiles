@@ -20,7 +20,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('Shougo/neosnippet-snippets')
 	call dein#add('kana/vim-submode')
   call dein#add('scrooloose/nerdtree')
-  " call dein#add('plasticboy/vim-markdown')
+  call dein#add('plasticboy/vim-markdown')
 	call dein#add('szw/vim-maximizer')
 	call dein#add('chriskempson/vim-tomorrow-theme')
 	call dein#add('w0ng/vim-hybrid')
@@ -32,6 +32,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('JuliaEditorSupport/julia-vim')
 	call dein#add('mtth/scratch.vim')
 	call dein#add('scrooloose/syntastic')
+	call dein#add('leafgarland/typescript-vim.git')
+	call dein#add('tpope/surround.vim')
 	" call dein#add('Shougo/vimfiler')
 	" call dein#add('wakatime/vim-wakatime.git')
 	" call dein#add('kannokanno/previm')
@@ -46,12 +48,13 @@ syntax enable
 " {{{ plugin settings
 " nippo
 set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
-let g:nippo#home_directory = $HOME . "/workspace/tmp"
+let g:nippo#home_directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/working-note"
 let g:junkfile#directory = $HOME . "/workspace/github.com/wassen/mdnote/junkfile"
 nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 let g:syntastic_python_flake8_args = '--ignore="E203,E221,E402,E501"'
 " scrooloose/syntastic
 let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_typescript_checkers = ["tslint"]
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
@@ -237,6 +240,9 @@ set ruler
 
 set cindent
 
+" ""を消したりする不便機能を削除
+set conceallevel=0
+
 let g:loaded_matchparen = 1
 
 set ignorecase
@@ -285,9 +291,13 @@ endfunction
 function! DiffOrigFunc()
   vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis
 endfunction
+function! ExecFunc()
+  ! ./%
+endfunction
 " }}} functions
 
 " {{{ commands
 command! ToggleCopy :call ToggleCopyFunc()
 command! DiffOrig :call DiffOrigFunc()
+command! Exec :call ExecFunc()
 " }}} commands
