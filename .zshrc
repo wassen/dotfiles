@@ -7,12 +7,15 @@ fi
 
 unsetopt cdable_vars
 
-# export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
-autoload select-word-style
-select-word-style bash
+export WORDCHARS="*?_.[]~=&;!#$%^(){}<>"
+# autoload select-word-style
+# select-word-style bash
 
 # Keybinding
-bindkey -e
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+bindkey -M vicmd 'H' vi-first-non-blank
+bindkey -M vicmd 'L' vi-end-of-line
 ## Del, Home and End
 ## [3~ = Ctrl+V -> Del
 #bindkey "[3~" delete-char
@@ -115,6 +118,7 @@ alias mv='mv -i'
 alias gti='git'
 alias gl='git log'
 alias gs='git status'
+alias gitcd='cd $(git rev-parse --show-toplevel)'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'

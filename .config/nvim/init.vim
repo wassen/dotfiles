@@ -54,7 +54,7 @@ nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 let g:syntastic_python_flake8_args = '--ignore="E203,E221,E402,E501"'
 " scrooloose/syntastic
 let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_typescript_checkers = ["tslint"]
+let g:syntastic_typescript_checkers = [""]
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
