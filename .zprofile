@@ -53,3 +53,5 @@ eval "$(direnv hook zsh)"
 
 # dropbox
 #dropbox.py status | ruby -e "if STDIN.gets.eql? %{Dropbox isn\'t running\!\n} then system('dropbox.py start') end"
+
+export PATH="$HOME/.cargo/bin:$PATH"

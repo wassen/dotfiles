@@ -18,9 +18,11 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('Shougo/junkfile.vim')
 	call dein#add('Shougo/neosnippet.vim')
 	call dein#add('Shougo/neosnippet-snippets')
+	call dein#add('Shougo/neomru.vim')
+
 	call dein#add('kana/vim-submode')
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('plasticboy/vim-markdown')
+	call dein#add('scrooloose/nerdtree')
+	call dein#add('plasticboy/vim-markdown')
 	call dein#add('szw/vim-maximizer')
 	call dein#add('chriskempson/vim-tomorrow-theme')
 	call dein#add('w0ng/vim-hybrid')
@@ -28,12 +30,12 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 	call dein#add('vim-airline/vim-airline')
 	call dein#add('vim-airline/vim-airline-themes')
 	call dein#add('thinca/vim-zenspace')
-	call dein#add('tpope/vim-surround')
 	call dein#add('JuliaEditorSupport/julia-vim')
 	call dein#add('mtth/scratch.vim')
-	call dein#add('scrooloose/syntastic')
+	call dein#add('w0rp/ale')
 	call dein#add('leafgarland/typescript-vim.git')
-	call dein#add('tpope/surround.vim')
+	call dein#add('tpope/vim-surround')
+	call dein#add('airblade/vim-gitgutter')
 	" call dein#add('Shougo/vimfiler')
 	" call dein#add('wakatime/vim-wakatime.git')
 	" call dein#add('kannokanno/previm')
@@ -51,18 +53,19 @@ set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
 let g:nippo#home_directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/working-note"
 let g:junkfile#directory = $HOME . "/workspace/github.com/wassen/mdnote/junkfile"
 nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
-let g:syntastic_python_flake8_args = '--ignore="E203,E221,E402,E501"'
-" scrooloose/syntastic
-let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_typescript_checkers = [""]
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#buffer_idx_mode = 0
+" gitgutter
+
 " neocomplete
 let g:neocomplcache_enable_at_startup = 1
+" ALE
+" let g:ale_lint_on_save = 1
+" let g:ale_lint_on_text_changed = 0
 " {{{ neosnippet
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
@@ -169,6 +172,10 @@ if has('nvim')
   tnoremap <silent> jj <C-\><C-n>
 endif
 
+" buffer
+nnoremap vh :bp<CR>
+nnoremap vl :bn<CR>
+
 " {{{ 画面分割関連
 "nnoremap s <Nop>
 nnoremap sj <C-w>j
@@ -210,7 +217,6 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 " }}} key bind
 
 " {{{ other settings
-
 " open other buffer without save
 set hidden
 " カーソル行のハイライト
@@ -280,6 +286,8 @@ augroup user_filetypedetect
   autocmd BufRead,BufNewFile *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufRead,BufNewFile *.js setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufRead,BufNewFile *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufRead,BufNewFile *.ts setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufRead,BufNewFile *.tsx setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 " {{{ functions
@@ -300,4 +308,5 @@ endfunction
 command! ToggleCopy :call ToggleCopyFunc()
 command! DiffOrig :call DiffOrigFunc()
 command! Exec :call ExecFunc()
+command! CDCurrentFile :cd %:p:h
 " }}} commands

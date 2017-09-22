@@ -1,7 +1,6 @@
 .netrwhist
 
 .vim/dein/
-.config/nvim/dein/
-.config/nvim/shada/
-.config/nvim/undo/
-
+.config/*
+!.config/nvim/.vim/
+!.config/nvim/init.vim
