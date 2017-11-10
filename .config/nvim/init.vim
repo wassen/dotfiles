@@ -1,9 +1,9 @@
 " {{{ file encoding
 if has('vim_starting')
-  set encoding=utf-8
-  scriptencoding utf-8
-  set fileencodings=utf-8,sjis,cp932,euc-jp
-  set fileformats=unix,mac,dos
+    set encoding=utf-8
+    scriptencoding utf-8
+    set fileencodings=utf-8,sjis,cp932,euc-jp
+    set fileformats=unix,mac,dos
 endif
 " }}} file encoding
 
@@ -11,36 +11,39 @@ endif
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
-	call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
-	call dein#add('Shougo/dein.vim')
-	call dein#add('Shougo/neocomplete.vim')
-	call dein#add('Shougo/unite.vim')
-	call dein#add('Shougo/junkfile.vim')
-	call dein#add('Shougo/neosnippet.vim')
-	call dein#add('Shougo/neosnippet-snippets')
-	call dein#add('Shougo/neomru.vim')
+    call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
+    call dein#add('Shougo/dein.vim')
+    call dein#add('Shougo/neocomplete.vim')
+    call dein#add('Shougo/unite.vim')
+    call dein#add('Shougo/junkfile.vim')
+    call dein#add('Shougo/neosnippet.vim')
+    call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('Shougo/neomru.vim')
 
-	call dein#add('kana/vim-submode')
-	call dein#add('scrooloose/nerdtree')
-	call dein#add('plasticboy/vim-markdown')
-	call dein#add('szw/vim-maximizer')
-	call dein#add('chriskempson/vim-tomorrow-theme')
-	call dein#add('w0ng/vim-hybrid')
-	call dein#add('tamelion/neovim-molokai')
-	call dein#add('vim-airline/vim-airline')
-	call dein#add('vim-airline/vim-airline-themes')
-	call dein#add('thinca/vim-zenspace')
-	call dein#add('JuliaEditorSupport/julia-vim')
-	call dein#add('mtth/scratch.vim')
-	call dein#add('w0rp/ale')
-	call dein#add('leafgarland/typescript-vim.git')
-	call dein#add('tpope/vim-surround')
-	call dein#add('airblade/vim-gitgutter')
-	" call dein#add('Shougo/vimfiler')
-	" call dein#add('wakatime/vim-wakatime.git')
-	" call dein#add('kannokanno/previm')
-	call dein#end()
-	call dein#save_state()
+    call dein#add('kana/vim-submode')
+    call dein#add('scrooloose/nerdtree')
+    call dein#add('plasticboy/vim-markdown')
+    call dein#add('szw/vim-maximizer')
+    call dein#add('chriskempson/vim-tomorrow-theme')
+    call dein#add('w0ng/vim-hybrid')
+    call dein#add('tamelion/neovim-molokai')
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('thinca/vim-zenspace')
+    call dein#add('JuliaEditorSupport/julia-vim')
+    call dein#add('mtth/scratch.vim')
+    call dein#add('w0rp/ale')
+    call dein#add('leafgarland/typescript-vim.git')
+    call dein#add('tpope/vim-surround')
+    call dein#add('airblade/vim-gitgutter')
+    call dein#add('machakann/vim-sandwich')
+    call dein#add('junegunn/vim-easy-align')
+
+    " call dein#add('Shougo/vimfiler')
+    " call dein#add('wakatime/vim-wakatime.git')
+    " call dein#add('kannokanno/previm')
+    call dein#end()
+    call dein#save_state()
 endif
 
 filetype plugin indent on
@@ -48,71 +51,77 @@ syntax enable
 " }}}
 
 " {{{ plugin settings
+set runtimepath+=$HOME/.vim/plugin/swift
 " nippo
 set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
 let g:nippo#home_directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/working-note"
 let g:junkfile#directory = $HOME . "/workspace/github.com/wassen/mdnote/junkfile"
-nnoremap <silent> ,e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
+nnoremap <silent> ,e    :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " let g:airline#extensions#tabline#buffer_idx_mode = 0
 " gitgutter
 
 " neocomplete
 let g:neocomplcache_enable_at_startup = 1
 " ALE
+let g:ale_sign_column_always = 1
 " let g:ale_lint_on_save = 1
 " let g:ale_lint_on_text_changed = 0
 " {{{ neosnippet
 " Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-b>     <Plug>(neosnippet_expand_or_jump)
-smap <C-b>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-b>     <Plug>(neosnippet_expand_target)
+" Note: It must be "imap" and "smap".    It uses <Plug> mappings.
+imap <C-b>         <Plug>(neosnippet_expand_or_jump)
+smap <C-b>         <Plug>(neosnippet_expand_or_jump)
+xmap <C-b>         <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-b>     <Plug>(neosnippet_expand_or_jump)
+" Note: It must be "imap" and "smap".    It uses <Plug> mappings.
+imap <C-b>         <Plug>(neosnippet_expand_or_jump)
 "imap <expr><TAB>
 " \ pumvisible() ? "\<C-n>" :
 " \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" \        "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For conceal markers.
 if has('conceal')
-  set conceallevel=2 concealcursor=niv
+    set conceallevel=2 concealcursor=niv
 endif
 let g:neosnippet#snippets_directory='~/.vim/neosnippet/'
 " }}} neosnippet
+" align
+xmap ga <Plug>(EasyAlign)<C-p>
 " }}}
 
 " {{{ View
 " {{{ transeparent
 if !has('gui_running')
-  augroup seiya
-    autocmd!
-    autocmd VimEnter,ColorScheme * highlight Normal ctermbg=none
-    autocmd VimEnter,ColorScheme * highlight LineNr ctermbg=none
-    autocmd VimEnter,ColorScheme * highlight SignColumn ctermbg=none
-    autocmd VimEnter,ColorScheme * highlight VertSplit ctermbg=none
-    autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
-  augroup END
+    augroup seiya
+        autocmd!
+        autocmd VimEnter,ColorScheme * highlight Normal ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight LineNr ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight SignColumn ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight VertSplit ctermbg=none
+        autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
+    augroup END
 endif
 " }}} transeparent
 
 " {{{ color scheme
 set background=dark
-  augroup color_scheme
-    autocmd!
-    autocmd ColorScheme * highlight Comment ctermfg=243 guifg=#008799
-    autocmd ColorScheme * highlight NonText ctermfg=043
-    autocmd ColorScheme * highlight SpecialKey ctermfg=043
-  augroup END
+    augroup color_scheme
+        autocmd!
+        autocmd ColorScheme * highlight Comment ctermfg=243 guifg=#008799
+        autocmd ColorScheme * highlight NonText ctermfg=043
+        autocmd ColorScheme * highlight SpecialKey ctermfg=043
+    augroup END
 colorscheme hybrid
 " }}} color scheme
 
@@ -144,7 +153,7 @@ nnoremap : ;
 vnoremap ; :
 vnoremap : ;
 nnoremap <Down> gj
-nnoremap <Up>   gk
+nnoremap <Up>     gk
 noremap <S-h> ^
 noremap <S-l> $
 noremap <S-C-h> <S-h>
@@ -166,10 +175,11 @@ inoremap <silent> jj <ESC>
 nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
 " nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
 nnoremap <ESC><ESC> :nohlsearch<CR>:set nopaste<CR>:<CR>
+let mapleader = "\<Space>"
 
 " termianl
 if has('nvim')
-  tnoremap <silent> jj <C-\><C-n>
+    tnoremap <silent> jj <C-\><C-n>
 endif
 
 " buffer
@@ -234,6 +244,9 @@ set dictionary+=/usr/share/dict/words
 " detect marker{*3 }*3
 set foldmethod=marker
 
+" シンタックスハイライトをする最大文字数
+set synmaxcol=300
+
 set t_Co=256
 " show line
 set number
@@ -249,7 +262,7 @@ set cindent
 " ""を消したりする不便機能を削除
 set conceallevel=0
 
-let g:loaded_matchparen = 1
+" let g:loaded_matchparen = 1
 
 set ignorecase
 set smartcase
@@ -261,7 +274,7 @@ set softtabstop=0
 " タブを挿入するときの幅
 set shiftwidth=2
 " タブをスペースに展開する
-set expandtab
+set noexpandtab
 
 " 検索のハイライト
 set hlsearch
@@ -270,37 +283,41 @@ set hlsearch
 set clipboard+=unnamed
 " }}} other settings
 
+" {{{ augroup
 augroup snippet
-  autocmd!
-  autocmd BufNewFile *.py :0r ~/.vim/snippet/utf8.py
-  autocmd BufNewFile *.sh :0r ~/.vim/snippet/template.sh
-  autocmd BufNewFile *.html :0r ~/.vim/snippet/template.html
+    autocmd!
+    autocmd BufNewFile *.py :0r ~/.vim/snippet/utf8.py
+    autocmd BufNewFile *.sh :0r ~/.vim/snippet/template.sh
+    autocmd BufNewFile *.html :0r ~/.vim/snippet/template.html
 augroup END
 
 augroup user_filetypedetect
-  autocmd!
-  " source ~/.vimrcしたら、開き直さないとこちらの設定が反映されない
-  autocmd BufRead,BufNewFile *.php setfiletype php
-  autocmd BufRead,BufNewFile *.swift setfiletype swift
-  autocmd BufRead,BufNewFile *.html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufRead,BufNewFile *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufRead,BufNewFile *.js setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufRead,BufNewFile *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufRead,BufNewFile *.ts setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufRead,BufNewFile *.tsx setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd!
+    " source ~/.vimrcしたら、開き直さないとこちらの設定が反映されない
+    autocmd BufRead,BufNewFile *.php setfiletype php
+    autocmd BufRead,BufNewFile *.swift setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufRead,BufNewFile *.html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewFile *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewFile *.js setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewFile *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewFile *.ts setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewFile *.tsx setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewFile *.vimrc setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 augroup END
+" {{{ augroup
 
 " {{{ functions
 function! ToggleCopyFunc()
-  set invnumber
-  set invlist
-  set invrelativenumber
+    set invnumber
+    set invlist
+    set invrelativenumber
 endfunction
 function! DiffOrigFunc()
-  vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis
+    vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis
 endfunction
 function! ExecFunc()
-  ! ./%
+    w
+    ! ./%
 endfunction
 " }}} functions
 
