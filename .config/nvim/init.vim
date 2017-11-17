@@ -315,15 +315,15 @@ endfunction
 function! DiffOrigFunc()
     vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis
 endfunction
-function! ExecFunc()
-    w
-    ! ./%
+function! ExecFunc(...)
+	w
+  execute "! ./%" join(a:000, " ")
 endfunction
 " }}} functions
 
 " {{{ commands
 command! ToggleCopy :call ToggleCopyFunc()
 command! DiffOrig :call DiffOrigFunc()
-command! Exec :call ExecFunc()
+command! -nargs=* Exec :call ExecFunc(<f-args>)
 command! CDCurrentFile :cd %:p:h
 " }}} commands
