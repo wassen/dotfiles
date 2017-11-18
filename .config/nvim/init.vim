@@ -98,6 +98,8 @@ let g:neosnippet#snippets_directory='~/.vim/neosnippet/'
 " }}} neosnippet
 " align
 xmap ga <Plug>(EasyAlign)<C-p>
+" NERDTree
+let NERDTreeShowHidden=1
 " }}}
 
 " {{{ View
