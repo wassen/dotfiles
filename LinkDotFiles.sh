@@ -4,8 +4,7 @@ dotfiles="
 .vimrc
 .bashrc
 .bash_profile
-.zshrc
-.zprofile
+.zshenv
 .zpreztorc
 .gitconfig
 .gitignore_global
