@@ -1,9 +1,20 @@
 echo "Run-Control zsh"
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+# zplug settings
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+# zplug "sorin-ionescu/prezto"
+source $ZDOTDIR/prelude_for_paradox.zsh
+zplug "modules/prompt", from:prezto
+zstyle ':prezto:module:prompt' theme 'paradox'
+
+zplug load
+
+# # Source Prezto.
+# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+#   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# fi
 
 unsetopt cdable_vars
 
