@@ -37,6 +37,8 @@ export XDG_CONFIG_HOME=$HOME/.config
 export LESS='--RAW-CONTROL-CHARS'
 export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
 
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+
 
 if [ -d $HOME/.anyenv ] ; then
 	export PATH="$HOME/.anyenv/bin:$PATH"

@@ -49,6 +49,12 @@ function wfind(){
 	find . -name *$arg[0]*
 }
 
+function fzf-src() {
+	dir=$(ghq list > /dev/null | fzf-tmux --reverse +m) && cd $(ghq root)/$dir
+}
+zle -N fzf-src
+bindkey '^]' fzf-src
+
 function peco-src () {
   local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
@@ -58,7 +64,7 @@ function peco-src () {
   zle clear-screen
 }
 zle -N peco-src
-bindkey '^]' peco-src
+# bindkey '^]' peco-src
 
 function peco-history-selection() {
     BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query "$LBUFFER")
