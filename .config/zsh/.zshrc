@@ -51,6 +51,8 @@ function wfind(){
 
 function fzf-src() {
 	dir=$(ghq list > /dev/null | fzf-tmux --reverse +m) && cd $(ghq root)/$dir
+	# paradoxのプロンプトを復活させる
+	editor-info
 }
 zle -N fzf-src
 bindkey '^]' fzf-src
