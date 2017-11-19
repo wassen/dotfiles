@@ -123,7 +123,7 @@ function meshi(){
   python -c "import random;m=['鳥藤', 'カレー', 'コンビニ'];print(random.choice(m))"
 }
 
-#alias
+# alias
 alias sudo='nocorrect sudo'
 alias ls='exa'
 alias l='ls'
@@ -152,10 +152,16 @@ alias tmux="TERM=xterm-256color tmux"
 # du files(many file -> ff)
 alias duff="du -hs *"
 alias tree='tree --charset=C -NC'
-alias grep='grep --color=auto'
 alias latexmake='latexmk -pdfdvi -pvc'
 
-
+## global alias
+### git branches
+alias -g  B='$(git branch -a | fzf --multi --prompt "All Branches>"    | sed -e "s/^\*\s*//g")'
+alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches>" | sed -e "s/^\*\s*//g")'
+alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches>"  | sed -e "s/^\*\s*//g")'
+### Directories
+alias -g  D='$(ls -d */ | fzf --prompt "Directories>")'
+alias -g  F='$(ls -F | grep -v "/$" | fzf --prompt "Files>")'
 
 if hash porg 2> /dev/null
 then
