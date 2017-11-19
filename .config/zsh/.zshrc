@@ -72,10 +72,9 @@ function wfind(){
 function fzf-src() {
 	dir=$(ghq list > /dev/null | fzf-tmux --reverse +m) && cd $(ghq root)/$dir
 	# paradoxのプロンプトを復活させる
-	editor-info
+	zle reset-prompt
 }
 zle -N fzf-src
-bindkey '^]' fzf-src
 
 function peco-src () {
   local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
@@ -86,7 +85,14 @@ function peco-src () {
   zle clear-screen
 }
 zle -N peco-src
-# bindkey '^]' peco-src
+bindkey '^]' fzf-src
+
+function fzf-history-selection() {
+	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --prompt "bck-i-search >")
+	CURSOR=$#BUFFER
+	zle reset-prompt
+}
+zle -N fzf-history-selection
 
 function peco-history-selection() {
     BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query "$LBUFFER")
@@ -95,7 +101,7 @@ function peco-history-selection() {
 }
 
 zle -N peco-history-selection
-bindkey '^R' peco-history-selection
+bindkey '^R' fzf-history-selection
 
 # キャン��ルした時cdしちゃう不具合
 function peco-cd() {

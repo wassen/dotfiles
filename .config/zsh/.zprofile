@@ -43,6 +43,7 @@ export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;32'
+export HISTSIZE=2048
 
 
 if [ -d $HOME/.anyenv ] ; then
