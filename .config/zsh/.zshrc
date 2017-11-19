@@ -27,6 +27,7 @@ bindkey -v
 bindkey -M viins 'jj' vi-cmd-mode
 bindkey -M vicmd 'H' vi-first-non-blank
 bindkey -M vicmd 'L' vi-end-of-line
+bindkey -M viins "^?" backward-delete-char
 ## Del, Home and End
 ## [3~ = Ctrl+V -> Del
 #bindkey "[3~" delete-char
