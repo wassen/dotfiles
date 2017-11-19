@@ -4,18 +4,20 @@ echo "Run-Control zsh"
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-zplug "sorin-ionescu/prezto"
+# zplug "sorin-ionescu/prezto"
 # zplug 'modules/environment', from:prezto
 # zplug 'modules/terminal', from:prezto
-zplug 'modules/editor', from:prezto
+# zplug 'modules/editor', from:prezto
 # source $ZDOTDIR/prelude_for_paradox.zsh
 # zplug 'modules/history', from:prezto
 # zplug 'modules/directory', from:prezto
 # zplug 'modules/spectrum', from:prezto
 # zplug 'modules/utility', from:prezto
 # zplug 'modules/completion', from:prezto
-zplug "modules/prompt", from:prezto
-zstyle ':prezto:module:prompt' theme 'paradox'
+# zplug "modules/prompt", from:prezto
+# zstyle ':prezto:module:prompt' theme 'pure'
+zplug mafredri/zsh-async, from:github
+zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
 
 zplug load
 
@@ -189,3 +191,22 @@ fi
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 bindkey "^U" backward-kill-line
+
+# Pure theme
+VIM_PROMPT="❯"
+PROMPT='%(?.%F{magenta}.%F{red})${VIM_PROMPT}%f '
+
+prompt_pure_update_vim_prompt() {
+    zle || {
+        print "error: pure_update_vim_prompt must be called when zle is active"
+        return 1
+    }
+    VIM_PROMPT=${${KEYMAP/vicmd/❮}/(main|viins)/❯}
+    zle .reset-prompt
+}
+
+function zle-line-init zle-keymap-select {
+    prompt_pure_update_vim_prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
