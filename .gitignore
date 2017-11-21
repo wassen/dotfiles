@@ -1,7 +1,9 @@
 .netrwhist
 
 .vim/dein/
+.config/configstore/
 .config/direnv/
+.config/fish/fishd.*
 .config/nvim/undo
 .config/nvim/dein
 .config/zsh/.zhistory

@@ -1,22 +1,35 @@
 [core]
-  excludesfile = /Users/kazuki/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [user]
-  name = wassen
-  email = k-asayama@outlook.com
-[merge]
-  tool = vimdiff
+	name  = kazuki-asayama-d
+	email = kazuki_asayama@dwango.co.jp
 [color]
-  ui = true
+	ui = auto
+
+# Commands
+[commit]
+	verbose = true
+[diff]
+	algorithm = patience
+[merge]
+	tool = vimdiff
 [mergetool]
-  keepBackup = false
-  path = nvim
+	keepBackup = false
+	path       = nvim
+[status]
+	short  = true
+	branch = true
+
 [alias]
-  graph=log --graph --oneline --decorate=full
-  #open=! open http://$(git config remote.origin.url | sed -e \"s/^[a-z]*:\/\///\" | sed -e "s/git@//" | tr ":" "/")
-  open=!open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')
-  private-config=!git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
-  co=checkout
+	co             = checkout
+	diffw          = diff --word-diff
+	graph          = log --graph --oneline --decorate=full
+	squeeze        = commit --amend --no-edit
+	private-config = !git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
+	working-config = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email kazuki_asayama@dwango.co.jp
+	#open=! open http://$(git config remote.origin.url | sed -e \"s/^[a-z]*:\/\///\" | sed -e "s/git@//" | tr ":" "/")
+	open           = !open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')
 [ghq]
-    root = ~/workspace
+	root = ~/workspace
 [credential]
-  helper = osxkeychain
+	helper = osxkeychain
