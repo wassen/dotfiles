@@ -72,7 +72,7 @@ function wfind(){
 }
 
 function fzf-src() {
-	dir=$(ghq list > /dev/null | fzf-tmux --reverse +m) && cd $(ghq root)/$dir
+	dir=$(ghq list > /dev/null | fzf --prompt "Repositories> " +m) && cd $(ghq root)/$dir
 	# paradoxのプロンプトを復活させる
 	zle reset-prompt
 }
@@ -90,7 +90,7 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --prompt "bck-i-search >")
+	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --prompt "bck-i-search> ")
 	CURSOR=$#BUFFER
 	zle reset-prompt
 }
@@ -172,12 +172,15 @@ alias latexmake='latexmk -pdfdvi -pvc'
 
 ## global alias
 ### git branches
-alias -g  B='$(git branch -a | fzf --multi --prompt "All Branches>"    | sed -e "s/^\*\s*//g")'
-alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches>" | sed -e "s/^\*\s*//g")'
-alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches>"  | sed -e "s/^\*\s*//g")'
+alias -g  B='$(git branch -a | fzf --multi --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
+alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches> " | sed -e "s/^\*\s*//g")'
+alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e "s/^\*\s*//g")'
 ### Directories
-alias -g  D='$(ls -d */ | fzf --prompt "Directories>")'
-alias -g  F='$(ls -F | grep -v "/$" | fzf --prompt "Files>")'
+alias -g  D='$(ls -d */                           | fzf --prompt "Directories> "   )'
+alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> "             )'
+alias -g  S='$(git status --short | fzf --multi --prompt "Git Files> " | cut -c 4-)'
+alias -g  R='$(git log --oneline | fzf --prompt "Git Revisions> " | cut -f 1 -d " ")'
+alias -g  G='$(git ls-files | fzf --multi --prompt "Git Files> " )'
 
 if hash porg 2> /dev/null
 then
