@@ -30,14 +30,18 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
     call dein#add('thinca/vim-zenspace')
-    call dein#add('JuliaEditorSupport/julia-vim')
     call dein#add('mtth/scratch.vim')
     call dein#add('w0rp/ale')
-    call dein#add('leafgarland/typescript-vim.git')
-    call dein#add('tpope/vim-surround')
+    " call dein#add('tpope/vim-surround')
     call dein#add('airblade/vim-gitgutter')
     call dein#add('machakann/vim-sandwich')
     call dein#add('junegunn/vim-easy-align')
+    " Language supports
+    call dein#add('JuliaEditorSupport/julia-vim')
+    call dein#add('keith/swift.vim')
+    call dein#add('leafgarland/typescript-vim.git')
+    call dein#add('unclechu/nim.vim')
+    
 
     " call dein#add('Shougo/vimfiler')
     " call dein#add('wakatime/vim-wakatime.git')
@@ -122,7 +126,8 @@ set background=dark
         autocmd!
         autocmd ColorScheme * highlight Comment ctermfg=243 guifg=#008799
         autocmd ColorScheme * highlight NonText ctermfg=043
-        autocmd ColorScheme * highlight SpecialKey ctermfg=043
+        " 70もよい
+        autocmd ColorScheme * highlight SpecialKey ctermfg=035
     augroup END
 colorscheme hybrid
 " }}} color scheme
@@ -306,7 +311,7 @@ augroup user_filetypedetect
     autocmd BufRead,BufNewFile *.tsx setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufRead,BufNewFile *.vimrc setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 augroup END
-" {{{ augroup
+" }}} augroup
 
 " {{{ functions
 function! ToggleCopyFunc()
@@ -317,9 +322,13 @@ endfunction
 function! DiffOrigFunc()
     vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis
 endfunction
+function! BlameFunc()
+    let line_number = line('.')
+    execute '!git log -L' . line_number . ','  . line_number . ':' . expand("%")
+endfunction
 function! ExecFunc(...)
-	w
-  execute "! ./%" join(a:000, " ")
+    w
+    execute '! ./%' join(a:000, " ")
 endfunction
 " }}} functions
 
@@ -328,4 +337,5 @@ command! ToggleCopy :call ToggleCopyFunc()
 command! DiffOrig :call DiffOrigFunc()
 command! -nargs=* Exec :call ExecFunc(<f-args>)
 command! CDCurrentFile :cd %:p:h
+command! BLAME :call BlameFunc()
 " }}} commands
