@@ -26,6 +26,10 @@ zplug load
 #   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 # fi
 
+# Completion
+autoload -U compinit
+compinit -u
+
 unsetopt cdable_vars
 
 export WORDCHARS="*?_.[]~=&;!#$%^(){}<>"
