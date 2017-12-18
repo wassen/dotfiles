@@ -22,7 +22,7 @@
 [alias]
 	co             = checkout
 	diffw          = diff --word-diff
-	Graph          = log --graph --oneline --decorate=full
+	graph          = log --graph --oneline --decorate=full
 	squeeze        = commit --amend --no-edit
 	makepatch      = !git diff > .git_patch
 	applypatch     = apply .git_patch
