@@ -1,5 +1,8 @@
 echo "login to zsh"
 
+# Check declaration of variable
+# set -u
+
 export EDITOR=vim
 export VISUAL=vim
 
