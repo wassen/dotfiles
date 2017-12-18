@@ -205,20 +205,26 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 bindkey "^U" backward-kill-line
 
 # Pure theme
-VIM_PROMPT="❯"
-PROMPT='%(?.%F{magenta}.%F{red})${VIM_PROMPT}%f '
+NORMAL_ERROR_COLOR=220
+INSERT_ERROR_COLOR=200
+NORMAL_COLOR=220
+NORMAL_PROMPT="%(?.%F{$NORMAL_COLOR}.%F{$NORMAL_ERROR_COLOR})❮%f"
+INSERT_COLOR=038
+INSERT_PROMPT="%(?.%F{$INSERT_COLOR}.%F{$INSERT_ERROR_COLOR})❯%f"
+PROMPT='%(?.%F{$PROMPT_COLOR}.%F{$ERROR_COLOR})${VIM_PROMPT}%f '
 
 prompt_pure_update_vim_prompt() {
     zle || {
         print "error: pure_update_vim_prompt must be called when zle is active"
         return 1
     }
-    VIM_PROMPT=${${KEYMAP/vicmd/❮}/(main|viins)/❯}
+    VIM_PROMPT="${${KEYMAP/vicmd/$NORMAL_PROMPT}/(main|viins)/$INSERT_PROMPT}"
     zle .reset-prompt
 }
-
+# ${${KEYMAP/vicmd/❮}/(main|viins)/❯}
 function zle-line-init zle-keymap-select {
     prompt_pure_update_vim_prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+
