@@ -181,14 +181,14 @@ alias latexmake='latexmk -pdfdvi -pvc'
 
 ## global alias
 ### git branches
-alias -g  B='$(git branch -a | fzf --multi --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
+alias -g  B='$(git branch -a | fzf --multi --preview "git show {+1}" --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
 alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches> " | sed -e "s/^\*\s*//g")'
 alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e "s/^\*\s*//g")'
 ### Directories
 alias -g  D='$(ls -d */                           | fzf --prompt "Directories> "   )'
 alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
 alias -g  S='$(git status --short | fzf --multi --prompt "Git Files> " | cut -c 4-)'
-alias -g  R='$(git log --oneline | fzf --prompt "Git Revisions> " | cut -f 1 -d " ")'
+alias -g  R='$(git log --oneline | fzf --preview "git show {+1}" --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  G='$(git ls-files | fzf --multi --prompt "Git Files> " )'
 
 if hash porg 2> /dev/null
