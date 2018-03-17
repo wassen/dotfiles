@@ -13,7 +13,7 @@ set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('Shougo/dein.vim')
-    call dein#add('Shougo/neocomplete.vim')
+    call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/unite.vim')
     call dein#add('Shougo/junkfile.vim')
     call dein#add('Shougo/neosnippet.vim')
@@ -22,7 +22,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
 
     call dein#add('kana/vim-submode')
     call dein#add('scrooloose/nerdtree')
-    call dein#add('plasticboy/vim-markdown')
+    call dein#add('gabrielelana/vim-markdown')
     call dein#add('szw/vim-maximizer')
     call dein#add('chriskempson/vim-tomorrow-theme')
     call dein#add('w0ng/vim-hybrid')
@@ -41,7 +41,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('keith/swift.vim')
     call dein#add('leafgarland/typescript-vim.git')
     call dein#add('unclechu/nim.vim')
-    
+    call dein#add('pangloss/vim-javascript')
 
     " call dein#add('Shougo/vimfiler')
     " call dein#add('wakatime/vim-wakatime.git')
@@ -76,6 +76,7 @@ let g:neocomplcache_enable_at_startup = 1
 " ALE
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
+let g:ale_python_flake8_args="--ignore=E203,E271,E272"
 " let g:ale_lint_on_text_changed = 0
 " {{{ neosnippet
 " Plugin key-mappings.
@@ -102,6 +103,8 @@ let g:neosnippet#snippets_directory='~/.vim/neosnippet/'
 " }}} neosnippet
 " align
 xmap ga <Plug>(EasyAlign)<C-p>
+" markdown
+let g:markdown_enable_spell_checking = 0
 " NERDTree
 let NERDTreeShowHidden=1
 " }}}
@@ -266,7 +269,7 @@ set ruler
 
 set cindent
 
-" ""を消したりする不便機能を削除
+" JSONで""を消したりする不便機能を削除
 set conceallevel=0
 
 " let g:loaded_matchparen = 1
@@ -310,7 +313,16 @@ augroup user_filetypedetect
     autocmd BufRead,BufNewFile *.ts setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufRead,BufNewFile *.tsx setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufRead,BufNewFile *.vimrc setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufRead,BufNewFile *.md setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufRead,BufNewFile *.plist setfiletype xml
 augroup END
+
+augroup gitcommit
+    autocmd!
+    " Commit Messageで勝手に改行されないように
+    autocmd FileType gitcommit set textwidth=0
+augroup END
+
 " }}} augroup
 
 " {{{ functions
@@ -338,4 +350,5 @@ command! DiffOrig :call DiffOrigFunc()
 command! -nargs=* Exec :call ExecFunc(<f-args>)
 command! CDCurrentFile :cd %:p:h
 command! BLAME :call BlameFunc()
+command! Vimrc edit ~/.vimrc
 " }}} commands
