@@ -76,6 +76,7 @@ let g:neocomplcache_enable_at_startup = 1
 " ALE
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
+let g:ale_python_flake8_args="--ignore=E203,E221,E251"
 " let g:ale_lint_on_text_changed = 0
 " {{{ neosnippet
 " Plugin key-mappings.
@@ -205,7 +206,7 @@ nnoremap sL <C-w>L
 nnoremap sH <C-w>H
 nnoremap sn gt
 nnoremap sp gT
-nnoremap sr <C-w>r
+" nnoremap sr <C-w>r
 nnoremap s= <C-w>=
 nnoremap sw <C-w>w
 nnoremap so <C-w>_<C-w>|

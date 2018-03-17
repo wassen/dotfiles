@@ -94,7 +94,7 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --prompt "bck-i-search> ")
+	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --query "$LBUFFER" --prompt "bck-i-search> ")
 	CURSOR=$#BUFFER
 	zle reset-prompt
 }
@@ -142,6 +142,11 @@ function hist(){
 function meshi(){
   python -c "import random;m=['鳥藤', 'カレー', 'コンビニ'];print(random.choice(m))"
 }
+
+function google(){
+	googler $* --json --count 20 | jq -r '.[] | "\(.title):split:\(.url)"' | splitoon | xargs open
+}
+
 
 # alias
 alias sudo='nocorrect sudo'
