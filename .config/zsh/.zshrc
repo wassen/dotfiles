@@ -64,6 +64,10 @@ case "${OSTYPE}" in
     ;;
 esac
 
+function 256(){
+	for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done;echo
+}
+
 function _killpid() {
 	for arg in "$@"
 	do
@@ -160,6 +164,7 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 #alias git='git '
+alias g='git'
 alias gti='git'
 alias gl='git log'
 alias gs='git status'
@@ -181,14 +186,14 @@ alias latexmake='latexmk -pdfdvi -pvc'
 
 ## global alias
 ### git branches
-alias -g  B='$(git branch -a | fzf --multi --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
+alias -g  B='$(git branch -a | fzf --multi --preview "git show {+1}" --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
 alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches> " | sed -e "s/^\*\s*//g")'
 alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e "s/^\*\s*//g")'
 ### Directories
 alias -g  D='$(ls -d */                           | fzf --prompt "Directories> "   )'
-alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> "             )'
+alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
 alias -g  S='$(git status --short | fzf --multi --prompt "Git Files> " | cut -c 4-)'
-alias -g  R='$(git log --oneline | fzf --prompt "Git Revisions> " | cut -f 1 -d " ")'
+alias -g  R='$(git log --oneline | fzf --preview "git show {+1}" --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  G='$(git ls-files | fzf --multi --prompt "Git Files> " )'
 
 if hash porg 2> /dev/null
@@ -205,20 +210,26 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 bindkey "^U" backward-kill-line
 
 # Pure theme
-VIM_PROMPT="❯"
-PROMPT='%(?.%F{magenta}.%F{red})${VIM_PROMPT}%f '
+NORMAL_ERROR_COLOR=220
+INSERT_ERROR_COLOR=200
+NORMAL_COLOR=220
+NORMAL_PROMPT="%(?.%F{$NORMAL_COLOR}.%F{$NORMAL_ERROR_COLOR})❮%f"
+INSERT_COLOR=038
+INSERT_PROMPT="%(?.%F{$INSERT_COLOR}.%F{$INSERT_ERROR_COLOR})❯%f"
+PROMPT='%(?.%F{$PROMPT_COLOR}.%F{$ERROR_COLOR})${VIM_PROMPT}%f '
 
 prompt_pure_update_vim_prompt() {
     zle || {
         print "error: pure_update_vim_prompt must be called when zle is active"
         return 1
     }
-    VIM_PROMPT=${${KEYMAP/vicmd/❮}/(main|viins)/❯}
+    VIM_PROMPT="${${KEYMAP/vicmd/$NORMAL_PROMPT}/(main|viins)/$INSERT_PROMPT}"
     zle .reset-prompt
 }
-
+# ${${KEYMAP/vicmd/❮}/(main|viins)/❯}
 function zle-line-init zle-keymap-select {
     prompt_pure_update_vim_prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+

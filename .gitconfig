@@ -19,16 +19,17 @@
 [status]
 	short  = true
 	branch = true
-
 [alias]
 	co             = checkout
 	diffw          = diff --word-diff
 	graph          = log --graph --oneline --decorate=full
 	squeeze        = commit --amend --no-edit
-	private-config = !git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
-	working-config = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email kazuki_asayama@dwango.co.jp
+	makepatch      = !git diff > .git_patch
+	applypatch     = apply .git_patch
 	#open=! open http://$(git config remote.origin.url | sed -e \"s/^[a-z]*:\/\///\" | sed -e "s/git@//" | tr ":" "/")
 	open           = !open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')
+	private-config = !git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
+	working-config = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email kazuki_asayama@dwango.co.jp
 [ghq]
 	root = ~/workspace
 [credential]

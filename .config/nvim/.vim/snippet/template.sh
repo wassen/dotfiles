@@ -1,1 +1,1 @@
-#!/bin/bash
+#!/bin/bash -ue
