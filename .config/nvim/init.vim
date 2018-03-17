@@ -187,6 +187,19 @@ nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
 nnoremap <ESC><ESC> :nohlsearch<CR>:set nopaste<CR>:<CR>
 let mapleader = "\<Space>"
 
+" register
+" nnoremap pp ""p
+" nnoremap p_ "_p
+" nnoremap pa "ap
+" nnoremap pb "bp
+" nnoremap pc "cp
+
+" nnoremap dd ""dd
+" nnoremap d_ "_dd
+" nnoremap da "add
+" nnoremap db "bdd
+" nnoremap dc "cdd
+
 " termianl
 if has('nvim')
     tnoremap <silent> jj <C-\><C-n>

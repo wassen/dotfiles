@@ -26,9 +26,13 @@ zplug load
 #   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 # fi
 
+# Settings
+setopt auto_pushd
+
 # Completion
 autoload -U compinit
 compinit -u
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
 
 unsetopt cdable_vars
 
@@ -42,6 +46,8 @@ bindkey -M viins 'jj' vi-cmd-mode
 bindkey -M vicmd 'H' vi-first-non-blank
 bindkey -M vicmd 'L' vi-end-of-line
 bindkey -M viins "^?" backward-delete-char
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd 'V' edit-command-line
 ## Del, Home and End
 ## [3~ = Ctrl+V -> Del
 #bindkey "[3~" delete-char
@@ -80,9 +86,11 @@ function wfind(){
 }
 
 function fzf-src() {
-	dir=$(ghq list > /dev/null | fzf --prompt "Repositories> " +m) && cd $(ghq root)/$dir
+	dir=$(ghq list > /dev/null | fzf +m --prompt "Repositories> " --preview "ls $(ghq root)/{}" --query "$LBUFFER") && cd $(ghq root)/$dir
 	# paradoxのプロンプトを復活させる
 	zle reset-prompt
+	# direnv reload きかねー
+	# サブシェルなんだっけ
 }
 zle -N fzf-src
 
@@ -98,8 +106,12 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --prompt "bck-i-search> ")
-	CURSOR=$#BUFFER
+	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --prompt "bck-i-search> " --query "$LBUFFER")
+	if test $?; then
+		CURSOR=$#BUFFER
+	fi
+	# ESCしたらCURSORが消えるのが気に食わない
+	# fzfの結果をちゃんとエラーかどうか判別したい
 	zle reset-prompt
 }
 zle -N fzf-history-selection
@@ -181,15 +193,17 @@ alias latexmake='latexmk -pdfdvi -pvc'
 
 ## global alias
 ### git branches
-alias -g  B='$(git branch -a | fzf --multi --preview "git show {+1}" --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
+alias -g  B='$(git branch -a | fzf --multi --preview "git show {1}" --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
 alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches> " | sed -e "s/^\*\s*//g")'
 alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e "s/^\*\s*//g")'
 ### Directories
 alias -g  D='$(ls -d */                           | fzf --prompt "Directories> "   )'
 alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
 alias -g  S='$(git status --short | fzf --multi --prompt "Git Files> " | cut -c 4-)'
-alias -g  R='$(git log --oneline | fzf --preview "git show {+1}" --prompt "Git Revisions> " | cut -f 1 -d " ") '
-alias -g  G='$(git ls-files | fzf --multi --prompt "Git Files> " )'
+alias -g  R='$(git log --oneline | fzf --prompt "Git Revisions> " | cut -f 1 -d " ") '
+alias -g  G='$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )'
+### Processes
+alias -g  P='$(ps x -o pid,command | fzf --multi --prompt "Processes> " | awk "{print\$1}")'
 
 if hash porg 2> /dev/null
 then
@@ -228,3 +242,13 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+function ec() {
+	echo $*
+}
+
+function _ec() {
+	# _values 'fzf' $(echo "a\nb" | fzf)
+	zle && { zle clear-screen }
+}
+
+compdef _ec ec
