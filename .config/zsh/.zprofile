@@ -9,6 +9,7 @@ export VISUAL=vim
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"

@@ -159,6 +159,11 @@ function meshi(){
   python -c "import random;m=['鳥藤', 'カレー', 'コンビニ'];print(random.choice(m))"
 }
 
+function google(){
+	googler $* --json --count 20 | jq -r '.[] | "\(.title):split:\(.url)"' | splitoon | xargs open
+}
+
+
 # alias
 alias sudo='nocorrect sudo'
 alias ls='exa'
