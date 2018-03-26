@@ -86,11 +86,13 @@ function wfind(){
 }
 
 function fzf-src() {
-	dir=$(ghq list > /dev/null | fzf +m --prompt "Repositories> " --preview "ls $(ghq root)/{}" --query "$LBUFFER") && cd $(ghq root)/$dir
+	local dir=$(ghq list > /dev/null | fzf +m --prompt "Repositories> " --preview "ls $(ghq root)/{}" --query "$LBUFFER")
 	# paradoxのプロンプトを復活させる
 	zle reset-prompt
-	# direnv reload きかねー
-	# サブシェルなんだっけ
+	if [ -n "$dir" ]; then
+		cd $(ghq root)/$dir
+		zle accept-line
+	fi
 }
 zle -N fzf-src
 
@@ -106,8 +108,9 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --prompt "bck-i-search> " --query "$LBUFFER")
-	if test $?; then
+	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --prompt "bck-i-search> " --query "$BUFFER")
+	if [ -n "$buffer" ]; then
+		BUFFER=buffer
 		CURSOR=$#BUFFER
 	fi
 	# ESCしたらCURSORが消えるのが気に食わない
@@ -119,11 +122,19 @@ zle -N fzf-history-selection
 function peco-history-selection() {
     BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query "$LBUFFER")
     CURSOR=$#BUFFER
-    zle reset-prompt
 }
 
 zle -N peco-history-selection
 bindkey '^R' fzf-history-selection
+
+function fzf-cd() {
+	local selected_dir=`dirs | tr ' ' '\n' | fzf --query "$BUFFER"`
+	zle reset-prompt
+	if [ -n "$selected_dir" ]; then
+		BUFFER="cd ${selected_dir}"
+		zle accept-line
+	fi
+}
 
 # キャン��ルした時cdしちゃう不具合
 function peco-cd() {
@@ -133,8 +144,8 @@ function peco-cd() {
       zle accept-line
     fi
 }
-zle -N peco-cd
-bindkey '^Bc' peco-cd
+zle -N fzf-cd
+bindkey '^Bc' fzf-cd
 
 # find . -type f | grep .java | peco
 
@@ -190,6 +201,7 @@ alias cboard='xsel --clipboard --input'
 alias hconf='./configure --prefix=$HOME/usr/local'
 VIM_VERSION=`vim --version | head -1 | perl -ne '$_=($_=~/(\b\d+\.\d+\b)/)[0];s/\.//;print$_'`
 alias vless='/usr/local/share/vim/vim${VIM_VERSION}/macros/less.sh'
+alias less='vim - -R'
 alias tmux="TERM=xterm-256color tmux"
 # du files(many file -> ff)
 alias duff="du -hs *"
