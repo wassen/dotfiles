@@ -204,6 +204,7 @@ alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e
 ### Directories
 alias -g  D='$(ls -d */                           | fzf --prompt "Directories> "   )'
 alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
+## 事前にcutしておかない場合、previewがめんどくさい・・・
 alias -g  S='$(git status --short | fzf --multi --prompt "Git Files> " | cut -c 4-)'
 alias -g  R='$(git log --oneline | fzf --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  G='$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )'
