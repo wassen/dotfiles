@@ -61,13 +61,13 @@ bindkey -M vicmd 'V' edit-command-line
 bindkey "[Z" reverse-menu-complete
 
 case "${OSTYPE}" in
-    linux*)
-    alias ls='ls --color=auto'
+	  linux*)
+	  alias ls='ls --color=auto'
 	alias open='xdg-open'
 	;;
-    darwin*)
-    alias ls='ls -G'
-    ;;
+	  darwin*)
+	  alias ls='ls -G'
+	  ;;
 esac
 
 function 256(){
@@ -91,26 +91,27 @@ function fzf-src() {
 	zle reset-prompt
 	if [ -n "$dir" ]; then
 		cd $(ghq root)/$dir
+		BUFFER=""
 		zle accept-line
 	fi
 }
 zle -N fzf-src
 
 function peco-src () {
-  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
+	local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+	if [ -n "$selected_dir" ]; then
+	  BUFFER="cd ${selected_dir}"
+	  zle accept-line
+	fi
+	zle clear-screen
 }
 zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf +m --prompt "bck-i-search> " --query "$BUFFER")
+	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --no-sort --prompt "bck-i-search> " --query "$BUFFER")
 	if [ -n "$buffer" ]; then
-		BUFFER=buffer
+		BUFFER=$buffer
 		CURSOR=$#BUFFER
 	fi
 	# ESCしたらCURSORが消えるのが気に食わない
@@ -120,15 +121,15 @@ function fzf-history-selection() {
 zle -N fzf-history-selection
 
 function peco-history-selection() {
-    BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query "$LBUFFER")
-    CURSOR=$#BUFFER
+	  BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query "$LBUFFER")
+	  CURSOR=$#BUFFER
 }
 
 zle -N peco-history-selection
 bindkey '^R' fzf-history-selection
 
 function fzf-cd() {
-	local selected_dir=`dirs | tr ' ' '\n' | fzf --query "$BUFFER"`
+	local selected_dir=`dirs | tr ' ' '\n' | sort | uniq | fzf --query "$BUFFER"`
 	zle reset-prompt
 	if [ -n "$selected_dir" ]; then
 		BUFFER="cd ${selected_dir}"
@@ -139,41 +140,45 @@ function fzf-cd() {
 # キャン��ルした時cdしちゃう不具合
 function peco-cd() {
 		local selected_dir=`dirs | tr ' ' '\n' | peco --query "$LBUFFER"`
-    if [ -n "$selected_dir" ]; then
-      BUFFER="cd ${selected_dir}"
-      zle accept-line
-    fi
+	  if [ -n "$selected_dir" ]; then
+	    BUFFER="cd ${selected_dir}"
+	    zle accept-line
+	  fi
 }
 zle -N fzf-cd
 bindkey '^Bc' fzf-cd
 
 # find . -type f | grep .java | peco
 
-# function project_commands() {
-# 		local command=`cat ~/.local/share/coBalt | peco --query "$LBUFFER"`
-#     BUFFER="${command}"
-#     CURSOR=$#BUFFER
-# }
-# zle -N project_commands
-# bindkey '^B' project_commands
+function project_commands() {
+	local command=$(cat ~/.config/commands | fzf --query "$BUFFER")
+	BUFFER=$command
+	CURSOR=$#BUFFER
+	zle reset-prompt
+}
+zle -N project_commands
+bindkey '^Bb' project_commands
 
 # 拡張子指定と見つかったファイルディレクトリの表示、ハイライト
 function _search() {
-  find . -type f | grep -v .git | grep $1
+	find . -type f | grep -v .git | grep $1
 }
 
 function hist(){
-  history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
+	history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
 }
 
 function meshi(){
-  python -c "import random;m=['鳥藤', 'カレー', 'コンビニ'];print(random.choice(m))"
+	python -c "import random;m=['鳥藤', 'カレー', 'コンビニ'];print(random.choice(m))"
 }
 
 function google(){
 	googler $* --json --count 20 | jq -r '.[] | "\(.title):split:\(.url)"' | splitoon | xargs open
 }
 
+function mas-install() {
+	mas search $1 | fzf | awk '{ print $1 }' | xargs mas install
+}
 
 # alias
 alias sudo='nocorrect sudo'
@@ -214,13 +219,16 @@ alias -g  B='$(git branch -a | fzf --multi --preview "git show {1}" --prompt "Al
 alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches> " | sed -e "s/^\*\s*//g")'
 alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e "s/^\*\s*//g")'
 ### Directories
-alias -g  D='$(ls -d */                           | fzf --prompt "Directories> "   )'
+alias -g  D='$(ls -d */               | fzf --multi --prompt "Directories> "   )'
 alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
 alias -g  S='$(git status --short | fzf --multi --prompt "Git Files> " | cut -c 4-)'
 alias -g  R='$(git log --oneline | fzf --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  G='$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )'
 ### Processes
-alias -g  P='$(ps x -o pid,command | fzf --multi --prompt "Processes> " | awk "{print\$1}")'
+alias -g  P='$(ps x -o pid,command | fzf --multi --prompt "Processes> " | awk "{print \$1}")'
+### Docker
+alias -g DI='$(docker images | fzf --multi --prompt "Docker images> " | awk "{print \$3}")'
+alias -g DC='$(docker ps -a | fzf --multi --prompt "Docker containers> " | awk "{print \$1}")'
 
 if hash porg 2> /dev/null
 then
@@ -245,27 +253,41 @@ INSERT_PROMPT="%(?.%F{$INSERT_COLOR}.%F{$INSERT_ERROR_COLOR})❯%f"
 PROMPT='%(?.%F{$PROMPT_COLOR}.%F{$ERROR_COLOR})${VIM_PROMPT}%f '
 
 prompt_pure_update_vim_prompt() {
-    zle || {
-        print "error: pure_update_vim_prompt must be called when zle is active"
-        return 1
-    }
-    VIM_PROMPT="${${KEYMAP/vicmd/$NORMAL_PROMPT}/(main|viins)/$INSERT_PROMPT}"
-    zle .reset-prompt
+	  zle || {
+	      print "error: pure_update_vim_prompt must be called when zle is active"
+	      return 1
+	  }
+	  VIM_PROMPT="${${KEYMAP/vicmd/$NORMAL_PROMPT}/(main|viins)/$INSERT_PROMPT}"
+	  zle .reset-prompt
 }
 # ${${KEYMAP/vicmd/❮}/(main|viins)/❯}
 function zle-line-init zle-keymap-select {
-    prompt_pure_update_vim_prompt
+	  prompt_pure_update_vim_prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+# function fcd() {
+# 	cd $*
+# }
+# 
+# function _cd() {
+# 	# fzfを全画面にしないとレイアウトが壊れる
+# 	# 2つめの良いとり方ないのか
+# 	arg=$(echo $BUFFER | cut -f 2 -d " ")
+# 	# fzfの結果、値が空なら終了するとかにすれば行けそう
+# 	_values 'cd' $(ls -d */ | fzf --height=0 --query=$arg)
+# }
+# 
+# compdef _cd fcd
 
 function ec() {
 	echo $*
 }
 
 function _ec() {
-	# _values 'fzf' $(echo "a\nb" | fzf)
-	zle && { zle clear-screen }
+	# fzfを全画面にしないとレイアウトが壊れる
+	_values 'fzf' $(echo "a\nb" | fzf --height=0)
 }
 
 compdef _ec ec

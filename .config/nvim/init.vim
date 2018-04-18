@@ -36,6 +36,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('airblade/vim-gitgutter')
     call dein#add('machakann/vim-sandwich')
     call dein#add('junegunn/vim-easy-align')
+    call dein#add('junegunn/fzf.vim')
+    call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
     " Language supports
     call dein#add('JuliaEditorSupport/julia-vim')
     call dein#add('keith/swift.vim')
@@ -54,6 +56,100 @@ filetype plugin indent on
 syntax enable
 " }}}
 
+" {{{ key bind
+let mapleader = "\<Space>"
+noremap  
+noremap!  
+nnoremap ; :
+nnoremap : ;
+vnoremap ; :
+vnoremap : ;
+nnoremap <Down> gj
+nnoremap <Up>     gk
+noremap <S-h> ^
+noremap <S-l> $
+noremap <S-C-h> <S-h>
+noremap <S-C-l> <S-l>
+" インサートモードでも移動したい
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+inoremap <C-h> <Left>
+inoremap <C-g> <C-h>
+inoremap <C-d> <Del>
+" inoremap <C-S-l> <C-o>$とかはむりっぽい(insertmodeではlとLが区別されてない？)
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+inoremap <silent> jj <ESC>
+" Enterで行の挿入
+nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
+" nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
+nnoremap <ESC><ESC> :nohlsearch<CR>:set nopaste<CR>:<CR>
+
+" register
+" nnoremap pp ""p
+" nnoremap p_ "_p
+" nnoremap pa "ap
+" nnoremap pb "bp
+" nnoremap pc "cp
+
+" nnoremap dd ""dd
+" nnoremap d_ "_dd
+" nnoremap da "add
+" nnoremap db "bdd
+" nnoremap dc "cdd
+
+" termianl
+if has('nvim')
+    tnoremap <silent> jj <C-\><C-n>
+endif
+
+" buffer
+nnoremap vh :bp<CR>
+nnoremap vl :bn<CR>
+
+" {{{ 画面分割関連
+"nnoremap s <Nop>
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap sJ <C-w>J
+nnoremap sK <C-w>K
+nnoremap sL <C-w>L
+nnoremap sH <C-w>H
+nnoremap sn gt
+nnoremap sp gT
+" nnoremap sr <C-w>r
+nnoremap s= <C-w>=
+nnoremap sw <C-w>w
+nnoremap so <C-w>_<C-w>|
+nnoremap sO <C-w>=
+nnoremap sN :<C-u>bn<CR>
+nnoremap sP :<C-u>bp<CR>
+nnoremap st :<C-u>tabnew<CR>
+nnoremap sT :<C-u>Unite tab<CR>
+nnoremap ss :<C-u>sp<CR>
+nnoremap sv :<C-u>vs<CR>
+nnoremap sq :<C-u>q<CR>
+nnoremap sQ :<C-u>bd<CR>
+nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
+nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
+
+call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
+call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
+call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
+call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+call submode#map('bufmove', 'n', '', '>', '<C-w>>')
+call submode#map('bufmove', 'n', '', '<', '<C-w><')
+call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+"}}}
+
+" }}} key bind
+
 " {{{ plugin settings
 set runtimepath+=$HOME/.vim/plugin/swift
 " nippo
@@ -70,6 +166,10 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " let g:airline#extensions#tabline#buffer_idx_mode = 0
 " gitgutter
+
+" fzf
+let g:fzf_layout = { 'down': '~40%' }
+nnoremap <Leader>b :Buffers<CR>
 
 " neocomplete
 let g:neocomplcache_enable_at_startup = 1
@@ -155,100 +255,6 @@ set listchars=tab:▸\ ,trail:·
 
 " }}} View
 
-" {{{ key bind
-noremap  
-noremap!  
-nnoremap ; :
-nnoremap : ;
-vnoremap ; :
-vnoremap : ;
-nnoremap <Down> gj
-nnoremap <Up>     gk
-noremap <S-h> ^
-noremap <S-l> $
-noremap <S-C-h> <S-h>
-noremap <S-C-l> <S-l>
-" インサートモードでも移動したい
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-l> <Right>
-inoremap <C-h> <Left>
-inoremap <C-g> <C-h>
-inoremap <C-d> <Del>
-" inoremap <C-S-l> <C-o>$とかはむりっぽい(insertmodeではlとLが区別されてない？)
-nmap n nzz
-nmap N Nzz
-nmap * *zz
-nmap # #zz
-inoremap <silent> jj <ESC>
-" Enterで行の挿入
-nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
-" nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
-nnoremap <ESC><ESC> :nohlsearch<CR>:set nopaste<CR>:<CR>
-let mapleader = "\<Space>"
-
-" register
-" nnoremap pp ""p
-" nnoremap p_ "_p
-" nnoremap pa "ap
-" nnoremap pb "bp
-" nnoremap pc "cp
-
-" nnoremap dd ""dd
-" nnoremap d_ "_dd
-" nnoremap da "add
-" nnoremap db "bdd
-" nnoremap dc "cdd
-
-" termianl
-if has('nvim')
-    tnoremap <silent> jj <C-\><C-n>
-endif
-
-" buffer
-nnoremap vh :bp<CR>
-nnoremap vl :bn<CR>
-
-" {{{ 画面分割関連
-"nnoremap s <Nop>
-nnoremap sj <C-w>j
-nnoremap sk <C-w>k
-nnoremap sl <C-w>l
-nnoremap sh <C-w>h
-nnoremap sJ <C-w>J
-nnoremap sK <C-w>K
-nnoremap sL <C-w>L
-nnoremap sH <C-w>H
-nnoremap sn gt
-nnoremap sp gT
-" nnoremap sr <C-w>r
-nnoremap s= <C-w>=
-nnoremap sw <C-w>w
-nnoremap so <C-w>_<C-w>|
-nnoremap sO <C-w>=
-nnoremap sN :<C-u>bn<CR>
-nnoremap sP :<C-u>bp<CR>
-nnoremap st :<C-u>tabnew<CR>
-nnoremap sT :<C-u>Unite tab<CR>
-nnoremap ss :<C-u>sp<CR>
-nnoremap sv :<C-u>vs<CR>
-nnoremap sq :<C-u>q<CR>
-nnoremap sQ :<C-u>bd<CR>
-nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
-nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
-
-call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
-call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
-call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
-call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
-call submode#map('bufmove', 'n', '', '>', '<C-w>>')
-call submode#map('bufmove', 'n', '', '<', '<C-w><')
-call submode#map('bufmove', 'n', '', '+', '<C-w>+')
-call submode#map('bufmove', 'n', '', '-', '<C-w>-')
-"}}}
-
-" }}} key bind
-
 " {{{ other settings
 " open other buffer without save
 set hidden
@@ -297,7 +303,7 @@ set softtabstop=0
 " タブを挿入するときの幅
 set shiftwidth=2
 " タブをスペースに展開する
-set noexpandtab
+set expandtab
 
 " 検索のハイライト
 set hlsearch
@@ -328,6 +334,11 @@ augroup user_filetypedetect
     autocmd BufRead,BufNewFile *.vimrc setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
     autocmd BufRead,BufNewFile *.md setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufRead,BufNewFile *.plist setfiletype xml
+    autocmd BufRead,BufNewFile *.yml setlocal indentkeys=<Return>
+    " indentkeysがDockerfileで効かない
+    " setすらも効かない。nosmartindent, comment=等
+    autocmd BufRead,BufNewFile dockerfile setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufRead,BufNewFile *.sh,.zshrc setlocal noexpandtab "tabstop=2 softtabstop=0 shiftwidth=2
 augroup END
 
 augroup gitcommit
