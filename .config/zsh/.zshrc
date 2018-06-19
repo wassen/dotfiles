@@ -164,16 +164,16 @@ function _search() {
 	find . -type f | grep -v .git | grep $1
 }
 
-function hist(){
+function hist() {
 	history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
 }
 
-function meshi(){
+function meshi() {
 	python -c "import random;m=['鳥藤', 'カレー', 'コンビニ'];print(random.choice(m))"
 }
 
-function google(){
-	googler $* --json --count 20 | jq -r '.[] | "\(.title):split:\(.url)"' | splitoon | xargs open
+function google() {
+	googler $* --json --count 20 | jq -r '.[] | "\(.title)\t\(.url)"' | fzf --delimiter="\t" --with-nth=1 | awk -F "\t" '{print$2}' | xargs open
 }
 
 function mas-install() {
@@ -222,8 +222,8 @@ alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e
 alias -g  D='$(ls -d */               | fzf --multi --prompt "Directories> "   )'
 alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
 ## 事前にcutしておかない場合、previewがめんどくさい・・・
-alias -g  S='$(git status --short | fzf --multi --prompt "Git Files> " | cut -c 4-)'
-alias -g  R='$(git log --oneline | fzf --prompt "Git Revisions> " | cut -f 1 -d " ") '
+alias -g  S='$(git status --short | fzf --multi --preview "cat {}" --prompt "Git Files> " | cut -c 4-)'
+alias -g  R='$(git log --oneline | fzf --no-sort --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  G='$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )'
 ### Processes
 alias -g  P='$(ps x -o pid,command | fzf --multi --prompt "Processes> " | awk "{print \$1}")'
@@ -292,3 +292,13 @@ function _ec() {
 }
 
 compdef _ec ec
+
+
+# completion
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+

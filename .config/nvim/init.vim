@@ -7,47 +7,59 @@ if has('vim_starting')
 endif
 " }}} file encoding
 
+"set guicursor=
+
 " {{{ plugin
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('Shougo/dein.vim')
-    call dein#add('Shougo/deoplete.nvim')
-    call dein#add('Shougo/unite.vim')
-    call dein#add('Shougo/junkfile.vim')
-    call dein#add('Shougo/neosnippet.vim')
-    call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('Shougo/neomru.vim')
-
-    call dein#add('kana/vim-submode')
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('gabrielelana/vim-markdown')
-    call dein#add('szw/vim-maximizer')
+    " colortheme
     call dein#add('chriskempson/vim-tomorrow-theme')
     call dein#add('w0ng/vim-hybrid')
-    call dein#add('tamelion/neovim-molokai')
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('thinca/vim-zenspace')
-    call dein#add('mtth/scratch.vim')
-    call dein#add('w0rp/ale')
-    " call dein#add('tpope/vim-surround')
-    call dein#add('airblade/vim-gitgutter')
+
+    call dein#add('kana/vim-submode')
     call dein#add('machakann/vim-sandwich')
-    call dein#add('junegunn/vim-easy-align')
+
     call dein#add('junegunn/fzf.vim')
     call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
-    " Language supports
-    call dein#add('JuliaEditorSupport/julia-vim')
-    call dein#add('keith/swift.vim')
-    call dein#add('leafgarland/typescript-vim.git')
-    call dein#add('unclechu/nim.vim')
-    call dein#add('pangloss/vim-javascript')
+    " call dein#add('Shougo/deoplete.nvim')
+    " call dein#add('roxma/nvim-yarp')
+    " call dein#add('roxma/vim-hug-neovim-rpc')
+    " call dein#add('Shougo/unite.vim')
+    " call dein#add('Shougo/junkfile.vim')
+    " call dein#add('Shougo/neosnippet.vim')
+    " call dein#add('Shougo/neosnippet-snippets')
+    " call dein#add('Shougo/neomru.vim')
+
+    " call dein#add('scrooloose/nerdtree')
+    " call dein#add('gabrielelana/vim-markdown')
+    " call dein#add('szw/vim-maximizer')
+    " call dein#add('tamelion/neovim-molokai')
+    " call dein#add('thinca/vim-zenspace')
+    " call dein#add('w0rp/ale')
+    " call dein#add('airblade/vim-gitgutter')
+    " call dein#add('junegunn/vim-easy-align')
+    " " Language supports
+    " "call dein#add('davidhalter/jedi-vim')
+    " call dein#add('JuliaEditorSupport/julia-vim')
+    " call dein#add('keith/swift.vim')
+    " call dein#add('leafgarland/typescript-vim.git')
+    " call dein#add('unclechu/nim.vim')
+    " call dein#add('dart-lang/dart-vim-plugin')
+    " js
+    " call dein#add('othree/yajs.vim')
+    " call dein#add('othree/es.next.syntax.vim')
+    " call dein#add('mxw/vim-jsx')
 
     " call dein#add('Shougo/vimfiler')
     " call dein#add('wakatime/vim-wakatime.git')
     " call dein#add('kannokanno/previm')
+    " call dein#add('tpope/vim-surround')
+    " call dein#add('mtth/scratch.vim')
     call dein#end()
     call dein#save_state()
 endif
@@ -169,14 +181,16 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 " fzf
 let g:fzf_layout = { 'down': '~40%' }
+nnoremap <Leader>g :GFiles<CR>
+nnoremap <Leader>s :GFiles?<CR>
 nnoremap <Leader>b :Buffers<CR>
 
 " neocomplete
-let g:neocomplcache_enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 " ALE
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
-let g:ale_python_flake8_args="--ignore=E203,E221,E251,E271,E272"
+let g:ale_python_flake8_options = "--ignore=E203,E221,E251,E271,E272"
 " let g:ale_lint_on_text_changed = 0
 " {{{ neosnippet
 " Plugin key-mappings.
