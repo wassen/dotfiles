@@ -10,6 +10,7 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.opt/flutter/bin:$PATH"
 
 export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
@@ -38,6 +39,9 @@ export PKG_CONFIG_PATH="$HOME/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="$HOME/usr/local/lib:$HOME/usr/local/lib64":$LD_LIBRARY_PATH
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
+
+export AWS_SHARED_CREDENTIALS_FILE=$XDG_CONFIG_HOME/aws/credentials
+export AWS_CONFIG_FILE=$XDG_CONFIG_HOME/aws/config
 export HISTFILE=$XDG_DATA_HOME/zsh/history
 
 export LESS='--RAW-CONTROL-CHARS'
@@ -71,4 +75,3 @@ eval "$(direnv hook zsh)"
 # dropbox
 #dropbox.py status | ruby -e "if STDIN.gets.eql? %{Dropbox isn\'t running\!\n} then system('dropbox.py start') end"
 
-export PATH="$HOME/.cargo/bin:$PATH"
