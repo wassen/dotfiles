@@ -8,6 +8,7 @@ dotfiles="
 .zpreztorc
 .gitconfig
 .gitignore_global
+.gitconfig_user
 .tmux.conf
 "
 
