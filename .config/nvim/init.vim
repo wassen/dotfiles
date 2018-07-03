@@ -15,24 +15,27 @@ set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('Shougo/dein.vim')
-    " colortheme
+    " Colortheme
     call dein#add('chriskempson/vim-tomorrow-theme')
     call dein#add('w0ng/vim-hybrid')
+    " View
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
 
     call dein#add('kana/vim-submode')
     call dein#add('machakann/vim-sandwich')
 
+    " Utility
+    call dein#add('Shougo/junkfile.vim')
     call dein#add('junegunn/fzf.vim')
     call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
+    call dein#add('Shougo/neosnippet.vim')
+    call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('junegunn/vim-easy-align')
     " call dein#add('Shougo/deoplete.nvim')
     " call dein#add('roxma/nvim-yarp')
     " call dein#add('roxma/vim-hug-neovim-rpc')
-    " call dein#add('Shougo/unite.vim')
-    " call dein#add('Shougo/junkfile.vim')
-    " call dein#add('Shougo/neosnippet.vim')
-    " call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('Shougo/unite.vim')
     " call dein#add('Shougo/neomru.vim')
 
     " call dein#add('scrooloose/nerdtree')
@@ -40,9 +43,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('szw/vim-maximizer')
     " call dein#add('tamelion/neovim-molokai')
     " call dein#add('thinca/vim-zenspace')
-    " call dein#add('w0rp/ale')
-    " call dein#add('airblade/vim-gitgutter')
-    " call dein#add('junegunn/vim-easy-align')
+    call dein#add('w0rp/ale')
+    call dein#add('airblade/vim-gitgutter')
     " " Language supports
     " "call dein#add('davidhalter/jedi-vim')
     " call dein#add('JuliaEditorSupport/julia-vim')
@@ -183,6 +185,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:fzf_layout = { 'down': '~40%' }
 nnoremap <Leader>g :GFiles<CR>
 nnoremap <Leader>s :GFiles?<CR>
+nnoremap <Leader>f :GGrep<CR>
 nnoremap <Leader>b :Buffers<CR>
 
 " neocomplete
@@ -389,4 +392,9 @@ command! -nargs=* Exec :call ExecFunc(<f-args>)
 command! CDCurrentFile :cd %:p:h
 command! BLAME :call BlameFunc()
 command! Vimrc edit ~/.vimrc
+" fzf
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 " }}} commands
