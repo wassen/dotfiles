@@ -193,7 +193,7 @@ nnoremap <Leader>b :Buffers<CR>
 " ALE
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
-let g:ale_python_flake8_options = "--ignore=E203,E221,E251,E271,E272"
+let g:ale_python_flake8_options = "--ignore=E203,E221,E251,E271,E272,E501"
 " let g:ale_lint_on_text_changed = 0
 " {{{ neosnippet
 " Plugin key-mappings.
