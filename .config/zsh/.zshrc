@@ -18,6 +18,7 @@ source $ZPLUG_HOME/init.zsh
 # zstyle ':prezto:module:prompt' theme 'pure'
 zplug mafredri/zsh-async, from:github
 zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
+zplug zsh-users/zsh-completions
 
 zplug load
 
@@ -223,7 +224,9 @@ alias -g  D='$(ls -d */               | fzf --multi --prompt "Directories> "   )
 alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
 ## 事前にcutしておかない場合、previewがめんどくさい・・・関数にできない？
 alias -g  S='$(git status --short | fzf --multi --preview "cat {}" --prompt "Git Files> " | cut -c 4-)'
-alias -g  R='$(git log --oneline | fzf --no-sort --prompt "Git Revisions> " | cut -f 1 -d " ") '
+# splitoonの出番か
+# alias -g  R='$(git log --oneline | fzf --no-sort --preview "sh -c \"git --no-pager show $(echo {} | cut -b 1)\"" --prompt "Git Revisions> " | cut -f 1 -d " ") '
+alias -g  R='$(git log --oneline | fzf --multi --no-sort --preview "sh -c \"git --no-pager show \\\$(echo {} | awk '\''{print \\\$1}'\'')\"" --prompt "Git Revisions> " | awk '\''{print $1}'\'')'
 alias -g  G='$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )'
 ### Processes
 alias -g  P='$(ps x -o pid,command | fzf --multi --prompt "Processes> " | awk "{print \$1}")'
@@ -293,12 +296,4 @@ function _ec() {
 
 compdef _ec ec
 
-
-# completion
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/kazuki_asayama/.anyenv/envs/nodenv/versions/8.4.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-
+ls --all $HOME/workspace/tmp | xargs -I{} find $HOME/workspace/tmp/{} -mtime +30 -depth 0 | xargs rm -fr

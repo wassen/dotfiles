@@ -50,8 +50,8 @@ export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
 # Options
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;32'
-export HISTSIZE=2048
-export SAVEHIST=2048
+export HISTSIZE=10000
+export SAVEHIST=10000
 export FZF_DEFAULT_OPTS='
 	--height 40% --reverse --border
 	--color fg:252,bg:233,hl:67,fg+:252,bg+:235,hl+:81

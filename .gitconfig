@@ -22,19 +22,22 @@
 	short  = true
 	branch = true
 [alias]
-	co             = checkout
-	diffw          = diff --word-diff
-	graph          = log --graph --oneline --decorate=full
-	squeeze        = commit --amend --no-edit
-	makepatch      = !git diff > .git_patch
-	applypatch     = apply .git_patch
+	co              = checkout
+	diffw           = diff --word-diff
+	graph           = log --graph --oneline --decorate=full
+	shinchoku       = !git diff --stat -p $(git log --before=today.midnight --format=%h | head -1) @
+	squeeze         = commit --amend --no-edit
+	makepatch       = !git diff > .git_patch
+	applypatch      = apply .git_patch
 	#open=! open http://$(git config remote.origin.url | sed -e \"s/^[a-z]*:\/\///\" | sed -e "s/git@//" | tr ":" "/")
-	open           = !open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')
-	pick           = cherry-pick
-	private-config = !git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
-	working-config = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email kazuki_asayama@dwango.co.jp
-	fetch-pr       = "!f() { git fetch origin pull/$1/head:$1; }; f"
-	workspace      = "!f() { git worktree add $HOME/workspace/worktrees/$(basename $(git rev-parse --show-toplevel))/$1; }; f"
+	open            = !open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')
+	pick            = cherry-pick
+	private-config  = !git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
+	working-config  = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email kazuki_asayama@dwango.co.jp
+  # not work
+  # replace-in-repo = "!f() { git grep -l $1 | xargs sed -i '' -e 's/$1/$2/g'; }; f"
+	fetch-pr        = "!f() { git fetch origin pull/$1/head:$1; }; f"
+	workspace       = "!f() { git worktree add -b $1 $HOME/workspace/worktrees/$(basename $(git rev-parse --show-toplevel))/$1; }; f"
 [ghq]
 	root = ~/workspace
 [credential]

@@ -38,6 +38,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('roxma/vim-hug-neovim-rpc')
     call dein#add('Shougo/unite.vim')
     " call dein#add('Shougo/neomru.vim')
+    call dein#add('Vimjas/vim-python-pep8-indent')
 
     " call dein#add('scrooloose/nerdtree')
     " call dein#add('gabrielelana/vim-markdown')
