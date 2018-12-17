@@ -21,6 +21,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " View
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('Yggdroot/indentLine')
+    " call dein#add('dodie/vim-fibo-indent')
 
     call dein#add('kana/vim-submode')
     call dein#add('machakann/vim-sandwich')
@@ -68,7 +70,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#save_state()
 endif
 
-filetype plugin indent on
+" filetype plugin indent on
 syntax enable
 " }}}
 
@@ -226,6 +228,11 @@ xmap ga <Plug>(EasyAlign)<C-p>
 let g:markdown_enable_spell_checking = 0
 " NERDTree
 let NERDTreeShowHidden=1
+" others
+let g:indentLine_color_term = 239
+let g:indentLine_char = '|'
+set listchars=tab:\|\
+:
 " }}}
 
 " {{{ View
@@ -305,7 +312,7 @@ set history=256
 
 set ruler
 
-set cindent
+" set cindent
 
 " JSONで""を消したりする不便機能を削除
 set conceallevel=0
@@ -358,7 +365,15 @@ augroup user_filetypedetect
     " setすらも効かない。nosmartindent, comment=等
     autocmd BufRead,BufNewFile dockerfile setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
     autocmd BufRead,BufNewFile *.sh,.zshrc setlocal noexpandtab "tabstop=2 softtabstop=0 shiftwidth=2
+    autocmd FileType python setlocal autoindent
+    autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 augroup END
+"
+" augroup zentab
+"     autocmd!
+"     autocmd BufNewFile,BufRead "delete oldest buffers"
+" augroup END
 
 augroup gitcommit
     autocmd!
@@ -400,3 +415,4 @@ command! -bang -nargs=* GGrep
   \   'git grep --line-number '.shellescape(<q-args>), 0,
   \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 " }}} commands
+

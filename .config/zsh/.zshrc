@@ -110,7 +110,7 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --no-sort --prompt "bck-i-search> " --query "$BUFFER")
+	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --prompt "bck-i-search> " --query "$BUFFER")
 	if [ -n "$buffer" ]; then
 		BUFFER=$buffer
 		CURSOR=$#BUFFER
@@ -297,3 +297,4 @@ function _ec() {
 compdef _ec ec
 
 ls --all $HOME/workspace/tmp | xargs -I{} find $HOME/workspace/tmp/{} -mtime +30 -depth 0 | xargs rm -fr
+rm -fr $HOME/.aws
