@@ -1,0 +1,6 @@
+docker run  -it DI /bin/bash
+docker exec -it DC /bin/bash
+docker-compose -f docker/docker-compose.yml
+xcodebuild -project Beni.xcodeproj -target Beni -showBuildSettings
+git grep -l 'hoge' | xargs sed -i '' -e 's/hoge/foo/g'
+# echo "hoge:fuga:piyo" | fzf --delimiter ":" --with-nth=1 | cut -f 2 -d ":"
