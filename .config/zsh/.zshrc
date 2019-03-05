@@ -223,7 +223,9 @@ alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e
 alias -g  D='$(ls -d */               | fzf --multi --prompt "Directories> "   )'
 alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e "s/*//" )'
 ## 事前にcutしておかない場合、previewがめんどくさい・・・関数にできない？
-alias -g  S='$(git status --short | fzf --multi --preview "cat {}" --prompt "Git Files> " | cut -c 4-)'
+## Git管理下にないファイルの場合、変更点じゃなくてファイルそのものを表示したい。
+## xargs git diff じゃなくて git diff $() にしたかったけどうまくいかない
+alias -g  S='$(git status --short | fzf --multi --preview "sh -c \"echo {} | awk '\''{print \\\$2}'\'' | xargs git diff\"" --prompt "Git Files> " | cut -c 4-)'
 # splitoonの出番か
 # alias -g  R='$(git log --oneline | fzf --no-sort --preview "sh -c \"git --no-pager show $(echo {} | cut -b 1)\"" --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  R='$(git log --oneline | fzf --multi --no-sort --preview "sh -c \"git --no-pager show \\\$(echo {} | awk '\''{print \\\$1}'\'')\"" --prompt "Git Revisions> " | awk '\''{print $1}'\'')'
@@ -271,6 +273,14 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+function lost-found() {
+	for blob in $(git fsck --lost-found | grep blob | cut -d ' ' -f 3 ); do
+		if git --no-pager show $blob | grep --quiet $1 ; then
+			echo $blob
+		fi
+	done
+}
+
 # function fcd() {
 # 	cd $*
 # }
@@ -296,5 +306,13 @@ function _ec() {
 
 compdef _ec ec
 
+mkdir -p $HOME/workspace/tmp
 ls --all $HOME/workspace/tmp | xargs -I{} find $HOME/workspace/tmp/{} -mtime +30 -depth 0 | xargs rm -fr
 rm -fr $HOME/.aws
+
+# alias -s 'tar.gz'='tar fx'
+# unar
+
+if ! ps x | grep -v "grep brew" | grep brew > /dev/null; then
+	brew update > /dev/null &
+fi

@@ -1,13 +1,13 @@
 " {{{ file encoding
+
 if has('vim_starting')
     set encoding=utf-8
     scriptencoding utf-8
     set fileencodings=utf-8,sjis,cp932,euc-jp
     set fileformats=unix,mac,dos
 endif
-" }}} file encoding
 
-"set guicursor=
+" }}} file encoding
 
 " {{{ plugin
 set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
@@ -21,7 +21,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " View
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('Yggdroot/indentLine')
+    call dein#add('nathanaelkane/vim-indent-guides')
     " call dein#add('dodie/vim-fibo-indent')
 
     call dein#add('kana/vim-submode')
@@ -41,6 +41,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('Shougo/unite.vim')
     " call dein#add('Shougo/neomru.vim')
     call dein#add('Vimjas/vim-python-pep8-indent')
+    call dein#add('wassen/nippo.vim')
 
     " call dein#add('scrooloose/nerdtree')
     " call dein#add('gabrielelana/vim-markdown')
@@ -49,6 +50,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('thinca/vim-zenspace')
     call dein#add('w0rp/ale')
     call dein#add('airblade/vim-gitgutter')
+
     " " Language supports
     " "call dein#add('davidhalter/jedi-vim')
     " call dein#add('JuliaEditorSupport/julia-vim')
@@ -70,7 +72,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#save_state()
 endif
 
-" filetype plugin indent on
+filetype plugin indent on
 syntax enable
 " }}}
 
@@ -172,8 +174,8 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 set runtimepath+=$HOME/.vim/plugin/swift
 " nippo
 set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
-let g:nippo#home_directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/working-note"
-let g:junkfile#directory = $HOME . "/workspace/github.com/wassen/mdnote/junkfile"
+let g:nippo#home_directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/note"
+let g:junkfile#directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/mdnote/junkfile"
 nnoremap <silent> ,e    :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 " airline
 let g:airline_powerline_fonts = 1
@@ -184,6 +186,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " let g:airline#extensions#tabline#buffer_idx_mode = 0
 " gitgutter
+nmap <Leader>hc <Plug>GitGutterUndoHunk
 
 " fzf
 let g:fzf_layout = { 'down': '~40%' }
@@ -191,6 +194,7 @@ nnoremap <Leader>g :GFiles<CR>
 nnoremap <Leader>s :GFiles?<CR>
 nnoremap <Leader>f :GGrep<CR>
 nnoremap <Leader>b :Buffers<CR>
+imap <c-x><c-k> <plug>(fzf-complete-word)
 
 " neocomplete
 " let g:deoplete#enable_at_startup = 1
@@ -218,7 +222,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 " For conceal markers.
 if has('conceal')
-    set conceallevel=2 concealcursor=niv
+    set conceallevel=0 concealcursor=niv
 endif
 let g:neosnippet#snippets_directory='~/.vim/neosnippet/'
 " }}} neosnippet
@@ -229,14 +233,12 @@ let g:markdown_enable_spell_checking = 0
 " NERDTree
 let NERDTreeShowHidden=1
 " others
-let g:indentLine_color_term = 239
-let g:indentLine_char = '|'
+let g:indent_guides_enable_on_vim_startup = 1
 set listchars=tab:\|\
-:
 " }}}
 
 " {{{ View
-" {{{ transeparent
+" {{{ transparent
 if !has('gui_running')
     augroup seiya
         autocmd!
@@ -247,7 +249,7 @@ if !has('gui_running')
         autocmd VimEnter,ColorScheme * highlight NonText ctermbg=none
     augroup END
 endif
-" }}} transeparent
+" }}} transparent
 
 " {{{ color scheme
 set background=dark
@@ -273,10 +275,14 @@ set listchars=tab:▸\ ,trail:·
 
 " {{{ cursor of nvim
 " set guicursor=n-v-c:hor20-Cursor/lCursor,i-ci:ver25-Cursor/lCursor " ,r-cr:hor20-Cursor/lCursor
+" set gcr=n-v-c-sm:hor1000-blinkwait300-blinkon200-blinkoff150,i-ci-ve:ver25,r-cr-o:hor20
 " lCursorの意味がわからん
 " いろいろ意味わからん
 " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 " autocmd VimLeave * set guicursor=a:block-blinkon0
+if has('nvim')
+    set gcr=n-v-c-sm:hor20,i-ci-ve:ver25,r-cr-o:hor20
+endif
 " }}} cursor of nvim
 
 " }}} View
@@ -333,6 +339,8 @@ set expandtab
 
 " 検索のハイライト
 set hlsearch
+" 検索が徐々にハイライト
+set incsearch
 
 " レジスタへのyankをclipboardへ
 set clipboard+=unnamed
@@ -364,9 +372,11 @@ augroup user_filetypedetect
     " indentkeysがDockerfileで効かない
     " setすらも効かない。nosmartindent, comment=等
     autocmd BufRead,BufNewFile dockerfile setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
-    autocmd BufRead,BufNewFile *.sh,.zshrc setlocal noexpandtab "tabstop=2 softtabstop=0 shiftwidth=2
+    autocmd BufRead,BufNewFile *.sh,.zshrc,.zprofile setlocal noexpandtab "tabstop=2 softtabstop=0 shiftwidth=2
+    autocmd FileType make setlocal noexpandtab
     autocmd FileType python setlocal autoindent
-    autocmd FileType python setlocal smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+    " autocmd FileType python setlocal smartindent
+    autocmd FileType python setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 augroup END
 "
@@ -416,3 +426,4 @@ command! -bang -nargs=* GGrep
   \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 " }}} commands
 
+filetype indent plugin on

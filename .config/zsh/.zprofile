@@ -42,7 +42,10 @@ export XDG_DATA_HOME=$HOME/.local/share
 
 export AWS_SHARED_CREDENTIALS_FILE=$XDG_CONFIG_HOME/aws/credentials
 export AWS_CONFIG_FILE=$XDG_CONFIG_HOME/aws/config
+
 export HISTFILE=$XDG_DATA_HOME/zsh/history
+mkdir -p  $XDG_DATA_HOME/zsh/
+touch $HISTFILE
 
 export LESS='--RAW-CONTROL-CHARS'
 export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
@@ -75,3 +78,11 @@ eval "$(direnv hook zsh)"
 # dropbox
 #dropbox.py status | ruby -e "if STDIN.gets.eql? %{Dropbox isn\'t running\!\n} then system('dropbox.py start') end"
 
+function chpwd() {
+	if [ ! -e ".git" ]; then
+		return
+	fi
+	if git stash show 1> /dev/null 2> /dev/null; then
+		echo -e "\e[38;5;161mStashが残ってるぞ\e[m"
+	fi
+}
