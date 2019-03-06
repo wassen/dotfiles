@@ -186,6 +186,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " let g:airline#extensions#tabline#buffer_idx_mode = 0
 " gitgutter
+nmap <Leader>ha <Plug>GitGutterStageHunk
 nmap <Leader>hc <Plug>GitGutterUndoHunk
 
 " fzf
@@ -344,6 +345,8 @@ set incsearch
 
 " レジスタへのyankをclipboardへ
 set clipboard+=unnamed
+
+set cmdheight=2
 " }}} other settings
 
 " {{{ augroup
