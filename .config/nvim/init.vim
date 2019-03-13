@@ -14,6 +14,7 @@ set runtimepath+=$XDG_CONFIG_HOME/nvim/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#begin(expand($XDG_CONFIG_HOME.'/nvim/dein'))
+    call dein#add('vim-jp/vimdoc-ja')
     call dein#add('Shougo/dein.vim')
     " Colortheme
     call dein#add('chriskempson/vim-tomorrow-theme')
@@ -52,6 +53,9 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('airblade/vim-gitgutter')
 
     " " Language supports
+    call dein#add('mgedmin/coverage-highlight.vim')
+    call dein#add('udalov/kotlin-vim')
+
     " "call dein#add('davidhalter/jedi-vim')
     " call dein#add('JuliaEditorSupport/julia-vim')
     " call dein#add('keith/swift.vim')
@@ -85,14 +89,16 @@ nnoremap : ;
 vnoremap ; :
 vnoremap : ;
 nnoremap <Down> gj
-nnoremap <Up>     gk
+nnoremap <Up> gk
+noremap gR R
+noremap R gR
 noremap <S-h> ^
 noremap <S-l> $
 noremap <S-C-h> <S-h>
 noremap <S-C-l> <S-l>
 " インサートモードでも移動したい
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
+" inoremap <C-j> <Down>
+" inoremap <C-k> <Up>
 inoremap <C-l> <Right>
 inoremap <C-h> <Left>
 inoremap <C-g> <C-h>
@@ -104,7 +110,7 @@ nmap * *zz
 nmap # #zz
 inoremap <silent> jj <ESC>
 " Enterで行の挿入
-nnoremap <silent> <Return> :<C-u>call append(line('.'), '')<Cr>j
+nnoremap <silent> <LF> :<C-u>call append(line('.'), '')<Cr>j
 " nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
 nnoremap <ESC><ESC> :nohlsearch<CR>:set nopaste<CR>:<CR>
 
@@ -127,8 +133,8 @@ if has('nvim')
 endif
 
 " buffer
-nnoremap vh :bp<CR>
-nnoremap vl :bn<CR>
+nnoremap <Leader>bh :bp<CR>
+nnoremap <Leader>bl :bn<CR>
 
 " {{{ 画面分割関連
 "nnoremap s <Nop>
@@ -191,10 +197,11 @@ nmap <Leader>hc <Plug>GitGutterUndoHunk
 
 " fzf
 let g:fzf_layout = { 'down': '~40%' }
-nnoremap <Leader>g :GFiles<CR>
-nnoremap <Leader>s :GFiles?<CR>
-nnoremap <Leader>f :GGrep<CR>
-nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>fg :GFiles<CR>
+nnoremap <Leader>fs :GFiles?<CR>
+nnoremap <Leader>ff :GGrep<CR>
+nnoremap <Leader>fb :Buffers<CR>
+nnoremap <Leader>fh :History<CR>
 imap <c-x><c-k> <plug>(fzf-complete-word)
 
 " neocomplete
@@ -202,7 +209,7 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 " ALE
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
-let g:ale_python_flake8_options = "--ignore=E203,E221,E251,E271,E272,E501"
+" let g:ale_python_flake8_options = "--ignore=E203,E221,E251,E271,E272,E501"
 " let g:ale_lint_on_text_changed = 0
 " {{{ neosnippet
 " Plugin key-mappings.
@@ -314,6 +321,9 @@ set t_Co=256
 set number
 set relativenumber
 
+set helplang=ja
+set virtualedit=all
+
 " size of command history
 set history=256
 
@@ -347,6 +357,11 @@ set incsearch
 set clipboard+=unnamed
 
 set cmdheight=2
+
+if has('nvim')
+    let g:python3_host_prog='/usr/local/bin/python3'
+endif
+
 " }}} other settings
 
 " {{{ augroup
@@ -413,6 +428,12 @@ function! ExecFunc(...)
     w
     execute '! ./%' join(a:000, " ")
 endfunction
+function! FindNippoFunc()
+    call fzf#vim#grep('cd ' . g:nippo#home_directory . '; find . | grep ".md$" | less', 0, { 'dir': g:nippo#home_directory })
+endfunction
+function! FindRepositoryFunc()
+    call fzf#run({'sink': 'cd', 'source': 'ghq list | xargs -I {} echo $(ghq root)/{}'})
+endfunction
 " }}} functions
 
 " {{{ commands
@@ -427,6 +448,10 @@ command! -bang -nargs=* GGrep
   \ call fzf#vim#grep(
   \   'git grep --line-number '.shellescape(<q-args>), 0,
   \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+command! -bang -nargs=* FindNippo :call FindNippoFunc()
+command! Yasashiku :setlocal norelativenumber nocursorline
+command! Kibishiku :setlocal relativenumber cursorline
+command! FindRepository :call FindRepositoryFunc()
 " }}} commands
 
 filetype indent plugin on

@@ -182,8 +182,15 @@ function mas-install() {
 }
 
 # alias
+## better something
+if hash exa; then
+	alias ls='exa'
+fi
+# if hash nvim; then
+# 	alias vim='nvim'
+# fi
+
 alias sudo='nocorrect sudo'
-alias ls='exa'
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
@@ -314,5 +321,5 @@ rm -fr $HOME/.aws
 # unar
 
 if ! ps x | grep -v "grep brew" | grep brew > /dev/null; then
-	brew update > /dev/null &
+	(brew update > /dev/null &)
 fi
