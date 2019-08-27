@@ -320,6 +320,12 @@ rm -fr $HOME/.aws
 # alias -s 'tar.gz'='tar fx'
 # unar
 
+# Auto Update Brew
 if ! ps x | grep -v "grep brew" | grep brew > /dev/null; then
 	(brew update > /dev/null &)
 fi
+
+eval "$(pyenv init -)"
+
+# export PATH="$HOME/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin:$PATH"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home"

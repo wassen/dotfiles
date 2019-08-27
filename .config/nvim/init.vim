@@ -28,6 +28,9 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('kana/vim-submode')
     call dein#add('machakann/vim-sandwich')
 
+    " Text object
+    call dein#add('michaeljsmith/vim-indent-object')
+
     " Utility
     call dein#add('Shougo/junkfile.vim')
     call dein#add('junegunn/fzf.vim')
@@ -36,6 +39,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('junegunn/vim-easy-align')
+    call dein#add('lfv89/vim-interestingwords')
     " call dein#add('Shougo/deoplete.nvim')
     " call dein#add('roxma/nvim-yarp')
     " call dein#add('roxma/vim-hug-neovim-rpc')
@@ -50,11 +54,15 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('tamelion/neovim-molokai')
     " call dein#add('thinca/vim-zenspace')
     call dein#add('w0rp/ale')
+    call dein#add('prabirshrestha/async.vim')
+    call dein#add('prabirshrestha/vim-lsp')
+
     call dein#add('airblade/vim-gitgutter')
 
     " " Language supports
     call dein#add('mgedmin/coverage-highlight.vim')
     call dein#add('udalov/kotlin-vim')
+    call dein#add('OmniSharp/omnisharp-vim')
 
     " "call dein#add('davidhalter/jedi-vim')
     " call dein#add('JuliaEditorSupport/julia-vim')
@@ -110,7 +118,7 @@ nmap * *zz
 nmap # #zz
 inoremap <silent> jj <ESC>
 " Enterで行の挿入
-nnoremap <silent> <LF> :<C-u>call append(line('.'), '')<Cr>j
+nnoremap <silent> <C-j> :<C-u>call append(line('.'), '')<Cr>j
 " nnoremap <silent> , :<C-u>call append(line('.')-1, '')<Cr>k
 nnoremap <ESC><ESC> :nohlsearch<CR>:set nopaste<CR>:<CR>
 
@@ -138,31 +146,31 @@ nnoremap <Leader>bl :bn<CR>
 
 " {{{ 画面分割関連
 "nnoremap s <Nop>
-nnoremap sj <C-w>j
-nnoremap sk <C-w>k
-nnoremap sl <C-w>l
-nnoremap sh <C-w>h
-nnoremap sJ <C-w>J
-nnoremap sK <C-w>K
-nnoremap sL <C-w>L
-nnoremap sH <C-w>H
-nnoremap sn gt
-nnoremap sp gT
+nnoremap <Leader>sj <C-w>j
+nnoremap <Leader>sk <C-w>k
+nnoremap <Leader>sl <C-w>l
+nnoremap <Leader>sh <C-w>h
+nnoremap <Leader>sJ <C-w>J
+nnoremap <Leader>sK <C-w>K
+nnoremap <Leader>sL <C-w>L
+nnoremap <Leader>sH <C-w>H
+nnoremap <Leader>sn gt
+nnoremap <Leader>sp gT
 " nnoremap sr <C-w>r
-nnoremap s= <C-w>=
-nnoremap sw <C-w>w
-nnoremap so <C-w>_<C-w>|
-nnoremap sO <C-w>=
-nnoremap sN :<C-u>bn<CR>
-nnoremap sP :<C-u>bp<CR>
-nnoremap st :<C-u>tabnew<CR>
-nnoremap sT :<C-u>Unite tab<CR>
-nnoremap ss :<C-u>sp<CR>
-nnoremap sv :<C-u>vs<CR>
-nnoremap sq :<C-u>q<CR>
-nnoremap sQ :<C-u>bd<CR>
-nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
-nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
+nnoremap <Leader>s= <C-w>=
+nnoremap <Leader>sw <C-w>w
+nnoremap <Leader>so <C-w>_<C-w>|
+nnoremap <Leader>sO <C-w>=
+nnoremap <Leader>sN :<C-u>bn<CR>
+nnoremap <Leader>sP :<C-u>bp<CR>
+nnoremap <Leader>st :<C-u>tabnew<CR>
+nnoremap <Leader>sT :<C-u>Unite tab<CR>
+nnoremap <Leader>ss :<C-u>sp<CR>
+nnoremap <Leader>sv :<C-u>vs<CR>
+nnoremap <Leader>sq :<C-u>q<CR>
+nnoremap <Leader>sQ :<C-u>bd<CR>
+nnoremap <Leader>sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
+nnoremap <Leader>sB :<C-u>Unite buffer -buffer-name=file<CR>
 
 call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
 call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
@@ -207,10 +215,12 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 " neocomplete
 " let g:deoplete#enable_at_startup = 1
 " ALE
-let g:ale_sign_column_always = 1
-let g:ale_lint_on_save = 1
+" let g:ale_sign_column_always = 1
+" let g:ale_lint_on_save = 1
 " let g:ale_python_flake8_options = "--ignore=E203,E221,E251,E271,E272,E501"
 " let g:ale_lint_on_text_changed = 0
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+
 " {{{ neosnippet
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".    It uses <Plug> mappings.
@@ -240,9 +250,52 @@ xmap ga <Plug>(EasyAlign)<C-p>
 let g:markdown_enable_spell_checking = 0
 " NERDTree
 let NERDTreeShowHidden=1
+" {{{ vim-lsp
+
+" let g:lsp_diagnostics_enabled = 0
+
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
+
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_signs_error = {'text': '🤔'}
+
+
+
+augroup lsp
+    let s:kotlin_language_server = $HOME . '/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin/kotlin-language-server'
+
+    if executable(s:kotlin_language_server)
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'kotlin',
+            \ 'cmd': {server_info->[s:kotlin_language_server]},
+            \ 'whitelist': ['kotlin'],
+            \ })
+    endif
+
+    if executable('pyls')
+        " Python用の設定を記載
+        " workspace_configで以下の設定を記載
+        " - pycodestyleの設定はALEと重複するので無効にする
+        " - jediの定義ジャンプで一部無効になっている設定を有効化
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'pyls',
+            \ 'cmd': { server_info -> ['pyls'] },
+            \ 'whitelist': ['python'],
+            \ 'workspace_config': {'pyls': {'plugins': {
+            \   'pycodestyle': {'enabled': v:false},
+            \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
+            \})
+    endif
+augroup END
+" }}}
+"
 " others
 let g:indent_guides_enable_on_vim_startup = 1
 set listchars=tab:\|\
+
+let g:OmniSharp_server_use_mono = 1
+
 " }}}
 
 " {{{ View
@@ -322,7 +375,7 @@ set number
 set relativenumber
 
 set helplang=ja
-set virtualedit=all
+set virtualedit=block
 
 " size of command history
 set history=256
@@ -357,6 +410,9 @@ set incsearch
 set clipboard+=unnamed
 
 set cmdheight=2
+
+" Omni Completionでプレビューを出さない
+set completeopt-=preview
 
 if has('nvim')
     let g:python3_host_prog='/usr/local/bin/python3'
@@ -396,6 +452,9 @@ augroup user_filetypedetect
     " autocmd FileType python setlocal smartindent
     autocmd FileType python setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
     autocmd FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+    autocmd FileType kotlin setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+    autocmd FileType cs setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+    autocmd FileType xml setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 augroup END
 "
 " augroup zentab
@@ -429,7 +488,7 @@ function! ExecFunc(...)
     execute '! ./%' join(a:000, " ")
 endfunction
 function! FindNippoFunc()
-    call fzf#vim#grep('cd ' . g:nippo#home_directory . '; find . | grep ".md$" | less', 0, { 'dir': g:nippo#home_directory })
+    call fzf#run({'sink': 'e', 'source': 'NIPPO_HOME_DIRECTORY=' . g:nippo#home_directory . 'cd $NIPPO_HOME_DIRECTORY; find $PWD | grep ".md$"'})
 endfunction
 function! FindRepositoryFunc()
     call fzf#run({'sink': 'cd', 'source': 'ghq list | xargs -I {} echo $(ghq root)/{}'})
@@ -455,3 +514,4 @@ command! FindRepository :call FindRepositoryFunc()
 " }}} commands
 
 filetype indent plugin on
+
