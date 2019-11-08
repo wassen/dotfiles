@@ -223,7 +223,7 @@ alias latexmake='latexmk -pdfdvi -pvc'
 
 ## global alias
 ### git branches
-alias -g  B='$(git branch -a | fzf --multi --preview "git show {1}" --prompt "All Branches> "    | sed -e "s/^\*\s*//g")'
+alias -g  B='$(git branch -a | fzf --multi --preview "git show {1}" --prompt "All Branches> "    | sed -e "s/^[\*\+]\s*//g")'
 alias -g RB='$(git branch -r | fzf --multi --prompt "Remote Branches> " | sed -e "s/^\*\s*//g")'
 alias -g LB='$(git branch    | fzf --multi --prompt "Local Branches> "  | sed -e "s/^\*\s*//g")'
 ### Directories
@@ -324,8 +324,6 @@ rm -fr $HOME/.aws
 if ! ps x | grep -v "grep brew" | grep brew > /dev/null; then
 	(brew update > /dev/null &)
 fi
-
-eval "$(pyenv init -)"
 
 # export PATH="$HOME/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin:$PATH"
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home"

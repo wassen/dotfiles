@@ -53,7 +53,6 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('szw/vim-maximizer')
     " call dein#add('tamelion/neovim-molokai')
     " call dein#add('thinca/vim-zenspace')
-    call dein#add('w0rp/ale')
     call dein#add('prabirshrestha/async.vim')
     call dein#add('prabirshrestha/vim-lsp')
 
@@ -62,7 +61,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " " Language supports
     call dein#add('mgedmin/coverage-highlight.vim')
     call dein#add('udalov/kotlin-vim')
-    call dein#add('OmniSharp/omnisharp-vim')
+    call dein#add('w0rp/ale', {'on_ft':'cs'})
+    call dein#add('OmniSharp/omnisharp-vim', {'on_ft':'cs'})
 
     " "call dein#add('davidhalter/jedi-vim')
     " call dein#add('JuliaEditorSupport/julia-vim')
@@ -282,19 +282,64 @@ augroup lsp
             \ 'name': 'pyls',
             \ 'cmd': { server_info -> ['pyls'] },
             \ 'whitelist': ['python'],
-            \ 'workspace_config': {'pyls': {'plugins': {
-            \   'pycodestyle': {'enabled': v:false},
-            \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
-            \})
+            \ })
+        autocmd FileType python call s:configure_lsp()
     endif
 augroup END
+
+function! s:configure_lsp() abort
+  setlocal omnifunc=lsp#complete
+  " LSP用にマッピング
+  nnoremap <C-]> :LspDefinition<CR>
+  " nnoremap <buffer> gd :<C-u>LspDefinition<CR>
+  " nnoremap <buffer> gD :<C-u>LspReferences<CR>
+  " nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+  " nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
+  " nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
+  " vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
+  " nnoremap <buffer> K :<C-u>LspHover<CR>
+  " nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
+  " nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+endfunction
+
 " }}}
 "
 " others
 let g:indent_guides_enable_on_vim_startup = 1
 set listchars=tab:\|\
 
+" OmniSharp
 let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_selector_ui = 'fzf'
+augroup omnisharp_commands
+    autocmd!
+    " Show type information automatically when the cursor stops moving
+    " autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> <C-]> :OmniSharpGotoDefinition<CR>
+    " autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+    " autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>ou :OmniSharpFindUsages<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>or :OmniSharpRename<CR>
+
+    " Finds members in the current buffer
+    " autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+    " autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+    " autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+    " autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+    " autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+    " autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+
+    " Navigate up and down by method/property/field
+    " autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+    " autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+
+    " Find all code errors/warnings for the current solution and populate the quickfix window
+    " autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader><Space> :OmniSharpGetCodeActions<CR>
+augroup END
+
 
 " }}}
 

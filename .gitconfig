@@ -29,8 +29,13 @@
 [status]
 	short  = true
 	branch = true
+[switch]
+  ; どっちも動かん
+  ; guess  = false
+  ; no-guess  = true
 [alias]
 # co              = checkout
+	detach          = switch --detach
 	diffw           = diff --word-diff
 	graph           = log --graph --oneline --decorate=full
 	shinchoku       = !git diff --stat -p $(git log --before=today.midnight --format=%h | head -1) @
@@ -39,6 +44,7 @@
 	applypatch      = apply .git_patch
 	#open=! open http://$(git config remote.origin.url | sed -e \"s/^[a-z]*:\/\///\" | sed -e "s/git@//" | tr ":" "/")
 	open            = !open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')
+	open-pr         = !open "$(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')/pull/new/$(git rev-parse --abbrev-ref HEAD)"
 	pick            = cherry-pick
 	private-config  = !git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
 	working-config  = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email kazuki_asayama@dwango.co.jp
@@ -46,8 +52,8 @@
   # replace-in-repo = "!f() { git grep -l $1 | xargs sed -i '' -e 's/$1/$2/g'; }; f"
 	fetch-pr        = "!f() { git fetch origin pull/$1/head:$1; }; f"
 	co-pr           = "!f() { git fetch origin pull/$1/head:$1 && git checkout $1; }; f"
-	choimachi       = "!f() { git log -1 --format=\"%B\" > .commit_message | git reset --soft @~; }; f"
-	mouiiyo         = "!f() { git commit -m \"$(cat .commit_message)\"; rm .commit_message; }; f"
+	choimachi       = !git reset --soft @~
+	mouiiyo         = !git commit --reuse-message ORIG_HEAD
 	lost-found      = "!f() { for blob in $(git fsck --lost-found | grep blob | cut -d ' ' -f 3 ); do if git --no-pager show $blob | grep --quiet $1; then echo $blob; fi; done; }; f"
 
 	workspace       = "!f() { git worktree add -b $1 $HOME/workspace/worktrees/$(basename $([ -d .git ] && git rev-parse --show-toplevel || cat .git | cut -f 2 -d \":\" | sed \"s/\\.git\\/.*//\"))/$1; }; f"
