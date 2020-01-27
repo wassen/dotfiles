@@ -2,25 +2,31 @@ echo "Run-Control zsh"
 
 # Zplug settings
 export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
 
-# zplug "sorin-ionescu/prezto"
-# zplug 'modules/environment', from:prezto
-# zplug 'modules/terminal', from:prezto
-# zplug 'modules/editor', from:prezto
-# source $ZDOTDIR/prelude_for_paradox.zsh
-# zplug 'modules/history', from:prezto
-# zplug 'modules/directory', from:prezto
-# zplug 'modules/spectrum', from:prezto
-# zplug 'modules/utility', from:prezto
-# zplug 'modules/completion', from:prezto
-# zplug "modules/prompt", from:prezto
-# zstyle ':prezto:module:prompt' theme 'pure'
-zplug mafredri/zsh-async, from:github
-zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
-zplug zsh-users/zsh-completions
+if [ -f $ZPLUG_HOME/init.zsh ] ; then
+	source $ZPLUG_HOME/init.zsh
+	# zplug "sorin-ionescu/prezto"
+	# zplug 'modules/environment', from:prezto
+	# zplug 'modules/terminal', from:prezto
+	# zplug 'modules/editor', from:prezto
+	# source $ZDOTDIR/prelude_for_paradox.zsh
+	# zplug 'modules/history', from:prezto
+	# zplug 'modules/directory', from:prezto
+	# zplug 'modules/spectrum', from:prezto
+	# zplug 'modules/utility', from:prezto
+	# zplug 'modules/completion', from:prezto
+	# zplug "modules/prompt", from:prezto
+	# zstyle ':prezto:module:prompt' theme 'pure'
+	zplug mafredri/zsh-async, from:github
+	zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
+	zplug zsh-users/zsh-completions
 
-zplug load
+	zplug load
+
+	if ! zplug check ; then
+		zplug install
+	fi
+fi
 
 # # Source Prezto.
 # if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -314,7 +320,7 @@ function _ec() {
 compdef _ec ec
 
 mkdir -p $HOME/workspace/tmp
-ls --all $HOME/workspace/tmp | xargs -I{} find $HOME/workspace/tmp/{} -mtime +30 -depth 0 | xargs rm -fr
+exa --all $HOME/workspace/tmp | xargs -I{} find $HOME/workspace/tmp/{} -mtime +30 -depth 0 | xargs rm -fr
 rm -fr $HOME/.aws
 
 # alias -s 'tar.gz'='tar fx'

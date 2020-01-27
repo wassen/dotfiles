@@ -7,9 +7,10 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	quotepath = false
+  ; pager = "view -"
 [color]
 	ui = auto
-
+  ; pager = no
 # Commands
 [commit]
 	verbose = true

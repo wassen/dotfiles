@@ -70,7 +70,9 @@ if type pyenv > /dev/null ; then
     eval "$(pyenv virtualenv-init - --no-rehash zsh)"
 fi
 
-eval "$(direnv hook zsh)"
+if hash direnv 2>/dev/null ; then
+	eval "$(direnv hook zsh)"
+fi
 
 #powerline-daemon -q
 #. ~/usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh

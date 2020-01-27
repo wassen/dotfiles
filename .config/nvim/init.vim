@@ -32,6 +32,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('michaeljsmith/vim-indent-object')
 
     " Utility
+    call dein#add('justinmk/vim-dirvish')
     call dein#add('Shougo/junkfile.vim')
     call dein#add('junegunn/fzf.vim')
     " call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
@@ -201,7 +202,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline#extensions#tabline#buffer_idx_mode = 0
 " gitgutter
 nmap <Leader>ha <Plug>GitGutterStageHunk
-nmap <Leader>hc <Plug>GitGutterUndoHunk
+nmap <Leader>hr <Plug>(GitGutterUndoHunk)
 
 " fzf
 let g:fzf_layout = { 'down': '~40%' }
@@ -559,4 +560,3 @@ command! FindRepository :call FindRepositoryFunc()
 " }}} commands
 
 filetype indent plugin on
-
