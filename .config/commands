@@ -2,7 +2,9 @@ docker run  -it DI /bin/bash
 docker exec -it DC /bin/bash
 docker-compose -f docker/docker-compose.yml
 xcodebuild -project Beni.xcodeproj -target Beni -showBuildSettings
-git grep -l 'hoge' | xargs sed -i '' -e 's/hoge/foo/g'
+git grep -l 'hoge' | xargs -I {} sed -i '' -e 's/hoge/foo/g' {}
 ctags -R --exclude="*.js" --exclude="env/*"
 # echo "hoge:fuga:piyo" | fzf --delimiter ":" --with-nth=1 | cut -f 2 -d ":"
+ffmpeg -i input.mov -filter_complex "[0:v] fps=10,scale=640:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse" output-palette.gif
+
 

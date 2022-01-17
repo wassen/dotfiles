@@ -11,9 +11,14 @@ export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opt/flutter/bin:$PATH"
-
 export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
+
+# rubyenv が死ぬ
+# export PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp:$PATH"
+
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
 
 HOME_OPT=$HOME/opt
 if [ -d $HOME_OPT ] 

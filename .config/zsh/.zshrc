@@ -116,7 +116,7 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --prompt "bck-i-search> " --query "$BUFFER")
+	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --no-sort --prompt "bck-i-search> " --query "$BUFFER")
 	if [ -n "$buffer" ]; then
 		BUFFER=$buffer
 		CURSOR=$#BUFFER
@@ -254,9 +254,12 @@ then
 	alias porg_install='porg -lD "make install"'
 fi
 
+function copy_commit_hash() {
+	echo R | pbcopy
+}
+
 #env設定
 # zprofileに移行
-
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -328,8 +331,10 @@ rm -fr $HOME/.aws
 
 # Auto Update Brew
 if ! ps x | grep -v "grep brew" | grep brew > /dev/null; then
-	(brew update > /dev/null &)
+	# エラー出力はほしいが、tapの更新がエラー出力に出てきて煩わしいので一旦捨てる
+	(brew update 2> /dev/null 1> /dev/null &)
 fi
 
 # export PATH="$HOME/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin:$PATH"
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home"
+

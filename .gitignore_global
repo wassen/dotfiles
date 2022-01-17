@@ -4,11 +4,15 @@ tmp/
 *~
 ,/
 .ruby_version
+.ruby-version
 *.swp
-.idea/
+# .idea/
+サイドメニューの出方が変わっている
 
 .dropbox.attr
 .envrc
 worktree/
 tags
+
+patches
 
