@@ -1,7 +1,7 @@
 echo "Run-Control zsh"
 
 # Zplug settings
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
 
 if [ -f $ZPLUG_HOME/init.zsh ] ; then
 	source $ZPLUG_HOME/init.zsh

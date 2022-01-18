@@ -10,6 +10,7 @@ formulae=(
 	git
 	vim
 	zplug
+	zsh
 )
 brew install ${formulae[@]}
 cask_formulae=(
@@ -18,12 +19,12 @@ cask_formulae=(
 	dropbox
 	google-japanese-ime
 	homebrew/cask-fonts/font-hack
-	marshallofsound-google-play-music-player
+	iterm2
 	slack
 	vivaldi
 )
 
-brew cask install ${cask_formulae[@]}
+brew install --cask ${cask_formulae[@]}
 
 
 # optional

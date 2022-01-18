@@ -19,6 +19,8 @@ export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
+eval $(/opt/homebrew/bin/brew shellenv)
+
 
 HOME_OPT=$HOME/opt
 if [ -d $HOME_OPT ] 
