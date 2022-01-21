@@ -1,5 +1,5 @@
 
-backup_directory="$HOME/Documents/backups"
+backup_directory="$HOME/dotfiles/backups"
 
 function push_wassen_note {
   set -ue
@@ -13,7 +13,7 @@ function push_wassen_note {
 
 function brew_leaves {
   mkdir -p "$backup_directory"
-  target="$backup_directory/brew_leaves"
+  target="$backup_directory/formulae.txt"
 
   if [[ ! $(find $target -mmin -720) ]]; then
     echo "brew leaves..."
@@ -23,7 +23,7 @@ function brew_leaves {
 
 function brew_cask_list {
   mkdir -p "$backup_directory"
-  target="$backup_directory/brew_casks"
+  target="$backup_directory/casks.txt"
 
   # （一日一回バックアップしたい）
   # 前回の更新から一日以内のファイルが無ければ
@@ -31,7 +31,7 @@ function brew_cask_list {
   # -mtime -1にすると、どんどん後ろにズレていくので、12時間に変更した
   if [[ ! $(find $target -mmin -720) ]]; then
     echo "brew casks..."
-    brew casks > $target
+    brew list --cask -1 > $target
   fi
 }
 

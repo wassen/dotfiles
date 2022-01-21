@@ -1,0 +1,9 @@
+alfred
+amethyst
+clipy
+dropbox
+font-hack
+google-japanese-ime
+iterm2
+slack
+vivaldi

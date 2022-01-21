@@ -1,0 +1,8 @@
+direnv
+exa
+fzf
+ghq
+git
+vim
+zplug
+zsh
