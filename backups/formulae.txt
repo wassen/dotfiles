@@ -3,6 +3,9 @@ exa
 fzf
 ghq
 git
+mas
+mint
+rbenv
 vim
 zplug
 zsh

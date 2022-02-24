@@ -1,9 +1,11 @@
-alfred
 amethyst
-clipy
+displaylink
+displaylink-login-extension
 dropbox
 font-hack
 google-japanese-ime
 iterm2
+notion
+raycast
 slack
 vivaldi
