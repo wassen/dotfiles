@@ -1,6 +1,9 @@
-.PHONY: _mac _brew _key_repeat hoge
+.PHONY: _mac _brew _key_repeat hoge ho\ ge/ho\ ge
 
 DOTFILE_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+
+ho\ ge/ho\ ge:
+	echo '$(shell dirname "$@")'
 
 default:
 	:
@@ -21,8 +24,14 @@ ${HOME}/.gitignore_global:
 ${HOME}/.config:
 	ln -sf ${DOTFILE_DIR}/.config ${HOME}/.config
 
-_symlinks: ${HOME}/.bashrc ${HOME}/.bash_profile ${HOME}/.zshenv ${HOME}/.gitconfig ${HOME}/.gitignore_global ${HOME}/.config
-	:
+_symlinks:
+	${MAKE} ${HOME}/.bashrc
+	${MAKE} ${HOME}/.bash_profile
+	${MAKE} ${HOME}/.zshenv
+	${MAKE} ${HOME}/.gitconfig
+	${MAKE} ${HOME}/.gitignore_global
+	${MAKE} ${HOME}/.config
+
 
 /opt/homebrew/bin/brew:
 	hash brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -30,6 +39,8 @@ _symlinks: ${HOME}/.bashrc ${HOME}/.bash_profile ${HOME}/.zshenv ${HOME}/.gitcon
 
 _brew: /opt/homebrew/bin/brew
 	cat ${DOTFILE_DIR}/backups/formulae.txt | xargs brew install --formulae --quiet
+	# displaylinkが不要になったらこれも不要
+	brew tap homebrew/cask-drivers
 	# quietがcasksだけ効いてないが
 	cat ${DOTFILE_DIR}/backups/casks.txt | xargs brew install --casks --quiet
 

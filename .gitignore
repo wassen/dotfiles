@@ -5,7 +5,9 @@
 .config/fish/fishd.*
 .config/nvim/undo
 .config/nvim/dein
-.config/zsh/.zhistory
+.config/zsh/.zcompcache/
+.config/zsh/.zsh_history
+.config/zsh/.zsh_sessions/
 .config/zsh/.zcompdump
 .config/aws/
 .gitconfig_user
