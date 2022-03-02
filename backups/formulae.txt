@@ -1,3 +1,4 @@
+awscli
 direnv
 exa
 fzf

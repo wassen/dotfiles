@@ -620,6 +620,7 @@ command! -bang -nargs=* FindNippo :call FindNippoFunc()
 command! Yasashiku :setlocal norelativenumber nocursorline
 command! Kibishiku :setlocal relativenumber cursorline
 command! FindRepository :call FindRepositoryFunc()
+" cbuffer reload quickfix
 " }}} commands
 
 filetype indent plugin on
