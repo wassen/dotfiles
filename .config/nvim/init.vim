@@ -56,6 +56,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('thinca/vim-zenspace')
     call dein#add('prabirshrestha/async.vim')
     call dein#add('prabirshrestha/vim-lsp')
+    call dein#add('mattn/vim-lsp-settings')
 
     call dein#add('airblade/vim-gitgutter')
 
@@ -68,7 +69,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " "call dein#add('davidhalter/jedi-vim')
     " call dein#add('JuliaEditorSupport/julia-vim')
     " call dein#add('keith/swift.vim')
-    " call dein#add('leafgarland/typescript-vim.git')
+    call dein#add('leafgarland/typescript-vim.git')
     " call dein#add('unclechu/nim.vim')
     " call dein#add('dart-lang/dart-vim-plugin')
     " js
@@ -286,6 +287,7 @@ augroup lsp
             \ })
         autocmd FileType python call s:configure_lsp()
     endif
+    autocmd FileType typescript call s:configure_lsp()
 augroup END
 
 function! s:configure_lsp() abort
@@ -427,6 +429,8 @@ set virtualedit=block
 set history=256
 
 set ruler
+
+set iskeyword+=-
 
 " set cindent
 

@@ -1,7 +1,11 @@
 echo "Run-Control zsh"
 
 # Zplug settings
-export ZPLUG_HOME=/usr/local/opt/zplug
+if [ -d /usr/local/opt/zplug ]; then
+	export ZPLUG_HOME=/usr/local/opt/zplug
+else
+	export ZPLUG_HOME=$XDG_DATA_HOME/opt/zplug
+fi
 
 if [ -f $ZPLUG_HOME/init.zsh ] ; then
 	source $ZPLUG_HOME/init.zsh
@@ -116,7 +120,7 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --prompt "bck-i-search> " --query "$BUFFER")
+	buffer=$(history -n 1 | tac | fzf --prompt "bck-i-search> " --query "$BUFFER")
 	if [ -n "$buffer" ]; then
 		BUFFER=$buffer
 		CURSOR=$#BUFFER
@@ -128,7 +132,7 @@ function fzf-history-selection() {
 zle -N fzf-history-selection
 
 function peco-history-selection() {
-	  BUFFER=$(history -n 1 | tail -r  | awk '!a[$0]++' | peco --query "$LBUFFER")
+	  BUFFER=$(history -n 1 | tac | peco --query "$LBUFFER")
 	  CURSOR=$#BUFFER
 }
 
@@ -328,7 +332,7 @@ rm -fr $HOME/.aws
 
 # Auto Update Brew
 if ! ps x | grep -v "grep brew" | grep brew > /dev/null; then
-	(brew update > /dev/null &)
+	(type brew > /dev/null && brew update > /dev/null &)
 fi
 
 # export PATH="$HOME/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin:$PATH"

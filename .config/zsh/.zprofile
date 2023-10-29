@@ -11,12 +11,13 @@ export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opt/flutter/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
 
 HOME_OPT=$HOME/opt
-if [ -d $HOME_OPT ] 
+if [ -d $HOME_OPT ]
 then
 	bin_dirs=`find $HOME_OPT -name bin`
 	for bin_dir in $bin_dirs
@@ -26,7 +27,7 @@ then
 fi
 
 #HOME_OPT=$HOME/opt
-#if [ -d $HOME_OPT ] 
+#if [ -d $HOME_OPT ]
 #then
 #	for in_opt in `/bin/ls $HOME_OPT`
 #	do
@@ -37,8 +38,8 @@ fi
 
 export PKG_CONFIG_PATH="$HOME/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="$HOME/usr/local/lib:$HOME/usr/local/lib64":$LD_LIBRARY_PATH
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
 
 export AWS_SHARED_CREDENTIALS_FILE=$XDG_CONFIG_HOME/aws/credentials
 export AWS_CONFIG_FILE=$XDG_CONFIG_HOME/aws/config
