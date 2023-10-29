@@ -19,9 +19,15 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " Colortheme
     call dein#add('chriskempson/vim-tomorrow-theme')
     call dein#add('w0ng/vim-hybrid')
+
     " View
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
+    if 1
+        call dein#add('vim-airline/vim-airline')
+        call dein#add('vim-airline/vim-airline-themes')
+    elseif 0
+        call dein#add('itchyny/lightline.vim')
+    endif
+
     call dein#add('nathanaelkane/vim-indent-guides')
     " call dein#add('dodie/vim-fibo-indent')
 
@@ -35,7 +41,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('justinmk/vim-dirvish')
     call dein#add('Shougo/junkfile.vim')
     call dein#add('junegunn/fzf.vim')
-    " call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
+    call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
     call dein#local('/usr/local/opt/', {}, ['fzf'])
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
@@ -46,6 +52,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('roxma/vim-hug-neovim-rpc')
     call dein#add('Shougo/unite.vim')
     " call dein#add('Shougo/neomru.vim')
+    " カッコを開くときに二重でindentをつけるvimデフォルトの挙動を
+    " let g:pyindent_open_paren=shiftwidth()でも良さそうだが
     call dein#add('Vimjas/vim-python-pep8-indent')
     call dein#add('wassen/nippo.vim')
 
@@ -65,6 +73,9 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('udalov/kotlin-vim')
     call dein#add('w0rp/ale', {'on_ft':'cs'})
     call dein#add('OmniSharp/omnisharp-vim', {'on_ft':'cs'})
+    call dein#add('aklt/plantuml-syntax')
+    call dein#add('keith/swift.vim')
+    call dein#add('thosakwe/vim-flutter')
 
     " "call dein#add('davidhalter/jedi-vim')
     " call dein#add('JuliaEditorSupport/julia-vim')
@@ -72,6 +83,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     call dein#add('leafgarland/typescript-vim.git')
     " call dein#add('unclechu/nim.vim')
     " call dein#add('dart-lang/dart-vim-plugin')
+    " let g:dart_format_on_save = 1
+    " let g:dart_format_on_save = v:true
     " js
     " call dein#add('othree/yajs.vim')
     " call dein#add('othree/es.next.syntax.vim')
@@ -146,6 +159,10 @@ endif
 nnoremap <Leader>bh :bp<CR>
 nnoremap <Leader>bl :bn<CR>
 
+" tab
+nnoremap <Leader>th :tabp<CR>
+nnoremap <Leader>tl :tabn<CR>
+
 " {{{ 画面分割関連
 "nnoremap s <Nop>
 nnoremap <Leader>sj <C-w>j
@@ -193,19 +210,12 @@ set runtimepath+=$HOME/workspace/github.com/wassen/nippo.vim
 let g:nippo#home_directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/note"
 let g:junkfile#directory = $HOME . "/workspace/github.o-in.dwango.co.jp/wassen/mdnote/junkfile"
 nnoremap <silent> ,e    :<C-u>Unite junkfile/new junkfile -start-insert<CR>
-" airline
-let g:airline_powerline_fonts = 1
-let g:airline_theme='powerlineish'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-" let g:airline#extensions#tabline#buffer_idx_mode = 0
+
 " gitgutter
 nmap <Leader>ha <Plug>GitGutterStageHunk
 nmap <Leader>hr <Plug>(GitGutterUndoHunk)
 
-" fzf
+" {{{ fzf
 let g:fzf_layout = { 'down': '~40%' }
 nnoremap <Leader>fg :GFiles<CR>
 nnoremap <Leader>fs :GFiles?<CR>
@@ -213,6 +223,7 @@ nnoremap <Leader>ff :GGrep<CR>
 nnoremap <Leader>fb :Buffers<CR>
 nnoremap <Leader>fh :History<CR>
 imap <c-x><c-k> <plug>(fzf-complete-word)
+" }}}fzf
 
 " neocomplete
 " let g:deoplete#enable_at_startup = 1
@@ -222,6 +233,17 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 " let g:ale_python_flake8_options = "--ignore=E203,E221,E251,E271,E272,E501"
 " let g:ale_lint_on_text_changed = 0
 let g:ale_linters = { 'cs': ['OmniSharp'] }
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme='powerlineish'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" let g:airline#extensions#tabline#buffer_idx_mode = 0
+let g:lightline = {
+    \ 'colorscheme': 'one dark',
+    \ }
 
 " {{{ neosnippet
 " Plugin key-mappings.
@@ -254,15 +276,24 @@ let g:markdown_enable_spell_checking = 0
 let NERDTreeShowHidden=1
 " {{{ vim-lsp
 
-" let g:lsp_diagnostics_enabled = 0
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
 
 " let g:lsp_log_verbose = 1
 " let g:lsp_log_file = expand('~/vim-lsp.log')
 
-let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_signs_error = {'text': '🤔'}
 
+" let g:lsp_settings = {
+" \  'sourcekit-lsp': {'cmd': ['xcrun', 'sourcekit-lsp', '-Xswiftc', '-sdk', '-Xswiftc', '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk', '-Xswiftc', '-target', '-Xswiftc', 'x86_64-apple-ios11-simulator']}
+" \}
 
+function Hoge()
+    '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp'
+    if executable(system('xcrun --find sourcekit-lsp'))
+        echo "true"
+    endif
+endfunction
 
 augroup lsp
     let s:kotlin_language_server = $HOME . '/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin/kotlin-language-server'
@@ -275,25 +306,52 @@ augroup lsp
             \ })
     endif
 
-    if executable('pyls')
-        " Python用の設定を記載
-        " workspace_configで以下の設定を記載
-        " - pycodestyleの設定はALEと重複するので無効にする
-        " - jediの定義ジャンプで一部無効になっている設定を有効化
-        autocmd User lsp_setup call lsp#register_server({
-            \ 'name': 'pyls',
-            \ 'cmd': { server_info -> ['pyls'] },
-            \ 'whitelist': ['python'],
-            \ })
-        autocmd FileType python call s:configure_lsp()
-    endif
-    autocmd FileType typescript call s:configure_lsp()
+" <<<<<<< HEAD
+"     if executable('pyls')
+"         " Python用の設定を記載
+"         " workspace_configで以下の設定を記載
+"         " - pycodestyleの設定はALEと重複するので無効にする
+"         " - jediの定義ジャンプで一部無効になっている設定を有効化
+"         autocmd User lsp_setup call lsp#register_server({
+"             \ 'name': 'pyls',
+"             \ 'cmd': { server_info -> ['pyls'] },
+"             \ 'whitelist': ['python'],
+"             \ })
+"         autocmd FileType python call s:configure_lsp()
+"     endif
+"     autocmd FileType typescript call s:configure_lsp()
+" =======
+"     " 重たすぎる。iOSのプロジェクトに対応していない。
+"     " vim-lsp-swiftが、PATHにsourcekit-lspが存在しないと何故か怒り出すのでフルパス指定ではなくPathをzsh側で通している
+"     " if executable('sourcekit-lsp')
+"     "     autocmd User lsp_setup call lsp#register_server({
+"     "         \ 'name': 'swift',
+"     "         \ 'cmd': {server_info->['sourcekit-lsp']},
+"     "         \ 'whitelist': ['swift'],
+"     "         \ })
+"     "     autocmd FileType swift call s:configure_lsp()
+"     " endif
+" 
+"     " if executable('pyls-all')
+"     "     autocmd User lsp_setup call lsp#register_server({
+"     "         \ 'name': 'pyls-all',
+"     "         \ 'cmd': { server_info -> ['pyls-all'] },
+"     "         \ 'whitelist': ['python'],
+"     "         \ })
+"     "     " autocmd FileType python call s:configure_lsp()
+"     " endif
+" >>>>>>> 47cdbe77d3c9f38cd7306e346c1b68974b4931b3
 augroup END
 
 function! s:configure_lsp() abort
   setlocal omnifunc=lsp#complete
   " LSP用にマッピング
   nnoremap <C-]> :LspDefinition<CR>
+  " nnoremap <Leader>lr :<C-u>LspReferences<CR>
+  nnoremap <Leader>lr :<C-u>LspRename<CR>
+  nnoremap <Leader>ln :<C-u>LspNextDiagnostic<CR>
+  nnoremap <Leader>lp :<C-u>LspPreviousDiagnostic<CR>
+  nnoremap <Leader>la :<C-u>LspCodeAction<CR>
   " nnoremap <buffer> gd :<C-u>LspDefinition<CR>
   " nnoremap <buffer> gD :<C-u>LspReferences<CR>
   " nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
@@ -302,14 +360,24 @@ function! s:configure_lsp() abort
   " vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
   " nnoremap <buffer> K :<C-u>LspHover<CR>
   " nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
-  " nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+  " ideaと噛み合わないため一旦
+  " autocmd BufWritePre <buffer> LspDocumentFormatSync
 endfunction
+autocmd FileType vim call s:configure_lsp()
+autocmd FileType python call s:configure_lsp()
+autocmd FileType swift call s:configure_lsp()
+autocmd FileType typescriptreact call s:configure_lsp()
+autocmd FileType dart call s:configure_lsp()
 
 " }}}
 "
 " others
 let g:indent_guides_enable_on_vim_startup = 1
 set listchars=tab:\|\
+set termguicolors
+" http://hue360.herokuapp.com
+let g:interestingWordsGUIColors = ['#FFF280', '#CFE283', '#F6D580', '#A4A9CF', '#6EB7DB', '#1E98B9', '#F3D1E5', '#C97FB4']
+let g:interestingWordsTermColors = ['115', '186', '145', '211', '137', '214', '222', '154']
 
 " OmniSharp
 let g:OmniSharp_server_use_mono = 1
@@ -359,7 +427,6 @@ if !has('gui_running')
     augroup END
 endif
 " }}} transparent
-
 " {{{ color scheme
 set background=dark
     augroup color_scheme
@@ -382,6 +449,9 @@ set list
 set listchars=tab:▸\ ,trail:·
 " set listchars=tab:»\ ,trail:•
 
+hi Visual term=reverse cterm=reverse
+
+
 " {{{ cursor of nvim
 " set guicursor=n-v-c:hor20-Cursor/lCursor,i-ci:ver25-Cursor/lCursor " ,r-cr:hor20-Cursor/lCursor
 " set gcr=n-v-c-sm:hor1000-blinkwait300-blinkon200-blinkoff150,i-ci-ve:ver25,r-cr-o:hor20
@@ -391,6 +461,10 @@ set listchars=tab:▸\ ,trail:·
 " autocmd VimLeave * set guicursor=a:block-blinkon0
 if has('nvim')
     set gcr=n-v-c-sm:hor20,i-ci-ve:ver25,r-cr-o:hor20
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " vertical bar on INSERT
+    let &t_SR = "\<Esc>]50;CursorShape=0\x7" " solid block on REPLACE
+    let &t_EI = "\<Esc>]50;CursorShape=2\x7" " underscore on NORMAL
 endif
 " }}} cursor of nvim
 
@@ -461,6 +535,8 @@ set clipboard+=unnamed
 
 set cmdheight=2
 
+set iskeyword+=-
+
 " Omni Completionでプレビューを出さない
 set completeopt-=preview
 
@@ -481,31 +557,40 @@ augroup END
 augroup user_filetypedetect
     autocmd!
     " source ~/.vimrcしたら、開き直さないとこちらの設定が反映されない
-    autocmd BufRead,BufNewFile *.php setfiletype php
-    autocmd BufRead,BufNewFile *.swift setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
-    autocmd BufRead,BufNewFile *.html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufRead,BufNewFile *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufRead,BufNewFile *.js setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufRead,BufNewFile *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufRead,BufNewFile *.ts setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufRead,BufNewFile *.tsx setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufRead,BufNewFile *.vimrc setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
-    autocmd BufRead,BufNewFile *.md setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufRead,BufNewFile *.plist setfiletype xml
-    autocmd BufRead,BufNewFile *.yml setlocal indentkeys=<Return>
+    autocmd BufNewFile,BufRead *.php setfiletype php " setlocal filetype=php と同義
+    " rubyに設定するとLSPが起動してめちゃくちゃにされる
+    " autocmd BufNewFile,BufRead Podfile setfiletype ruby
+    autocmd BufNewFile,BufRead *.swift setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.js setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.rb setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.ts setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.tsx setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.md setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.plist setfiletype xml
+    autocmd BufNewFile,BufRead *.yml setlocal indentkeys=<Return>
     " indentkeysがDockerfileで効かない
     " setすらも効かない。nosmartindent, comment=等
-    autocmd BufRead,BufNewFile dockerfile setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
-    autocmd BufRead,BufNewFile *.sh,.zshrc,.zprofile setlocal noexpandtab "tabstop=2 softtabstop=0 shiftwidth=2
+    autocmd BufNewFile,BufRead dockerfile setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.sh,.zshrc,.zprofile setlocal noexpandtab "tabstop=2 softtabstop=0 shiftwidth=2
+
     autocmd FileType make setlocal noexpandtab
     autocmd FileType python setlocal autoindent
     " autocmd FileType python setlocal smartindent
-    autocmd FileType python setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
-    autocmd FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+    " autocmd FileType python setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class
+    autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
     autocmd FileType kotlin setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
     autocmd FileType cs setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
     autocmd FileType xml setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+    autocmd FileType sh setlocal noexpandtab "tabstop=2 softtabstop=0 shiftwidth=2
+    autocmd FileType vim setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd FileType objc setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufReadPost quickfix setlocal modifiable
+
+    autocmd TextChanged nested quickfix cbuffer
 augroup END
+
 "
 " augroup zentab
 "     autocmd!
@@ -516,6 +601,7 @@ augroup gitcommit
     autocmd!
     " Commit Messageで勝手に改行されないように
     autocmd FileType gitcommit set textwidth=0
+    autocmd FileType gitcommit set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 " }}} augroup
@@ -561,6 +647,8 @@ command! -bang -nargs=* FindNippo :call FindNippoFunc()
 command! Yasashiku :setlocal norelativenumber nocursorline
 command! Kibishiku :setlocal relativenumber cursorline
 command! FindRepository :call FindRepositoryFunc()
+" sessionの保存機能なかったっけ？
+" cbuffer reload quickfix
 " }}} commands
 
 filetype indent plugin on

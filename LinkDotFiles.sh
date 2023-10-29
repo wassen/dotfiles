@@ -5,7 +5,6 @@ dotfiles="
 .bashrc
 .bash_profile
 .zshenv
-.zpreztorc
 .gitconfig
 .gitignore_global
 .gitconfig_user
@@ -20,3 +19,13 @@ rm -fr ~/.vim
 ln -sf ~/dotfiles/.vim ~/.vim
 rm -fr ~/.config
 ln -sf ~/dotfiles/.config ~/.config
+
+
+# .vim, .vimrc
+# vimってXDG未対応？
+
+# .tmux.conf
+# つかわん
+
+# .gitconfig_user
+# ない

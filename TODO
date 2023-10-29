@@ -1,0 +1,3 @@
+masをどうする？コマンドラインだけで完結するのか問題
+xcodeインストール後にbrewの様子がおかしくなる問題
+  sudo xcodebuild -license accept

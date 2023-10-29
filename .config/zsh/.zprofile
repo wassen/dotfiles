@@ -12,9 +12,17 @@ export PATH="$HOME/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opt/flutter/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-
 export PATH="$HOME/Library/Android/sdk/platform-tools/:$PATH"
 export PATH="$HOME/Library/Android/sdk/tools/bin/:$PATH"
+export PATH="${PATH}:${HOME}/.local/opt/flutter/bin"
+
+# rubyenv が死ぬ
+# export PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp:$PATH"
+
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+eval $(/opt/homebrew/bin/brew shellenv)
+
 
 HOME_OPT=$HOME/opt
 if [ -d $HOME_OPT ]
@@ -44,20 +52,14 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export AWS_SHARED_CREDENTIALS_FILE=$XDG_CONFIG_HOME/aws/credentials
 export AWS_CONFIG_FILE=$XDG_CONFIG_HOME/aws/config
 
-export HISTFILE=$XDG_DATA_HOME/zsh/history
-mkdir -p  $XDG_DATA_HOME/zsh/
-touch $HISTFILE
-
 export LESS='--RAW-CONTROL-CHARS'
 export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
 
 # Options
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;32'
-export HISTSIZE=10000
-export SAVEHIST=10000
 export FZF_DEFAULT_OPTS='
-	--height 40% --reverse --border
+	--height 85% --reverse --border
 	--color fg:252,bg:233,hl:67,fg+:252,bg+:235,hl+:81
 	--color info:144,prompt:161,spinner:135,pointer:135,marker:118
 '

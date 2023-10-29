@@ -7,6 +7,8 @@ else
 	export ZPLUG_HOME=$XDG_DATA_HOME/opt/zplug
 fi
 
+# export ZPLUG_HOME=/opt/homebrew/opt/zplug
+
 if [ -f $ZPLUG_HOME/init.zsh ] ; then
 	source $ZPLUG_HOME/init.zsh
 	# zplug "sorin-ionescu/prezto"
@@ -31,6 +33,13 @@ if [ -f $ZPLUG_HOME/init.zsh ] ; then
 		zplug install
 	fi
 fi
+
+# options
+export HISTFILE=$XDG_DATA_HOME/zsh/history
+mkdir -p  $XDG_DATA_HOME/zsh/
+touch $HISTFILE
+export HISTSIZE=10000
+export SAVEHIST=10000
 
 # # Source Prezto.
 # if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -121,6 +130,7 @@ bindkey '^]' fzf-src
 
 function fzf-history-selection() {
 	buffer=$(history -n 1 | tac | fzf --prompt "bck-i-search> " --query "$BUFFER")
+	# buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --no-sort --prompt "bck-i-search> " --query "$BUFFER")
 	if [ -n "$buffer" ]; then
 		BUFFER=$buffer
 		CURSOR=$#BUFFER
@@ -224,7 +234,6 @@ alias cboard='xsel --clipboard --input'
 alias hconf='./configure --prefix=$HOME/usr/local'
 VIM_VERSION=`vim --version | head -1 | perl -ne '$_=($_=~/(\b\d+\.\d+\b)/)[0];s/\.//;print$_'`
 alias vless='/usr/local/share/vim/vim${VIM_VERSION}/macros/less.sh'
-alias less='vim - -R'
 alias tmux="TERM=xterm-256color tmux"
 # du files(many file -> ff)
 alias duff="du -hs *"
@@ -258,9 +267,12 @@ then
 	alias porg_install='porg -lD "make install"'
 fi
 
+function copy_commit_hash() {
+	echo R | pbcopy
+}
+
 #env設定
 # zprofileに移行
-
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -332,8 +344,11 @@ rm -fr $HOME/.aws
 
 # Auto Update Brew
 if ! ps x | grep -v "grep brew" | grep brew > /dev/null; then
-	(type brew > /dev/null && brew update > /dev/null &)
+	# (type brew > /dev/null && brew update > /dev/null &)
+	# エラー出力はほしいが、tapの更新がエラー出力に出てきて煩わしいので一旦捨てる
+	(brew update 2> /dev/null 1> /dev/null &)
 fi
 
 # export PATH="$HOME/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin:$PATH"
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home"
+

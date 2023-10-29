@@ -3,12 +3,14 @@ tmp/
 *DS_Store
 *~
 ,/
-.ruby_version
 *.swp
-.idea/
+# .idea/
+サイドメニューの出方が変わっている
 
 .dropbox.attr
 .envrc
 worktree/
 tags
+
+patches
 
