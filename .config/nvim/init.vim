@@ -82,6 +82,8 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     " call dein#add('leafgarland/typescript-vim.git')
     " call dein#add('unclechu/nim.vim')
     " call dein#add('dart-lang/dart-vim-plugin')
+    " let g:dart_format_on_save = 1
+    " let g:dart_format_on_save = v:true
     " js
     " call dein#add('othree/yajs.vim')
     " call dein#add('othree/es.next.syntax.vim')
@@ -328,9 +330,11 @@ function! s:configure_lsp() abort
   setlocal omnifunc=lsp#complete
   " LSP用にマッピング
   nnoremap <C-]> :LspDefinition<CR>
-  nnoremap <Leader>lr :<C-u>LspReferences<CR>
+  " nnoremap <Leader>lr :<C-u>LspReferences<CR>
+  nnoremap <Leader>lr :<C-u>LspRename<CR>
   nnoremap <Leader>ln :<C-u>LspNextDiagnostic<CR>
   nnoremap <Leader>lp :<C-u>LspPreviousDiagnostic<CR>
+  nnoremap <Leader>la :<C-u>LspCodeAction<CR>
   " nnoremap <buffer> gd :<C-u>LspDefinition<CR>
   " nnoremap <buffer> gD :<C-u>LspReferences<CR>
   " nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
@@ -339,7 +343,7 @@ function! s:configure_lsp() abort
   " vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
   " nnoremap <buffer> K :<C-u>LspHover<CR>
   " nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
-  " nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+  " ideaと噛み合わないため一旦
   " autocmd BufWritePre <buffer> LspDocumentFormatSync
 endfunction
 autocmd FileType vim call s:configure_lsp()
@@ -353,6 +357,9 @@ autocmd FileType dart call s:configure_lsp()
 " others
 let g:indent_guides_enable_on_vim_startup = 1
 set listchars=tab:\|\
+set termguicolors
+" http://hue360.herokuapp.com
+let g:interestingWordsGUIColors = ['#FFF280', '#CFE283', '#F6D580', '#A4A9CF', '#6EB7DB', '#1E98B9', '#F3D1E5', '#C97FB4']
 let g:interestingWordsTermColors = ['115', '186', '145', '211', '137', '214', '222', '154']
 
 " OmniSharp
@@ -532,7 +539,8 @@ augroup user_filetypedetect
     autocmd!
     " source ~/.vimrcしたら、開き直さないとこちらの設定が反映されない
     autocmd BufNewFile,BufRead *.php setfiletype php " setlocal filetype=php と同義
-    autocmd BufNewFile,BufRead Podfile setfiletype ruby
+    " rubyに設定するとLSPが起動してめちゃくちゃにされる
+    " autocmd BufNewFile,BufRead Podfile setfiletype ruby
     autocmd BufNewFile,BufRead *.swift setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
     autocmd BufNewFile,BufRead *.html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
@@ -620,6 +628,7 @@ command! -bang -nargs=* FindNippo :call FindNippoFunc()
 command! Yasashiku :setlocal norelativenumber nocursorline
 command! Kibishiku :setlocal relativenumber cursorline
 command! FindRepository :call FindRepositoryFunc()
+" sessionの保存機能なかったっけ？
 " cbuffer reload quickfix
 " }}} commands
 

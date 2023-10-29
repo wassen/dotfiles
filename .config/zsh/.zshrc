@@ -28,6 +28,13 @@ if [ -f $ZPLUG_HOME/init.zsh ] ; then
 	fi
 fi
 
+# options
+export HISTFILE=$XDG_DATA_HOME/zsh/history
+mkdir -p  $XDG_DATA_HOME/zsh/
+touch $HISTFILE
+export HISTSIZE=10000
+export SAVEHIST=10000
+
 # # Source Prezto.
 # if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 #   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -220,7 +227,6 @@ alias cboard='xsel --clipboard --input'
 alias hconf='./configure --prefix=$HOME/usr/local'
 VIM_VERSION=`vim --version | head -1 | perl -ne '$_=($_=~/(\b\d+\.\d+\b)/)[0];s/\.//;print$_'`
 alias vless='/usr/local/share/vim/vim${VIM_VERSION}/macros/less.sh'
-alias less='vim - -R'
 alias tmux="TERM=xterm-256color tmux"
 # du files(many file -> ff)
 alias duff="du -hs *"

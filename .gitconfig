@@ -48,9 +48,12 @@
 	squeeze         = commit --amend --no-edit --reset-author
 	makepatch       = !git diff > .git_patch
 	applypatch      = apply .git_patch
+	open            = "!f() { open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!https://!' -e 's!https://.*@github!https://github!' -e 's!.git$!!')/pull/$1; }; f"
 	#open=! open http://$(git config remote.origin.url | sed -e \"s/^[a-z]*:\/\///\" | sed -e "s/git@//" | tr ":" "/")
-	open            = !open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')
-	open-pr         = !open "$(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!')/pull/new/$(git rev-parse --abbrev-ref HEAD)"
+  # open            = !open $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!' -e 's!.jp.git!.jp!')
+  # open-new-pr     = !open "$(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!' -e 's!.jp.git!.jp!')/pull/new/$(git rev-parse --abbrev-ref HEAD)"
+  # open-current-pr = !open "$(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!' -e 's!.git!!')/pull/$(git branch --show-current)"
+	open-test       = "!f() { echo $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!https://!' -e 's!https://.*@github!https://github!' -e 's!.git$!!')/pull/$1; }; f"
 	pick            = cherry-pick
 	private-config  = !git config --replace-all user.name wassen && git config --replace-all user.email k-asayama@outlook.com
   working-config  = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email "29850739+kazuki-asayama-d@users.noreply.github.com"

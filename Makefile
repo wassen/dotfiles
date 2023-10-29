@@ -1,6 +1,7 @@
 .PHONY: _mac _brew _key_repeat hoge ho\ ge/ho\ ge
 
 DOTFILE_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+export HOMEBREW_NO_AUTO_UPDATE := 1
 
 ho\ ge/ho\ ge:
 	echo '$(shell dirname "$@")'
@@ -8,7 +9,7 @@ ho\ ge/ho\ ge:
 default:
 	:
 
-_mac: _symlinks _key_repeat _brew .config/nvim/dein ${HOME}/.config
+_mac: _symlinks _key_repeat _brew .config/nvim/dein ${HOME}/.config ${XDG_DATA_HOME}/nvim/site/pack/packer/opt/packer.nvim
 	:
 
 ${HOME}/.bashrc:
@@ -38,14 +39,15 @@ _symlinks:
 	@test -x /opt/homebrew/bin/brew && eval $$(/opt/homebrew/bin/brew shellenv) || (echo 'where is homebrew?' 1>&2; exit 125)
 
 _brew: /opt/homebrew/bin/brew
-	cat ${DOTFILE_DIR}/backups/formulae.txt | xargs brew install --formulae --quiet
+	:
+	# cat ${DOTFILE_DIR}/backups/formulae.txt | xargs brew install --formulae --quiet
 	# displaylinkが不要になったらこれも不要
-	brew tap homebrew/cask-drivers
+	# brew tap homebrew/cask-drivers
 	# quietがcasksだけ効いてないが
-	cat ${DOTFILE_DIR}/backups/casks.txt | xargs brew install --casks --quiet
+	# cat ${DOTFILE_DIR}/backups/casks.txt | xargs brew install --casks --quiet
 
-.config/nvim/dein:
-	curl 'https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh' | bash -s '.config/nvim/dein'
+${XDG_DATA_HOME}/nvim/site/pack/packer/opt/packer.nvim:
+	git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
 
 _key_repeat:
 	defaults write -g KeyRepeat -int 2

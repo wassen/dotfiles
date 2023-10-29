@@ -3,8 +3,6 @@ tmp/
 *DS_Store
 *~
 ,/
-.ruby_version
-.ruby-version
 *.swp
 # .idea/
 サイドメニューの出方が変わっている
