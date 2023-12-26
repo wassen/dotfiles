@@ -12,6 +12,7 @@ require("packer").startup(function(use)
 	use 'williamboman/mason.nvim'
 	use 'williamboman/mason-lspconfig.nvim'
 	use { 'akinsho/nvim-bufferline.lua', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
+	-- require nerd font. see https://github.com/ryanoasis/nerd-fonts#patched-fonts
 	use { 'lukas-reineke/indent-blankline.nvim' }
 	use { 'nvim-treesitter/nvim-treesitter' }
 	use { 'machakann/vim-sandwich' }
@@ -24,4 +25,5 @@ require("packer").startup(function(use)
 		-- optional for icon support
 		requires = { 'kyazdani42/nvim-web-devicons' }
 	}
+	use { 'lambdalisue/fern.vim' }
 end)
