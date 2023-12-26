@@ -206,9 +206,9 @@ function mas-install() {
 if hash exa; then
 	alias ls='exa'
 fi
-# if hash nvim; then
-# 	alias vim='nvim'
-# fi
+if hash nvim; then
+	alias vim='nvim'
+fi
 
 alias sudo='nocorrect sudo'
 alias l='ls'
@@ -225,6 +225,7 @@ alias gti='git'
 alias gl='git log'
 alias gs='git status'
 alias gitcd='cd $(git rev-parse --show-toplevel)'
+alias grep='grep --color=auto'
 #alias sctl='systemctl '
 alias tunnel='ssh -f -N'
 alias killpid='_killpid'
@@ -336,7 +337,12 @@ function _ec() {
 compdef _ec ec
 
 mkdir -p $HOME/workspace/tmp
-exa --all $HOME/workspace/tmp | xargs -I{} find $HOME/workspace/tmp/{} -mtime +30 -depth 0 | xargs rm -fr
+function deleteTmpOneMonth() {
+	find $HOME/workspace/tmp -mindepth 1 -maxdepth 1 -mtime +30 -exec rm -fr {} +
+	# exa --all $HOME/workspace/tmp | xargs -I{} find $HOME/workspace/tmp/{} -mtime +30 -depth 0 | xargs rm -fr
+}
+deleteTmpOneMonth
+
 rm -fr $HOME/.aws
 
 # alias -s 'tar.gz'='tar fx'

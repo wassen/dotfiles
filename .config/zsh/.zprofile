@@ -21,8 +21,10 @@ export PATH="${PATH}:${HOME}/.local/opt/flutter/bin"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
-eval $(/opt/homebrew/bin/brew shellenv)
-
+if [ -e /opt/homebrew/bin/brew ];
+then
+	eval $(/opt/homebrew/bin/brew shellenv)
+fi
 
 HOME_OPT=$HOME/opt
 if [ -d $HOME_OPT ]
@@ -55,8 +57,10 @@ export AWS_CONFIG_FILE=$XDG_CONFIG_HOME/aws/config
 export LESS='--RAW-CONTROL-CHARS'
 export LESSOPEN='| /usr/local/bin/source-highlight-esc.sh %s'
 
+# WSLでTrue Color
+export COLORTERM=truecolor
+
 # Options
-export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;32'
 export FZF_DEFAULT_OPTS='
 	--height 85% --reverse --border
