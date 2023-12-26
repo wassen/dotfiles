@@ -11,6 +11,11 @@
 [color]
 	ui = auto
   ; pager = no
+[color "grep"]
+	match = reverse "#3FBCA3" 
+	context = normal
+	linenumber = bold white
+	filename = bold "#E8AC6B"
 # Commands
 [commit]
 	verbose = true
