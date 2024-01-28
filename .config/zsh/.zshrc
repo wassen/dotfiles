@@ -256,7 +256,7 @@ alias -g  S='$(git status --short | fzf --multi --preview "sh -c \"echo {} | awk
 # splitoonの出番か
 # alias -g  R='$(git log --oneline | fzf --no-sort --preview "sh -c \"git --no-pager show $(echo {} | cut -b 1)\"" --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  R='$(git log --oneline | fzf --multi --no-sort --preview "sh -c \"git --no-pager show \\\$(echo {} | awk '\''{print \\\$1}'\'')\"" --prompt "Git Revisions> " | awk '\''{print $1}'\'')'
-alias -g  G='$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )'
+alias -g  G='"$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )"'
 ### Processes
 alias -g  P='$(ps x -o pid,command | fzf --multi --prompt "Processes> " | awk "{print \$1}")'
 ### Docker
