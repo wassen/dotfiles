@@ -1,12 +1,38 @@
+require "settings"
 require "plugins"
 require "plugin/lualine"
+require "plugin/bufferline"
 require "keybinds"
 require "view"
 
 -- filetypeの指定をしたい
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+-- formatによりlspの警告が消える。
+-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
 -- 1. LSP Sever management
+-- 言語固有は遅延したほうが良いか？
+require("lspconfig").lua_ls.setup({})
+require("lspconfig").dartls.setup(
+	{
+		cmd = { "dart", "language-server", "--protocol=lsp" },
+		filetypes = { "dart" },
+		init_options = {
+			closingLabels = true,
+			flutterOutline = true,
+			onlyAnalyzeProjectsWithOpenFiles = true,
+			outline = true,
+			suggestFromUnimportedLibraries = true,
+		},
+		-- root_dir = root_pattern("pubspec.yaml"),
+		settings = {
+			dart = {
+				completeFunctionCalls = true,
+				showTodos = true,
+			},
+		},
+	}
+)
+
 require('mason').setup()
 require('mason-lspconfig').setup_handlers({ function(server)
 	local opt = {
@@ -31,16 +57,38 @@ require('mason-lspconfig').setup_handlers({ function(server)
 	require('lspconfig')[server].setup(opt)
 end })
 
-require('bufferline').setup {
-	options = {
-		numbers = "both",
-	},
+require("telescope").setup {
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown {
+				-- even more opts
+			}
+
+			-- pseudo code / specification for writing custom displays, like the one
+			-- for "codeactions"
+			-- specific_opts = {
+			--   [kind] = {
+			--     make_indexed = function(items) -> indexed_items, width,
+			--     make_displayer = function(widths) -> displayer
+			--     make_display = function(displayer) -> function(e)
+			--     make_ordinal = function(e) -> string
+			--   },
+			--   -- for example to disable the custom builtin "codeactions" display
+			--      do the following
+			--   codeactions = false,
+			-- }
+		}
+	}
 }
+-- To get ui-select loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require("telescope").load_extension("ui-select")
 
 require("indent_blankline").setup {
 	show_current_context = true,
 	show_current_context_start = false,
 }
+
 
 -- lspの設定を分けたい
 vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
@@ -53,7 +101,7 @@ vim.opt_local.clipboard:append { 'unnamedplus' }
 
 -- setting
 -- 閉じてもundoを出来るようにファイルに保存する
-vim.opt_local.undofile = true
+vim.opt.undofile = true
 -- ハードタブの幅
 vim.opt_local.tabstop = 4
 -- ハイフンを区切り文字としない
@@ -104,3 +152,31 @@ vim.opt_local.iskeyword:append { '-' }
 -- vim.g['airline_extensions_tabline_fnamemod'] = ':t'
 -- let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 -- let g:airline#extensions#tabline#buffer_idx_mode = 0
+
+function MyFruitsPicker()
+	local pickers = require 'telescope.pickers'
+	local finders = require 'telescope.finders'
+	local sorters = require 'telescope.sorters'
+	local actions = require 'telescope.actions'
+	local action_state = require 'telescope.actions.state'
+
+	pickers.new({}, {
+		prompt_title = 'Fruits',
+		finder = finders.new_table({
+			results = { 'banana', 'apple' }
+		}),
+		sorter = sorters.get_generic_fuzzy_sorter(),
+		attach_mappings = function(prompt_bufnr, map)
+			actions.select_default:replace(function()
+				local selection = action_state.get_selected_entry()
+				print(selection.value)
+				actions.close(prompt_bufnr)
+			end)
+			return true
+		end,
+	}):find()
+end
+
+-- メモ
+-- 再読み込み
+-- :source $MYVIMRC

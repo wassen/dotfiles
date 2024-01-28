@@ -24,6 +24,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     if 1
         call dein#add('vim-airline/vim-airline')
         call dein#add('vim-airline/vim-airline-themes')
+
     elseif 0
         call dein#add('itchyny/lightline.vim')
     endif
