@@ -18,6 +18,7 @@ require('mason-lspconfig').setup_handlers({ function(server)
 				}
 			}
 		}
+
 		-- -- Function executed when the LSP server startup
 		-- on_attach = function(client, bufnr)
 		--   local opts = { noremap=true, silent=true }
@@ -34,30 +35,60 @@ end })
 require('bufferline').setup {
 	options = {
 		numbers = "both",
+		indicator = {
+			style = 'underline',
+		},
 	},
 }
 
-require("indent_blankline").setup {
-	show_current_context = true,
-	show_current_context_start = false,
-}
+require("ibl").setup()
+
+-- setlocal omnifunc=lsp#complete
+-- -- LSP用にマッピング
+-- nnoremap <C-]> :LspDefinition<CR>
 
 -- lspの設定を分けたい
-vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
-
+-- vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
 -- デフォルトのレジスタをクリップボードにする
 vim.opt_local.clipboard:append { 'unnamedplus' }
 -- set clipboard&
 -- set clipboard^=unnamedplus
 
+-- *, +のレジスタをWSLのclipboardと繋ぐ (:help clipboard-wsl)
+local output = vim.fn.system('uname -a | grep microsoft')
+if output ~= '' then
+	vim.g.clipboard = {
+		name = 'WslClipboard',
+		copy = {
+			['+'] = 'clip.exe',
+			['*'] = 'clip.exe',
+		},
+		paste = {
+			['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+			['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+		},
+		cache_enabled = 0,
+	}
+end
+
 -- setting
 -- 閉じてもundoを出来るようにファイルに保存する
-vim.opt_local.undofile = true
--- ハードタブの幅
-vim.opt_local.tabstop = 4
+vim.opt.undofile = true
+-- タブの幅
+-- typescriptとかの個別設定
+-- vim.opt.tabstop = 4
+-- vim.opt.shiftwidth = 4
+-- vim.opt.expandtab = false
 -- ハイフンを区切り文字としない
-vim.opt_local.iskeyword:append { '-' }
+vim.opt.iskeyword:append { '-' }
+
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.wo.cursorline = true
+vim.opt.list = true
+vim.opt.listchars = { tab = '▸ ' }
+-- set termguicolors
 
 -- 2. build-in LSP function
 -- keyboard shortcut
@@ -104,3 +135,14 @@ vim.opt_local.iskeyword:append { '-' }
 -- vim.g['airline_extensions_tabline_fnamemod'] = ':t'
 -- let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 -- let g:airline#extensions#tabline#buffer_idx_mode = 0
+
+
+-- 背景透過
+vim.api.nvim_set_hl(0, 'Normal', { ctermbg = 'none' })
+vim.api.nvim_set_hl(0, 'NonText', { ctermbg = 'none' })
+vim.api.nvim_set_hl(0, 'LineNr', { ctermbg = 'none' })
+vim.api.nvim_set_hl(0, 'Folded', { ctermbg = 'none' })
+vim.api.nvim_set_hl(0, 'EndOfBuffer', { ctermbg = 'none' })
+
+-- Command
+vim.api.nvim_create_user_command('Vimrc', function() vim.cmd('e ~/.config/nvim/init.lua') end, {})
