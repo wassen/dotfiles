@@ -24,6 +24,7 @@ if dein#load_state(expand($XDG_CONFIG_HOME.'/nvim/dein'))
     if 1
         call dein#add('vim-airline/vim-airline')
         call dein#add('vim-airline/vim-airline-themes')
+
     elseif 0
         call dein#add('itchyny/lightline.vim')
     endif
@@ -376,7 +377,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 set listchars=tab:\|\
 set termguicolors
 " http://hue360.herokuapp.com
-let g:interestingWordsGUIColors = ['#FFF280', '#CFE283', '#F6D580', '#A4A9CF', '#6EB7DB', '#1E98B9', '#F3D1E5', '#C97FB4']
+let g:interestingWordsGUIColors = ['#FFF280', '#CFE283', '#F6D580', '#A4A9CF', '#6EB7DB', '#1E98B9', '#F3D1E5', '#C97FB4', '#B492CC', '#8BA7D5', '#D27EB3', '#EBF182', '#81D674', '#1DAF9E', '#FBE481', '#E06A3B']
 let g:interestingWordsTermColors = ['115', '186', '145', '211', '137', '214', '222', '154']
 
 " OmniSharp
