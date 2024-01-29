@@ -128,11 +128,6 @@ vim.opt_local.clipboard:append { 'unnamedplus' }
 -- setting
 -- 閉じてもundoを出来るようにファイルに保存する
 vim.opt.undofile = true
--- タブの幅
--- typescriptとかの個別設定
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
 -- ハイフンを区切り文字としない
 vim.opt.iskeyword:append { '-' }
 

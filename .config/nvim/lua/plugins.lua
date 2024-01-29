@@ -41,6 +41,7 @@ require("packer").startup(function(use)
 
 	use { 'azabiong/vim-highlighter' }
 	use { 'nvim-telescope/telescope-ui-select.nvim' }
+	use { 'folke/trouble.nvim' }
 	use {
 		'dart-lang/dart-vim-plugin',
 		ft = 'dart'
