@@ -10,3 +10,4 @@
 vim.o.background = "dark"
 vim.cmd[[colorscheme hybrid]]
 
+vim.opt.termguicolors = true

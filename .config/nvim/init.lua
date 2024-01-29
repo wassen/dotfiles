@@ -5,7 +5,7 @@ require "plugin/bufferline"
 require "keybinds"
 require "view"
 
--- filetypeの指定をしたい
+-- -- filetypeの指定をしたい
 -- formatによりlspの警告が消える。
 -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
@@ -94,7 +94,14 @@ require("telescope").setup {
 -- load_extension, somewhere after setup function:
 require("telescope").load_extension("ui-select")
 
-require("ibl").setup()
+require("ibl").setup {
+    scope = {
+        enabled = true,
+        show_start = true,
+        show_end = true,
+    },
+}
+
 
 -- setlocal omnifunc=lsp#complete
 -- -- LSP用にマッピング
@@ -130,12 +137,6 @@ vim.opt_local.clipboard:append { 'unnamedplus' }
 vim.opt.undofile = true
 -- ハイフンを区切り文字としない
 vim.opt.iskeyword:append { '-' }
-
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.cursorline = true
-vim.opt.list = true
-vim.opt.listchars = { tab = '▸ ' }
 -- set termguicolors
 
 -- 2. build-in LSP function
@@ -184,12 +185,12 @@ vim.opt.listchars = { tab = '▸ ' }
 -- let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 -- let g:airline#extensions#tabline#buffer_idx_mode = 0
 
--- 背景透過
-vim.api.nvim_set_hl(0, 'Normal', { ctermbg = 'none' })
-vim.api.nvim_set_hl(0, 'NonText', { ctermbg = 'none' })
-vim.api.nvim_set_hl(0, 'LineNr', { ctermbg = 'none' })
-vim.api.nvim_set_hl(0, 'Folded', { ctermbg = 'none' })
-vim.api.nvim_set_hl(0, 'EndOfBuffer', { ctermbg = 'none' })
+-- Winで背景透過がやりたかったがColorSchemeが壊れる
+-- vim.api.nvim_set_hl(0, 'Normal', { ctermbg = 'none' })
+-- vim.api.nvim_set_hl(0, 'NonText', { ctermbg = 'none' })
+-- vim.api.nvim_set_hl(0, 'LineNr', { ctermbg = 'none' })
+-- vim.api.nvim_set_hl(0, 'Folded', { ctermbg = 'none' })
+-- vim.api.nvim_set_hl(0, 'EndOfBuffer', { ctermbg = 'none' })
 
 -- Command
 vim.api.nvim_create_user_command('Vimrc', function() vim.cmd('e ~/.config/nvim/init.lua') end, {})

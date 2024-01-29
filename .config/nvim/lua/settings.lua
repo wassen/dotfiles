@@ -5,8 +5,8 @@ vim.wo.cursorline = true
 -- bufferline等
 vim.opt.termguicolors = true
 
-vim.wo.list = true
-vim.opt.listchars = { tab = '▸ ', trail = '·' }
+-- vim.wo.list = true
+-- vim.opt.listchars = { tab = '▸ ', trail = '·' }
 
 -- タブの幅
 vim.opt.tabstop = 4
