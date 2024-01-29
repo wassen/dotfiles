@@ -1,4 +1,3 @@
-
 --set background=dark
 --augroup color_scheme
 --    autocmd!
@@ -8,6 +7,6 @@
 --    autocmd ColorScheme * highlight SpecialKey ctermfg=035
 --augroup END
 vim.o.background = "dark"
-vim.cmd[[colorscheme hybrid]]
+vim.cmd [[colorscheme hybrid]]
 
 vim.opt.termguicolors = true

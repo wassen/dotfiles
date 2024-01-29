@@ -95,11 +95,11 @@ require("telescope").setup {
 require("telescope").load_extension("ui-select")
 
 require("ibl").setup {
-    scope = {
-        enabled = true,
-        show_start = true,
-        show_end = true,
-    },
+	scope = {
+		enabled = true,
+		show_start = true,
+		show_end = true,
+	},
 }
 
 
