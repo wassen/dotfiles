@@ -109,30 +109,30 @@ vim.opt_local.clipboard:append { 'unnamedplus' }
 -- set clipboard^=unnamedplus
 
 -- *, +のレジスタをWSLのclipboardと繋ぐ (:help clipboard-wsl)
-local output = vim.fn.system('uname -a | grep microsoft')
-if output ~= '' then
-	vim.g.clipboard = {
-		name = 'WslClipboard',
-		copy = {
-			['+'] = 'clip.exe',
-			['*'] = 'clip.exe',
-		},
-		paste = {
-			['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-			['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-		},
-		cache_enabled = 0,
-	}
-end
+-- local output = vim.fn.system('uname -a | grep microsoft')
+-- if output ~= '' then
+-- 	vim.g.clipboard = {
+-- 		name = 'WslClipboard',
+-- 		copy = {
+-- 			['+'] = 'clip.exe',
+-- 			['*'] = 'clip.exe',
+-- 		},
+-- 		paste = {
+-- 			['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+-- 			['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+-- 		},
+-- 		cache_enabled = 0,
+-- 	}
+-- end
 
 -- setting
 -- 閉じてもundoを出来るようにファイルに保存する
 vim.opt.undofile = true
 -- タブの幅
 -- typescriptとかの個別設定
--- vim.opt.tabstop = 4
--- vim.opt.shiftwidth = 4
--- vim.opt.expandtab = false
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 -- ハイフンを区切り文字としない
 vim.opt.iskeyword:append { '-' }
 
