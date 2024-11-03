@@ -10,6 +10,7 @@
 .config/zsh/.zsh_sessions/
 .config/zsh/.zcompdump
 .config/aws/
+.config/nvim/plugin/packer_compiled.lua
 .config/flutter/
 .config/raycast/
 .gitconfig_user

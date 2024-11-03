@@ -6,6 +6,11 @@ echo "login to zsh"
 export EDITOR=nvim
 export VISUAL=nvim
 
+if [ -e /opt/homebrew/bin/brew ];
+then
+	eval $(/opt/homebrew/bin/brew shellenv)
+fi
+
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/usr/local/bin:$PATH"
@@ -20,11 +25,6 @@ export PATH="${PATH}:${HOME}/.local/opt/flutter/bin"
 # export PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp:$PATH"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-if [ -e /opt/homebrew/bin/brew ];
-then
-	eval $(/opt/homebrew/bin/brew shellenv)
-fi
 
 HOME_OPT=$HOME/opt
 if [ -d $HOME_OPT ]

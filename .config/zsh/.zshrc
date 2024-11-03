@@ -3,11 +3,12 @@ echo "Run-Control zsh"
 # Zplug settings
 if [ -d /usr/local/opt/zplug ]; then
 	export ZPLUG_HOME=/usr/local/opt/zplug
+elif [ -d /opt/homebrew/opt/zplug ]; then
+	export ZPLUG_HOME=/opt/homebrew/opt/zplug
 else
 	export ZPLUG_HOME=$XDG_DATA_HOME/opt/zplug
 fi
 
-# export ZPLUG_HOME=/opt/homebrew/opt/zplug
 
 if [ -f $ZPLUG_HOME/init.zsh ] ; then
 	source $ZPLUG_HOME/init.zsh
@@ -38,8 +39,8 @@ fi
 export HISTFILE=$XDG_DATA_HOME/zsh/history
 mkdir -p  $XDG_DATA_HOME/zsh/
 touch $HISTFILE
-export HISTSIZE=10000
-export SAVEHIST=10000
+export HISTSIZE=100000
+export SAVEHIST=100000
 
 # # Source Prezto.
 # if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -129,7 +130,10 @@ zle -N peco-src
 bindkey '^]' fzf-src
 
 function fzf-history-selection() {
-	buffer=$(history -n 1 | tac | fzf --prompt "bck-i-search> " --query "$BUFFER")
+    # TODO: tac or tail -r
+    # awk '!seen[$0]++' はsortなしのuniq
+	buffer=$(history -n 1 | tail -r | awk '!seen[$0]++' | fzf --no-sort --prompt "bck-i-search> " --query "$BUFFER")
+
 	# buffer=$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --no-sort --prompt "bck-i-search> " --query "$BUFFER")
 	if [ -n "$buffer" ]; then
 		BUFFER=$buffer
@@ -142,7 +146,8 @@ function fzf-history-selection() {
 zle -N fzf-history-selection
 
 function peco-history-selection() {
-	  BUFFER=$(history -n 1 | tac | peco --query "$LBUFFER")
+      # TODO: tac or tail -r
+	  BUFFER=$(history -n 1 | tail -r | peco --query "$LBUFFER")
 	  CURSOR=$#BUFFER
 }
 
@@ -206,9 +211,9 @@ function mas-install() {
 if hash exa; then
 	alias ls='exa'
 fi
-if hash nvim; then
-	alias vim='nvim'
-fi
+# if hash nvim; then
+# 	alias vim='nvim'
+# fi
 
 alias sudo='nocorrect sudo'
 alias l='ls'
@@ -252,11 +257,44 @@ alias -g  F='$(ls -F   | grep -v "/$" | fzf --multi --prompt "Files> " | sed -e 
 ## 事前にcutしておかない場合、previewがめんどくさい・・・関数にできない？
 ## Git管理下にないファイルの場合、変更点じゃなくてファイルそのものを表示したい。
 ## xargs git diff じゃなくて git diff $() にしたかったけどうまくいかない
-alias -g  S='$(git status --short | fzf --multi --preview "sh -c \"echo {} | awk '\''{print \\\$2}'\'' | xargs git diff\"" --prompt "Git Files> " | cut -c 4-)'
+# double quoteの扱いが面倒 alias -g  S='"$(git status --short | fzf --multi --preview "sh -c \"echo {} | awk '\''{print \\\$2}'\'' | xargs git diff\"" --prompt "Git Files> " | cut -c 4-)"'
+# alias -g  S='"$(git status --short | fzf --multi --preview "sh -c \"echo {} | awk '\''{print \\\$2}'\'' | xargs git diff\"" --prompt "Git Files> " | cut -c 4- | sed \"s/^\\"//;s/\\"$//\")"'
+# name statusとやらもあるが挙動は違いそう untrackedが入らないから駄目です
+# alias -g  S='"$(git diff --name-only --relative | fzf --multi --preview "git diff {}" --prompt "Git Files> ")"'
+# --porcelain は色がなく相対パスなので駄目です
+
+function get_substring_from_third_char() {
+    while IFS= read -r line; do
+        echo "${line:3}"
+    done
+}
+
+function hoge() {
+    # git status -z に status.relativePaths=trueが効かない。相対パスがうまくいかない
+    # ファイル名の末尾が空白の場合はうまくいかない
+    # pythonのshlexとか使うか
+    # プレビューが表示されていない
+    git -c color.ui=always status --no-branch --short --no-renames -z | tr '\0' '\n' | fzf --ansi --multi --prompt "$(git rev-parse --abbrev-ref HEAD) Status >" --preview "echo {} | awk '{\$1=\"\"; print \$0}'" | get_substring_from_third_char
+}
+# alias -g  S='"$(hoge)"'
+
+function fuga() {
+    # 今度は複数選択が上手くいかない。キレそう
+    # # "$(fuga)" にしてたからだったわ
+    git -c color.ui=always status --no-branch --short --no-renames | fzf --ansi --multi --prompt "$(git rev-parse --abbrev-ref HEAD) Status >" --preview "git diff \"\$(echo {} | $ZDOTDIR/python/parse_git_status.py)\"" | $ZDOTDIR/python/parse_git_status.py
+}
+alias -g  S='$(fuga)'
+# ダブルクオートがない版 空白文字が駄目
+alias -g  U='$(git -c color.ui=always status --no-branch --short --no-renames -z | tr '\''\0'\'' '\''\n'\'' | fzf --ansi --multi --prompt "$(git rev-parse --abbrev-ref HEAD) Status >" --preview "echo {} | awk '\''{\$1=\"\"; print \$0}'\''" | awk '\''{print $2}'\'')'
+# ダブルクオートがある版 /がパス区切りとされていなさそうでファイルが開けない
+alias -g  K='"$(git -c color.ui=always status --no-branch --short --no-renames -z | tr '\''\0'\'' '\''\n'\'' | fzf --ansi --multi --prompt "$(git rev-parse --abbrev-ref HEAD) Status >" --preview "echo {} | awk '\''{\$1=\"\"; print \$0}'\''" | awk '\''{print $2}'\'') "'
+
 # splitoonの出番か
 # alias -g  R='$(git log --oneline | fzf --no-sort --preview "sh -c \"git --no-pager show $(echo {} | cut -b 1)\"" --prompt "Git Revisions> " | cut -f 1 -d " ") '
 alias -g  R='$(git log --oneline | fzf --multi --no-sort --preview "sh -c \"git --no-pager show \\\$(echo {} | awk '\''{print \\\$1}'\'')\"" --prompt "Git Revisions> " | awk '\''{print $1}'\'')'
-alias -g  G='"$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )"'
+# この手のやつに空白区切り、複数選択とかでうまくいくかテストを書きたい。
+# "" をつけると複数選択が対処できず""をつけないと空白区切りが上手くいかない。fzfの出力はどうなってるんだこれ
+alias -g  G='$(git ls-files | fzf --multi --preview "cat {}" --prompt "Git Files> " )'
 ### Processes
 alias -g  P='$(ps x -o pid,command | fzf --multi --prompt "Processes> " | awk "{print \$1}")'
 ### Docker

@@ -1,5 +1,6 @@
 amethyst
 android-studio
+discord
 displaylink
 displaylink-login-extension
 docker
@@ -7,12 +8,15 @@ dropbox
 firefox
 font-hack
 font-hack-nerd-font
+google-drive
 google-japanese-ime
+inkscape
 iterm2
 microsoft-edge
 notion
 raycast
 slack
 teensy
+visual-studio-code
 vivaldi
 xcodes

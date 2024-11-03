@@ -1,4 +1,4 @@
-require "settings"
+pcall(require, "settings") -- 落ちても設定の続きは読んでくれるが、定義ジャンプが使えないのが面倒
 require "plugins"
 require "plugin/lualine"
 require "plugin/bufferline"
@@ -7,7 +7,9 @@ require "view"
 
 -- -- filetypeの指定をしたい
 -- formatによりlspの警告が消える。
--- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+
+vim.cmd [[autocmd CompleteDone * pclose]]
 
 -- 1. LSP Sever management
 -- 言語固有は遅延したほうが良いか？
@@ -28,6 +30,7 @@ require("lspconfig").dartls.setup(
 			dart = {
 				completeFunctionCalls = true,
 				showTodos = true,
+				lineLength = 120,
 			},
 		},
 	}
@@ -57,6 +60,53 @@ require('mason-lspconfig').setup_handlers({ function(server)
 	}
 	require('lspconfig')[server].setup(opt)
 end })
+
+require('gitsigns').setup {
+	on_attach = function(bufnr)
+		local gitsigns = require('gitsigns')
+
+		local function map(mode, l, r, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts)
+		end
+
+		-- Navigation
+		map('n', ']c', function()
+			if vim.wo.diff then
+				vim.cmd.normal({ ']c', bang = true })
+			else
+				gitsigns.nav_hunk('next')
+			end
+		end)
+
+		map('n', '[c', function()
+			if vim.wo.diff then
+				vim.cmd.normal({ '[c', bang = true })
+			else
+				gitsigns.nav_hunk('prev')
+			end
+		end)
+
+		-- Actions
+		map('n', '<leader>hs', gitsigns.stage_hunk)
+		map('n', '<leader>hr', gitsigns.reset_hunk)
+		map('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+		map('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+		map('n', '<leader>hS', gitsigns.stage_buffer)
+		map('n', '<leader>hu', gitsigns.undo_stage_hunk)
+		map('n', '<leader>hR', gitsigns.reset_buffer)
+		map('n', '<leader>hp', gitsigns.preview_hunk)
+		map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end)
+		map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
+		map('n', '<leader>hd', gitsigns.diffthis)
+		map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
+		map('n', '<leader>td', gitsigns.toggle_deleted)
+
+		-- Text object
+		map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+	end
+}
 
 -- TODO: bufferlineファイルへ
 require('bufferline').setup {
@@ -94,13 +144,13 @@ require("telescope").setup {
 -- load_extension, somewhere after setup function:
 require("telescope").load_extension("ui-select")
 
-require("ibl").setup {
-	scope = {
-		enabled = true,
-		show_start = true,
-		show_end = true,
-	},
-}
+-- require("ibl").setup {
+-- 	scope = {
+-- 		enabled = true,
+-- 		show_start = true,
+-- 		show_end = true,
+-- 	},
+-- }
 
 
 -- setlocal omnifunc=lsp#complete
@@ -108,7 +158,7 @@ require("ibl").setup {
 -- nnoremap <C-]> :LspDefinition<CR>
 
 -- lspの設定を分けたい
-vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
+-- vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
 -- デフォルトのレジスタをクリップボードにする
 vim.opt_local.clipboard:append { 'unnamedplus' }
@@ -219,6 +269,49 @@ function MyFruitsPicker()
 	}):find()
 end
 
+local function blameFunc()
+	local line_number = vim.fn.line(".")
+	vim.cmd('!git log -L' .. line_number .. ',' .. line_number .. ':' .. vim.fn.expand("%"))
+end
+
+local function blameFunc2()
+	local line_number = vim.fn.line(".")
+	local tmp_file = vim.fn.tempname()
+	-- git logの結果を一時ファイルにリダイレクト
+	vim.cmd('silent !git log -p -L' ..
+		line_number .. ',' .. line_number .. ':' .. vim.fn.expand("%") .. ' > ' .. tmp_file)
+	-- 新しい無名バッファを開く
+	vim.cmd('new')
+	-- バッファの内容を一時ファイルから読み込む
+	vim.cmd('r ' .. tmp_file)
+	-- 一時ファイルを削除
+	vim.cmd('silent !rm ' .. tmp_file)
+	-- バッファタイプを設定して、Neovimにdiffとして解釈させる
+	vim.cmd('setlocal buftype=nofile')
+	vim.cmd('setfiletype diff')
+end
+
+vim.api.nvim_create_user_command('BLAME', blameFunc2, {})
+
+local function blameFunc3()
+	local line_number = vim.fn.line(".")
+	local current_file = vim.fn.expand("%")
+	local cmd = 'git log -L' .. line_number .. ',' .. line_number .. ':' .. current_file
+
+	-- 新しいターミナルバッファを開いて、そこでgitコマンドを実行する
+	vim.cmd('new | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile')
+	vim.api.nvim_buf_set_name(0, 'git-diff')
+	vim.fn.termopen(cmd, { detach = 1 })
+end
+
+vim.api.nvim_create_user_command('BLAMET', blameFunc3, {})
+
+-- set dictionary+=/usr/share/dict/words
+
 -- メモ
 -- 再読み込み
 -- :source $MYVIMRC
+-- 変更リストの再読み込み
+-- cbuffer←うまくいっていない
+-- lua vim.diagnostic.open_float()
+-- nvim --startuptime /tmp/nvim.log 起動速度

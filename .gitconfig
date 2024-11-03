@@ -25,9 +25,9 @@
 	color-words = true
 [difftool "vim"]
 	; vimdiffと変わらん
-	cmd = "vim -d $LOCAL $REMOTE"
+	cmd = "nvim -d $LOCAL $REMOTE"
 [merge]
-	tool = vimdiff
+	tool = nvimdiff
 [mergetool]
 	keepBackup = false
 	path       = nvim
@@ -69,6 +69,7 @@
 	choimachi       = !git reset --soft @~
 	mouiiyo         = !git commit --reuse-message ORIG_HEAD
 	lost-found      = "!f() { for blob in $(git fsck --lost-found | grep blob | cut -d ' ' -f 3 ); do if git --no-pager show $blob | grep --quiet $1; then echo $blob; fi; done; }; f"
+	logref          = "!f() { git --no-pager log --walk-reflogs | fzf; }; f"
 
 	workspace       = "!f() { git worktree add -b $1 $HOME/workspace/worktrees/$(basename $([ -d .git ] && git rev-parse --show-toplevel || cat .git | cut -f 2 -d \":\" | sed \"s/\\.git\\/.*//\"))/$1; }; f"
   # not work
@@ -79,3 +80,8 @@
 	helper = osxkeychain
 [push]
 	default = current
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

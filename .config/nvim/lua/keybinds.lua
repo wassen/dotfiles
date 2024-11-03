@@ -21,8 +21,13 @@ vim.api.nvim_set_keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<C
 vim.api.nvim_set_keymap('n', '<Leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>l<Leader>', '<cmd>Telescope<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>lg', '<cmd>Telescope git_files<CR>', { noremap = true })
+
 --
-vim.api.nvim_set_keymap('n', '<Leader><ESC>', '<cmd>nohlsearch<CR><cmd>set nopaste<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<ESC><ESC>', '<cmd>nohlsearch<CR><cmd>set nopaste<CR>', { noremap = true })
+
+-- vim-highlighter
+vim.api.nvim_set_keymap('n', '<Leader>kn', '<Cmd>Hi<<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>kj', '<Cmd>Hi><CR>', { noremap = true })
 
 -- buffer
 vim.api.nvim_set_keymap('n', '<Leader>bh', '<cmd>bprevious<CR>', { noremap = true })
