@@ -5,6 +5,16 @@ require("packer").startup(function(use)
 	use { "wbthomason/packer.nvim" }
 
 	use {
+		"github/copilot.vim",
+		-- insertモードでのキーマッピングを設定する
+		config = function()
+			-- 必要に応じて設定を記載
+			-- vim.g.copilot_no_tab_map = true
+			vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+		end
+	}
+
+	use {
 		'nvim-lualine/lualine.nvim',
 		requires = { 'nvim-tree/nvim-web-devicons' },
 	}
@@ -16,7 +26,7 @@ require("packer").startup(function(use)
 	-- smartcase
 	-- Escで検索ハイライトの削除
 	-- omni funcでscreenが開かれるのがうざい。Telescopeで出してくれ
-	use { 'akinsho/nvim-bufferline.lua', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
+	use { 'akinsho/nvim-bufferline.lua', requires = 'nvim-tree/nvim-web-devicons' }
 	-- require nerd font. see https://github.com/ryanoasis/nerd-fonts#patched-fonts
 
 	-- vim.opt.list = trueでハードタブの表示がおかしくなる問題がある
@@ -34,6 +44,8 @@ require("packer").startup(function(use)
 	use { "ellisonleao/gruvbox.nvim", opt = true }
 	use { 'folke/tokyonight.nvim', opt = true }
 
+	use { 'MagicDuck/grug-far.nvim' }
+
 	use {
 		'ibhagwan/fzf-lua',
 		-- optional for icon support
@@ -42,7 +54,6 @@ require("packer").startup(function(use)
 	use { 'lambdalisue/fern.vim' }
 	use {
 		'nvim-telescope/telescope.nvim',
-		tag = '0.1.5',
 		requires = {
 			{ 'nvim-lua/plenary.nvim' },
 		},
