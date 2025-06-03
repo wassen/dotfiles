@@ -1,4 +1,4 @@
-.PHONY: _mac _brew _key_repeat hoge ho\ ge/ho\ ge
+.PHONY: _mac _brew hoge ho\ ge/ho\ ge
 
 DOTFILE_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 export HOMEBREW_NO_AUTO_UPDATE := 1
@@ -9,7 +9,7 @@ ho\ ge/ho\ ge:
 default:
 	:
 
-_mac: _symlinks _key_repeat _brew .config/nvim/dein ${HOME}/.config ${XDG_DATA_HOME}/nvim/site/pack/packer/opt/packer.nvim
+_mac: _symlinks _brew ${HOME}/.config ${XDG_DATA_HOME}/nvim/site/pack/packer/opt/packer.nvim
 	:
 
 ${HOME}/.bashrc:
@@ -40,14 +40,11 @@ _symlinks:
 
 _brew: /opt/homebrew/bin/brew
 	:
-	# cat ${DOTFILE_DIR}/backups/formulae.txt | xargs brew install --formulae --quiet
+	cat ${DOTFILE_DIR}/backups/formulae.txt | xargs brew install --formulae --quiet
 	# displaylinkが不要になったらこれも不要
 	# brew tap homebrew/cask-drivers
 	# quietがcasksだけ効いてないが
-	# cat ${DOTFILE_DIR}/backups/casks.txt | xargs brew install --casks --quiet
+	cat ${DOTFILE_DIR}/backups/casks.txt | xargs brew install --casks --quiet
 
 ${XDG_DATA_HOME}/nvim/site/pack/packer/opt/packer.nvim:
 	git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
-
-_key_repeat:
-	defaults write -g KeyRepeat -int 2
