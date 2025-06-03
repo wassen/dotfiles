@@ -1,9 +1,18 @@
-pcall(require, "settings") -- 落ちても設定の続きは読んでくれるが、定義ジャンプが使えないのが面倒
-require "plugins"
-require "plugin/lualine"
-require "plugin/bufferline"
-require "keybinds"
-require "view"
+local status, err = pcall(function()
+	require "settings" -- 落ちても設定の続きは読んでくれるが、定義ジャンプが使えないのが面倒
+	require "plugins"
+	require "plugin/lualine"
+	require "plugin/bufferline"
+	require "keybinds"
+	require "view"
+end)
+
+
+vim.api.nvim_set_keymap('i', 'M-[', '<cmd>lua require("copilot").next()<CR>', { noremap = true })
+
+if not status then
+	print("Caught an error: " .. err)
+end
 
 -- -- filetypeの指定をしたい
 -- formatによりlspの警告が消える。
@@ -37,29 +46,29 @@ require("lspconfig").dartls.setup(
 )
 
 require('mason').setup()
-require('mason-lspconfig').setup_handlers({ function(server)
-	local opt = {
-		{
-			{
-				{
-					-- a
-
-				}
-			}
-		}
-
-		-- -- Function executed when the LSP server startup
-		-- on_attach = function(client, bufnr)
-		--   local opts = { noremap=true, silent=true }
-		--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-		--   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
-		-- end,
-		-- capabilities = require('cmp_nvim_lsp').update_capabilities(
-		-- vim.lsp.protocol.make_client_capabilities()
-		-- )
-	}
-	require('lspconfig')[server].setup(opt)
-end })
+-- require('mason-lspconfig').setup_handlers({ function(server)
+-- 	local opt = {
+-- 		{
+-- 			{
+-- 				{
+-- 					-- a
+--
+-- 				}
+-- 			}
+-- 		}
+--
+-- 		-- -- Function executed when the LSP server startup
+-- 		-- on_attach = function(client, bufnr)
+-- 		--   local opts = { noremap=true, silent=true }
+-- 		--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+-- 		--   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
+-- 		-- end,
+-- 		-- capabilities = require('cmp_nvim_lsp').update_capabilities(
+-- 		-- vim.lsp.protocol.make_client_capabilities()
+-- 		-- )
+-- 	}
+-- 	require('lspconfig')[server].setup(opt)
+-- end })
 
 require('gitsigns').setup {
 	on_attach = function(bufnr)
@@ -268,6 +277,44 @@ function MyFruitsPicker()
 		end,
 	}):find()
 end
+
+function MyCommandPicker()
+	local pickers = require 'telescope.pickers'
+	local finders = require 'telescope.finders'
+	local sorters = require 'telescope.sorters'
+	local actions = require 'telescope.actions'
+	local action_state = require 'telescope.actions.state'
+
+	local commands = {
+		{ name = "Edit init.lua",   cmd = "e $MYVIMRC" },
+		{ name = "Reload init.lua", cmd = "luafile $MYVIMRC" },
+	}
+
+	pickers.new({}, {
+		prompt_title = 'My Commands',
+		finder = finders.new_table {
+			results = commands,
+			entry_maker = function(entry)
+				return {
+					value = entry.cmd,
+					display = entry.name,
+					ordinal = entry.name,
+				}
+			end
+		},
+		sorter = sorters.get_generic_fuzzy_sorter(),
+		attach_mappings = function(prompt_bufnr, map)
+			actions.select_default:replace(function()
+				local selection = action_state.get_selected_entry()
+				actions.close(prompt_bufnr)
+				vim.cmd(selection.value) -- コマンドを実行
+			end)
+			return true
+		end
+	}):find()
+end
+
+vim.keymap.set('n', '<leader>tt', MyCommandPicker, { noremap = true, silent = true })
 
 local function blameFunc()
 	local line_number = vim.fn.line(".")

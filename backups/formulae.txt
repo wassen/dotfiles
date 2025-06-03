@@ -21,6 +21,8 @@ mint
 neovim
 nmap
 nodebrew
+openjdk
+openjdk@11
 pdf2svg
 perl
 pyenv
@@ -34,3 +36,4 @@ youtube-dl
 yq
 zplug
 zsh
+zsh-completions
