@@ -107,7 +107,7 @@ function wfind(){
 }
 
 function fzf-src() {
-	local dir=$(ghq list > /dev/null | fzf +m --prompt "Repositories> " --preview "ls $(ghq root)/{}" --query "$LBUFFER")
+	local dir=$(ghq list > /dev/null | fzf +m --prompt "Repositories> " --preview "ls $(ghq root)/{} | bat" --query "$LBUFFER")
 	# paradoxのプロンプトを復活させる
 	zle reset-prompt
 	if [ -n "$dir" ]; then
@@ -208,8 +208,8 @@ function mas-install() {
 
 # alias
 ## better something
-if hash exa; then
-	alias ls='exa'
+if hash eza; then
+	alias ls='eza'
 fi
 # if hash nvim; then
 # 	alias vim='nvim'
@@ -281,7 +281,7 @@ function hoge() {
 function fuga() {
     # 今度は複数選択が上手くいかない。キレそう
     # # "$(fuga)" にしてたからだったわ
-    git -c color.ui=always status --no-branch --short --no-renames | fzf --ansi --multi --prompt "$(git rev-parse --abbrev-ref HEAD) Status >" --preview "git diff \"\$(echo {} | $ZDOTDIR/python/parse_git_status.py)\"" | $ZDOTDIR/python/parse_git_status.py
+    git -c color.ui=always status --no-branch --short --no-renames | fzf --ansi --multi --prompt "$(git rev-parse --abbrev-ref HEAD) Status >" --preview "git diff HEAD \"\$(echo {} | $ZDOTDIR/python/parse_git_status.py)\"" | $ZDOTDIR/python/parse_git_status.py
 }
 alias -g  S='$(fuga)'
 # ダブルクオートがない版 空白文字が駄目
