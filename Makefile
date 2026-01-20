@@ -1,4 +1,4 @@
-.PHONY: _mac _brew hoge ho\ ge/ho\ ge
+.PHONY: _mac _brew hoge ho\ ge/ho\ ge disable_vscode_press_and_hold default config
 
 DOTFILE_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 export HOMEBREW_NO_AUTO_UPDATE := 1
@@ -22,8 +22,12 @@ ${HOME}/.gitconfig:
 	ln -sf ${DOTFILE_DIR}/.gitconfig ${HOME}/.gitconfig
 ${HOME}/.gitignore_global:
 	ln -sf ${DOTFILE_DIR}/.gitignore_global ${HOME}/.gitignore_global
-${HOME}/.config:
-	ln -sf ${DOTFILE_DIR}/.config ${HOME}/.config
+config:
+	if [ -L ${HOME}/.config ]; then rm ${HOME}/.config; fi
+	mkdir -p ${HOME}/.config
+	for config in ${DOTFILE_DIR}/.config/*; do \
+		ln -sf $$config ${HOME}/.config/$$(basename $$config); \
+	done
 
 _symlinks:
 	${MAKE} ${HOME}/.bashrc
@@ -48,3 +52,10 @@ _brew: /opt/homebrew/bin/brew
 
 ${XDG_DATA_HOME}/nvim/site/pack/packer/opt/packer.nvim:
 	git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
+
+disable_vscode_press_and_hold:
+	defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+disable_antigravity_press_and_hold:
+	defaults write com.google.antigravity ApplePressAndHoldEnabled -bool false
+
