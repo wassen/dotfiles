@@ -1,51 +1,59 @@
-local status, err = pcall(function()
-	require "settings" -- 落ちても設定の続きは読んでくれるが、定義ジャンプが使えないのが面倒
-	require "plugins"
-	require "plugin/lualine"
-	require "plugin/bufferline"
-	require "keybinds"
-	require "view"
-end)
-
-
-vim.api.nvim_set_keymap('i', 'M-[', '<cmd>lua require("copilot").next()<CR>', { noremap = true })
-
-if not status then
-	print("Caught an error: " .. err)
+-- TODO: nvim 0.11対応
+local function safe_require(module, callback)
+	local status, result = pcall(function()
+		if callback then
+			return callback()
+		else
+			return require(module)
+		end
+	end)
+	if not status then
+		vim.notify("Error loading " .. module .. ": " .. result, vim.log.levels.ERROR)
+	end
+	return status, result
 end
 
--- -- filetypeの指定をしたい
--- formatによりlspの警告が消える。
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+safe_require("keybinds")
 
-vim.cmd [[autocmd CompleteDone * pclose]]
+safe_require("lazy.nvim setup", function()
+	local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+	if not vim.loop.fs_stat(lazypath) then
+		vim.fn.system({
+			"git",
+			"clone",
+			"--filter=blob:none",
+			"https://github.com/folke/lazy.nvim.git",
+			lazypath,
+		})
+	end
+	vim.opt.rtp:prepend(lazypath)
+	require("plugins")
+end)
+
+-- gfでファイルジャンプ可能
+safe_require("settings")
+safe_require("filetypes")
+safe_require("plugin/lualine")
+safe_require("plugin/bufferline")
+safe_require("view")
+safe_require("plugin/lsp")
+-- safe_require("plugin/null-ls")
+safe_require("plugin/conform")
+
+vim.filetype.add({
+	filename = {
+		["Fastfile"] = "ruby",
+	},
+})
+
+vim.cmd([[autocmd CompleteDone * pclose]])
 
 -- 1. LSP Sever management
 -- 言語固有は遅延したほうが良いか？
-require("lspconfig").lua_ls.setup({})
-require("lspconfig").dartls.setup(
-	{
-		cmd = { "dart", "language-server", "--protocol=lsp" },
-		filetypes = { "dart" },
-		init_options = {
-			closingLabels = true,
-			flutterOutline = true,
-			onlyAnalyzeProjectsWithOpenFiles = true,
-			outline = true,
-			suggestFromUnimportedLibraries = true,
-		},
-		-- root_dir = root_pattern("pubspec.yaml"),
-		settings = {
-			dart = {
-				completeFunctionCalls = true,
-				showTodos = true,
-				lineLength = 120,
-			},
-		},
-	}
-)
 
-require('mason').setup()
+vim.diagnostic.config({ virtual_text = true })
+
+require("mason").setup()
 -- require('mason-lspconfig').setup_handlers({ function(server)
 -- 	local opt = {
 -- 		{
@@ -70,97 +78,98 @@ require('mason').setup()
 -- 	require('lspconfig')[server].setup(opt)
 -- end })
 
-require('gitsigns').setup {
-	on_attach = function(bufnr)
-		local gitsigns = require('gitsigns')
-
-		local function map(mode, l, r, opts)
-			opts = opts or {}
-			opts.buffer = bufnr
-			vim.keymap.set(mode, l, r, opts)
-		end
-
-		-- Navigation
-		map('n', ']c', function()
-			if vim.wo.diff then
-				vim.cmd.normal({ ']c', bang = true })
-			else
-				gitsigns.nav_hunk('next')
-			end
-		end)
-
-		map('n', '[c', function()
-			if vim.wo.diff then
-				vim.cmd.normal({ '[c', bang = true })
-			else
-				gitsigns.nav_hunk('prev')
-			end
-		end)
-
-		-- Actions
-		map('n', '<leader>hs', gitsigns.stage_hunk)
-		map('n', '<leader>hr', gitsigns.reset_hunk)
-		map('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-		map('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
-		map('n', '<leader>hS', gitsigns.stage_buffer)
-		map('n', '<leader>hu', gitsigns.undo_stage_hunk)
-		map('n', '<leader>hR', gitsigns.reset_buffer)
-		map('n', '<leader>hp', gitsigns.preview_hunk)
-		map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end)
-		map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
-		map('n', '<leader>hd', gitsigns.diffthis)
-		map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
-		map('n', '<leader>td', gitsigns.toggle_deleted)
-
-		-- Text object
-		map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-	end
-}
+-- require("gitsigns").setup({
+-- 	on_attach = function(bufnr)
+-- 		local gitsigns = require("gitsigns")
+--
+-- 		-- local function map(mode, l, r, opts)
+-- 		-- 	opts = opts or {}
+-- 		-- 	opts.buffer = bufnr
+-- 		-- 	-- 右側に hover 専用ウインドウを作る handler
+-- 		-- 	vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+-- 		-- 		if err then return end
+-- 		-- 		if not (result and result.contents) then return end
+--
+-- 		-- 		-- すでに開いている場合は reuse
+-- 		-- 		local win = vim.g.hover_win
+-- 		-- 		local buf = vim.g.hover_buf
+--
+-- 		-- 		if not (win and vim.api.nvim_win_is_valid(win)) then
+-- 		-- 			-- 新しいバッファ・ウインドウを作成
+-- 		-- 			buf = vim.api.nvim_create_buf(false, true)
+-- 		-- 			vim.g.hover_buf = buf
+--
+-- 		-- 			vim.cmd("vsplit")
+-- 		-- 			win = vim.api.nvim_get_current_win()
+-- 		-- 			vim.g.hover_win = win
+-- 		-- 		end
+--
+-- 		-- 		-- hover 内容を書き込む
+-- 		-- 		local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
+-- 		-- 		markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
+-- 		-- 		vim.api.nvim_buf_set_lines(buf, 0, -1, false, markdown_lines)
+--
+-- 		-- 		-- buffer を右側ウインドウに設定
+-- 		-- 		vim.api.nvim_win_set_buf(win, buf)
+-- 		-- 		vim.api.nvim_win_set_option(win, "wrap", true)
+-- 		-- 	end
+-- 		-- 	vim.keymap.set(mode, l, r, opts)
+-- 		-- end
+--
+-- 		-- -- Navigation
+-- 		-- map('n', ']c', function()
+-- 		-- 	if vim.wo.diff then
+-- 		-- 		vim.cmd.normal({ ']c', bang = true })
+-- 		-- 	else
+-- 		-- 		gitsigns.nav_hunk('next')
+-- 		-- 	end
+-- 		-- end)
+--
+-- 		-- map('n', '[c', function()
+-- 		-- 	if vim.wo.diff then
+-- 		-- 		vim.cmd.normal({ '[c', bang = true })
+-- 		-- 	else
+-- 		-- 		gitsigns.nav_hunk('prev')
+-- 		-- 	end
+-- 		-- end)
+--
+-- 		-- Actions
+-- 		-- map('n', '<leader>hs', gitsigns.stage_hunk)
+-- 		-- map('n', '<leader>hr', gitsigns.reset_hunk)
+-- 		-- map('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+-- 		-- map('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+-- 		-- map('n', '<leader>hS', gitsigns.stage_buffer)
+-- 		-- map('n', '<leader>hu', gitsigns.undo_stage_hunk)
+-- 		-- map('n', '<leader>hR', gitsigns.reset_buffer)
+-- 		-- map('n', '<leader>hp', gitsigns.preview_hunk)
+-- 		-- map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end)
+-- 		-- map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
+-- 		-- map('n', '<leader>hd', gitsigns.diffthis)
+-- 		-- map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
+-- 		-- map('n', '<leader>td', gitsigns.toggle_deleted)
+--
+-- 		-- -- Text object
+-- 		-- map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+-- 	end,
+-- })
 
 -- TODO: bufferlineファイルへ
-require('bufferline').setup {
+require("bufferline").setup({
 	options = {
 		numbers = "both",
 		indicator = {
-			style = 'underline',
+			style = "underline",
 		},
 	},
-}
-require("telescope").setup {
-	extensions = {
-		["ui-select"] = {
-			require("telescope.themes").get_dropdown {
-				-- even more opts
-			}
+})
 
-			-- pseudo code / specification for writing custom displays, like the one
-			-- for "codeactions"
-			-- specific_opts = {
-			--   [kind] = {
-			--     make_indexed = function(items) -> indexed_items, width,
-			--     make_displayer = function(widths) -> displayer
-			--     make_display = function(displayer) -> function(e)
-			--     make_ordinal = function(e) -> string
-			--   },
-			--   -- for example to disable the custom builtin "codeactions" display
-			--      do the following
-			--   codeactions = false,
-			-- }
-		}
-	}
-}
--- To get ui-select loaded and working with telescope, you need to call
--- load_extension, somewhere after setup function:
-require("telescope").load_extension("ui-select")
-
--- require("ibl").setup {
--- 	scope = {
--- 		enabled = true,
--- 		show_start = true,
--- 		show_end = true,
--- 	},
--- }
-
+require("ibl").setup({
+	scope = {
+		enabled = true,
+		show_start = true,
+		show_end = true,
+	},
+})
 
 -- setlocal omnifunc=lsp#complete
 -- -- LSP用にマッピング
@@ -170,7 +179,7 @@ require("telescope").load_extension("ui-select")
 -- vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
 -- デフォルトのレジスタをクリップボードにする
-vim.opt_local.clipboard:append { 'unnamedplus' }
+vim.opt_local.clipboard:append({ "unnamedplus" })
 -- set clipboard&
 -- set clipboard^=unnamedplus
 
@@ -195,7 +204,7 @@ vim.opt_local.clipboard:append { 'unnamedplus' }
 -- 閉じてもundoを出来るようにファイルに保存する
 vim.opt.undofile = true
 -- ハイフンを区切り文字としない
-vim.opt.iskeyword:append { '-' }
+vim.opt.iskeyword:append({ "-" })
 -- set termguicolors
 
 -- 2. build-in LSP function
@@ -233,7 +242,6 @@ vim.opt.iskeyword:append { '-' }
 --   command = "PackerCompile",
 -- })
 
-
 -- Ivim.g.ldf:??
 
 -- vim.g.airline_powerline_fonts = 1
@@ -252,106 +260,113 @@ vim.opt.iskeyword:append { '-' }
 -- vim.api.nvim_set_hl(0, 'EndOfBuffer', { ctermbg = 'none' })
 
 -- Command
-vim.api.nvim_create_user_command('Vimrc', function() vim.cmd('e ~/.config/nvim/init.lua') end, {})
+vim.api.nvim_create_user_command("Vimrc", function()
+	vim.cmd("e ~/.config/nvim/init.lua")
+end, {})
 
 function MyFruitsPicker()
-	local pickers = require 'telescope.pickers'
-	local finders = require 'telescope.finders'
-	local sorters = require 'telescope.sorters'
-	local actions = require 'telescope.actions'
-	local action_state = require 'telescope.actions.state'
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+	local sorters = require("telescope.sorters")
+	local actions = require("telescope.actions")
+	local action_state = require("telescope.actions.state")
 
-	pickers.new({}, {
-		prompt_title = 'Fruits',
-		finder = finders.new_table({
-			results = { 'banana', 'apple' }
-		}),
-		sorter = sorters.get_generic_fuzzy_sorter(),
-		attach_mappings = function(prompt_bufnr, map)
-			actions.select_default:replace(function()
-				local selection = action_state.get_selected_entry()
-				print(selection.value)
-				actions.close(prompt_bufnr)
-			end)
-			return true
-		end,
-	}):find()
+	pickers
+		.new({}, {
+			prompt_title = "Fruits",
+			finder = finders.new_table({
+				results = { "banana", "apple" },
+			}),
+			sorter = sorters.get_generic_fuzzy_sorter(),
+			attach_mappings = function(prompt_bufnr, map)
+				actions.select_default:replace(function()
+					local selection = action_state.get_selected_entry()
+					print(selection.value)
+					actions.close(prompt_bufnr)
+				end)
+				return true
+			end,
+		})
+		:find()
 end
 
 function MyCommandPicker()
-	local pickers = require 'telescope.pickers'
-	local finders = require 'telescope.finders'
-	local sorters = require 'telescope.sorters'
-	local actions = require 'telescope.actions'
-	local action_state = require 'telescope.actions.state'
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+	local sorters = require("telescope.sorters")
+	local actions = require("telescope.actions")
+	local action_state = require("telescope.actions.state")
 
 	local commands = {
-		{ name = "Edit init.lua",   cmd = "e $MYVIMRC" },
+		{ name = "Edit init.lua", cmd = "e $MYVIMRC" },
 		{ name = "Reload init.lua", cmd = "luafile $MYVIMRC" },
 	}
 
-	pickers.new({}, {
-		prompt_title = 'My Commands',
-		finder = finders.new_table {
-			results = commands,
-			entry_maker = function(entry)
-				return {
-					value = entry.cmd,
-					display = entry.name,
-					ordinal = entry.name,
-				}
-			end
-		},
-		sorter = sorters.get_generic_fuzzy_sorter(),
-		attach_mappings = function(prompt_bufnr, map)
-			actions.select_default:replace(function()
-				local selection = action_state.get_selected_entry()
-				actions.close(prompt_bufnr)
-				vim.cmd(selection.value) -- コマンドを実行
-			end)
-			return true
-		end
-	}):find()
+	pickers
+		.new({}, {
+			prompt_title = "My Commands",
+			finder = finders.new_table({
+				results = commands,
+				entry_maker = function(entry)
+					return {
+						value = entry.cmd,
+						display = entry.name,
+						ordinal = entry.name,
+					}
+				end,
+			}),
+			sorter = sorters.get_generic_fuzzy_sorter(),
+			attach_mappings = function(prompt_bufnr, map)
+				actions.select_default:replace(function()
+					local selection = action_state.get_selected_entry()
+					actions.close(prompt_bufnr)
+					vim.cmd(selection.value) -- コマンドを実行
+				end)
+				return true
+			end,
+		})
+		:find()
 end
 
-vim.keymap.set('n', '<leader>tt', MyCommandPicker, { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>tt", MyCommandPicker, { noremap = true, silent = true })
 
 local function blameFunc()
 	local line_number = vim.fn.line(".")
-	vim.cmd('!git log -L' .. line_number .. ',' .. line_number .. ':' .. vim.fn.expand("%"))
+	vim.cmd("!git log -L" .. line_number .. "," .. line_number .. ":" .. vim.fn.expand("%"))
 end
 
 local function blameFunc2()
 	local line_number = vim.fn.line(".")
 	local tmp_file = vim.fn.tempname()
 	-- git logの結果を一時ファイルにリダイレクト
-	vim.cmd('silent !git log -p -L' ..
-		line_number .. ',' .. line_number .. ':' .. vim.fn.expand("%") .. ' > ' .. tmp_file)
+	vim.cmd(
+		"silent !git log -p -L" .. line_number .. "," .. line_number .. ":" .. vim.fn.expand("%") .. " > " .. tmp_file
+	)
 	-- 新しい無名バッファを開く
-	vim.cmd('new')
+	vim.cmd("new")
 	-- バッファの内容を一時ファイルから読み込む
-	vim.cmd('r ' .. tmp_file)
+	vim.cmd("r " .. tmp_file)
 	-- 一時ファイルを削除
-	vim.cmd('silent !rm ' .. tmp_file)
+	vim.cmd("silent !rm " .. tmp_file)
 	-- バッファタイプを設定して、Neovimにdiffとして解釈させる
-	vim.cmd('setlocal buftype=nofile')
-	vim.cmd('setfiletype diff')
+	vim.cmd("setlocal buftype=nofile")
+	vim.cmd("setfiletype diff")
 end
 
-vim.api.nvim_create_user_command('BLAME', blameFunc2, {})
+vim.api.nvim_create_user_command("BLAME", blameFunc2, {})
 
 local function blameFunc3()
 	local line_number = vim.fn.line(".")
 	local current_file = vim.fn.expand("%")
-	local cmd = 'git log -L' .. line_number .. ',' .. line_number .. ':' .. current_file
+	local cmd = "git log -L" .. line_number .. "," .. line_number .. ":" .. current_file
 
 	-- 新しいターミナルバッファを開いて、そこでgitコマンドを実行する
-	vim.cmd('new | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile')
-	vim.api.nvim_buf_set_name(0, 'git-diff')
+	vim.cmd("new | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile")
+	vim.api.nvim_buf_set_name(0, "git-diff")
 	vim.fn.termopen(cmd, { detach = 1 })
 end
 
-vim.api.nvim_create_user_command('BLAMET', blameFunc3, {})
+vim.api.nvim_create_user_command("BLAMET", blameFunc3, {})
 
 -- set dictionary+=/usr/share/dict/words
 
@@ -362,3 +377,11 @@ vim.api.nvim_create_user_command('BLAMET', blameFunc3, {})
 -- cbuffer←うまくいっていない
 -- lua vim.diagnostic.open_float()
 -- nvim --startuptime /tmp/nvim.log 起動速度
+--
+
+-- 透過設定
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
