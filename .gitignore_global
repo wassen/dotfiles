@@ -5,7 +5,6 @@ tmp/
 ,/
 *.swp
 # .idea/
-サイドメニューの出方が変わっている
 
 .dropbox.attr
 .envrc
@@ -14,3 +13,11 @@ tags
 
 patches
 
+# LSPにXcodeの構成を指定するためのファイル
+buildServer.json
+
+# tools
+.claude
+# xcodebuild.nvim
+.nvim
+build/

@@ -1,9 +1,5 @@
 [include]
   path = .gitconfig_user
-[includeIf "gitdir:~/workspace/github.com/dwangojp/"]
-  path = ~/dotfiles/gitconfig/work.ini
-[includeIf "gitdir:~/workspace/github.com/wassen/"]
-  path = ~/dotfiles/gitconfig/private.ini
 [core]
 	excludesfile = ~/.gitignore_global
 	quotepath = false
@@ -19,6 +15,7 @@
 # Commands
 [commit]
 	verbose = true
+	gpgsign = true
 [diff]
 	tool = vim
 	algorithm = patience
@@ -60,8 +57,10 @@
   # open-current-pr = !open "$(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!http://!' -e 's!:([^/])!/\\1!' -e 's!.git!!')/pull/$(git branch --show-current)"
 	open-test       = "!f() { echo $(git config remote.origin.url | sed -Ee 's!(git@|git://|ssh://)!https://!' -e 's!https://.*@github!https://github!' -e 's!.git$!!')/pull/$1; }; f"
 	pick            = cherry-pick
-	private-config  = !git config --replace-all user.name wassen && git config --replace-all user.email wassen@users.noreply.github.com
-  working-config  = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email "29850739+kazuki-asayama-d@users.noreply.github.com"
+	# private-config  = !git config --replace-all user.name wassen && git config --replace-all user.email wassen@users.noreply.github.com
+    private-config = !echo "Deprecated. use includeIf and check ~/dotfiles/gitconfig/private.ini instead."
+    # working-config  = !git config --replace-all user.name kazuki-asayama-d && git config --replace-all user.email "29850739+kazuki-asayama-d@users.noreply.github.com"
+    working-config = !echo "Deprecated. use includeIf and check ~/dotfiles/gitconfig/work.ini instead."
   # not work
   # replace-in-repo = "!f() { git grep -l $1 | xargs sed -i '' -e 's/$1/$2/g'; }; f"
 	fetch-pr        = "!f() { git fetch origin pull/$1/head:$1; }; f"
@@ -85,3 +84,15 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
+
+[includeIf "gitdir:~/workspace/github.com/dwangojp/"]
+	path = ~/dotfiles/gitconfig/work.gitconfig
+[includeIf "gitdir:~/workspace/github.com/wassen/"]
+	path = ~/dotfiles/gitconfig/private.gitconfig
+[includeIf "gitdir:~/workspace/wassen.github/wassen/"]
+	path = ~/dotfiles/gitconfig/private.gitconfig
+[includeIf "gitdir:~/dotfiles/"]
+	path = ~/dotfiles/gitconfig/private.gitconfig

@@ -1,0 +1,9 @@
+[user]
+	name = "wassen"
+	email = "wassen@users.noreply.github.com"
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[user]
+	signingkey = ~/.ssh/wassen_signing_key
