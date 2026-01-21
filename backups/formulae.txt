@@ -5,7 +5,6 @@ bat
 bento4
 cocoapods
 direnv
-efm-langserver
 eza
 ffmpeg
 fzf
