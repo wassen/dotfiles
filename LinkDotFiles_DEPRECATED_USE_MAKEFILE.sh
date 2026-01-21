@@ -17,8 +17,18 @@ done
 
 rm -fr ~/.vim
 ln -sf ~/dotfiles/.vim ~/.vim
-rm -fr ~/.config
-ln -sf ~/dotfiles/.config ~/.config
+# .config handling
+if [ -L "$HOME/.config" ]; then
+    rm "$HOME/.config"
+    mkdir -p "$HOME/.config"
+elif [ ! -d "$HOME/.config" ]; then
+    mkdir -p "$HOME/.config"
+fi
+
+for config in "$HOME/dotfiles/.config/"*; do
+    target="$HOME/.config/$(basename "$config")"
+    ln -sf "$config" "$target"
+done
 
 
 # .vim, .vimrc
