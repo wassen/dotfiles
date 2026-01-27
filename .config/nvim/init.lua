@@ -298,7 +298,7 @@ function MyCommandPicker()
 	local action_state = require("telescope.actions.state")
 
 	local commands = {
-		{ name = "Edit init.lua", cmd = "e $MYVIMRC" },
+		{ name = "Edit init.lua",   cmd = "e $MYVIMRC" },
 		{ name = "Reload init.lua", cmd = "luafile $MYVIMRC" },
 	}
 

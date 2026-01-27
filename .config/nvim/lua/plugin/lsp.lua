@@ -2,13 +2,13 @@ local function on_attach(_, bufnr)
 	local opts = { silent = true, noremap = true }
 
 	-- -- ここでキーバインドを設定
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 
 	-- Telescopeはファイル内全体を開く、こちらはカーソル下のみ
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 
 	-- Telescopeで良い
 	-- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
@@ -32,13 +32,7 @@ end
 -- 	end,
 -- })
 
--- formatによりlspの警告が消える問題
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.dart", "*.lua", "*.swift" },
-	callback = function()
-		vim.lsp.buf.format()
-	end,
-})
+-- フォーマッターはconform.nvim
 
 vim.lsp.enable("lua_ls")
 vim.lsp.config("lua_ls", {
@@ -70,16 +64,16 @@ vim.lsp.config("dartls", {
 vim.lsp.enable("sourcekit")
 vim.lsp.config("sourcekit", {
 	cmd = {
-		'xcrun',
-		'sourcekit-lsp',
-		'-Xswiftc',
-		'-sdk',
-		'-Xswiftc',
-		'/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk',
-		'-Xswiftc',
-		'-target',
-		'-Xswiftc',
-		'x86_64-apple-ios17.5-simulator',
+		"xcrun",
+		"sourcekit-lsp",
+		"-Xswiftc",
+		"-sdk",
+		"-Xswiftc",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk",
+		"-Xswiftc",
+		"-target",
+		"-Xswiftc",
+		"x86_64-apple-ios17.5-simulator",
 	},
 	filetypes = { "swift" },
 	on_attach = on_attach,
