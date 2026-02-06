@@ -1,11 +1,12 @@
 local function on_attach(_, bufnr)
 	local opts = { silent = true, noremap = true }
 
-	-- -- ここでキーバインドを設定
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	-- vim.lsp.buf.references()だとQuickfixListが開いてしまい、Telescopeの単一ジャンプの挙動と異なるためTelescopeを使用
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<Leader>lR", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 
 	-- Telescopeはファイル内全体を開く、こちらはカーソル下のみ
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
@@ -31,8 +32,6 @@ end
 -- 		end
 -- 	end,
 -- })
-
--- フォーマッターはconform.nvim
 
 vim.lsp.enable("lua_ls")
 vim.lsp.config("lua_ls", {
@@ -78,3 +77,5 @@ vim.lsp.config("sourcekit", {
 	filetypes = { "swift" },
 	on_attach = on_attach,
 })
+
+-- フォーマッターはconform.nvim

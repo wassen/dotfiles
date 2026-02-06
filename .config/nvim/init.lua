@@ -1,4 +1,9 @@
 -- TODO: nvim 0.11対応
+
+-- 未使用のプロバイダーを無効化（checkhealth警告対応）
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 local function safe_require(module, callback)
 	local status, result = pcall(function()
 		if callback then
@@ -77,81 +82,6 @@ require("mason").setup()
 -- 	}
 -- 	require('lspconfig')[server].setup(opt)
 -- end })
-
--- require("gitsigns").setup({
--- 	on_attach = function(bufnr)
--- 		local gitsigns = require("gitsigns")
---
--- 		-- local function map(mode, l, r, opts)
--- 		-- 	opts = opts or {}
--- 		-- 	opts.buffer = bufnr
--- 		-- 	-- 右側に hover 専用ウインドウを作る handler
--- 		-- 	vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
--- 		-- 		if err then return end
--- 		-- 		if not (result and result.contents) then return end
---
--- 		-- 		-- すでに開いている場合は reuse
--- 		-- 		local win = vim.g.hover_win
--- 		-- 		local buf = vim.g.hover_buf
---
--- 		-- 		if not (win and vim.api.nvim_win_is_valid(win)) then
--- 		-- 			-- 新しいバッファ・ウインドウを作成
--- 		-- 			buf = vim.api.nvim_create_buf(false, true)
--- 		-- 			vim.g.hover_buf = buf
---
--- 		-- 			vim.cmd("vsplit")
--- 		-- 			win = vim.api.nvim_get_current_win()
--- 		-- 			vim.g.hover_win = win
--- 		-- 		end
---
--- 		-- 		-- hover 内容を書き込む
--- 		-- 		local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
--- 		-- 		markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
--- 		-- 		vim.api.nvim_buf_set_lines(buf, 0, -1, false, markdown_lines)
---
--- 		-- 		-- buffer を右側ウインドウに設定
--- 		-- 		vim.api.nvim_win_set_buf(win, buf)
--- 		-- 		vim.api.nvim_win_set_option(win, "wrap", true)
--- 		-- 	end
--- 		-- 	vim.keymap.set(mode, l, r, opts)
--- 		-- end
---
--- 		-- -- Navigation
--- 		-- map('n', ']c', function()
--- 		-- 	if vim.wo.diff then
--- 		-- 		vim.cmd.normal({ ']c', bang = true })
--- 		-- 	else
--- 		-- 		gitsigns.nav_hunk('next')
--- 		-- 	end
--- 		-- end)
---
--- 		-- map('n', '[c', function()
--- 		-- 	if vim.wo.diff then
--- 		-- 		vim.cmd.normal({ '[c', bang = true })
--- 		-- 	else
--- 		-- 		gitsigns.nav_hunk('prev')
--- 		-- 	end
--- 		-- end)
---
--- 		-- Actions
--- 		-- map('n', '<leader>hs', gitsigns.stage_hunk)
--- 		-- map('n', '<leader>hr', gitsigns.reset_hunk)
--- 		-- map('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
--- 		-- map('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
--- 		-- map('n', '<leader>hS', gitsigns.stage_buffer)
--- 		-- map('n', '<leader>hu', gitsigns.undo_stage_hunk)
--- 		-- map('n', '<leader>hR', gitsigns.reset_buffer)
--- 		-- map('n', '<leader>hp', gitsigns.preview_hunk)
--- 		-- map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end)
--- 		-- map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
--- 		-- map('n', '<leader>hd', gitsigns.diffthis)
--- 		-- map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
--- 		-- map('n', '<leader>td', gitsigns.toggle_deleted)
---
--- 		-- -- Text object
--- 		-- map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
--- 	end,
--- })
 
 -- TODO: bufferlineファイルへ
 require("bufferline").setup({
@@ -298,7 +228,7 @@ function MyCommandPicker()
 	local action_state = require("telescope.actions.state")
 
 	local commands = {
-		{ name = "Edit init.lua",   cmd = "e $MYVIMRC" },
+		{ name = "Edit init.lua", cmd = "e $MYVIMRC" },
 		{ name = "Reload init.lua", cmd = "luafile $MYVIMRC" },
 	}
 

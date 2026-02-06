@@ -32,6 +32,7 @@ vim.api.nvim_set_keymap('n', '<Leader>lg', '<cmd>Telescope git_files<CR>', { nor
 vim.api.nvim_set_keymap('n', '<Leader>ls', '<cmd>Telescope git_status<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>lf', '<cmd>Telescope live_grep<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>lb', '<cmd>Telescope buffers<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>lD', '<cmd>Telescope diagnostics<CR>', { noremap = true })
 
 -- ウィンドウ切り替え
 vim.api.nvim_set_keymap('n', 'sl', '<C-w>l', { noremap = true })
@@ -45,3 +46,10 @@ vim.api.nvim_set_keymap('n', '<C-=>', '<cmd>vertical resize +2<CR>', { noremap =
 vim.api.nvim_set_keymap('n', '<C-_>', '<cmd>vertical resize -2<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<C-S-=>', '<cmd>resize +2<CR>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<C-S-->', '<cmd>resize -2<CR>', { noremap = true })
+
+-- 補完メニューが表示されているときはEnterで確定（改行しない）
+vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<CR>"', { expr = true, noremap = true })
+
+-- <leader>xを無効化（xcodebuildのプレフィックスキーとして使用）
+-- タイムアウト時や間違ったキーを押した際に、標準のx（文字削除）が発動しないようにする
+vim.keymap.set('n', '<leader>x', '<Nop>', { noremap = true })

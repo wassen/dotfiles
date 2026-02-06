@@ -1,4 +1,12 @@
 return require("lazy").setup({
+	-- snacks.nvim（checkhealth警告対応: lazy=false, priority=1000が必要）
+	{
+		"folke/snacks.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+	},
+
 	-- copilot
 	{
 		"github/copilot.vim",
@@ -41,6 +49,7 @@ return require("lazy").setup({
 			{ "<leader>ac", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" }, -- 常にresumeで起動
 			{ "<leader>aC", "<cmd>ClaudeCode<cr>", desc = "New Claude session" }, -- 新規セッション
 			{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+			{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
 		},
 	},
 
@@ -83,14 +92,14 @@ return require("lazy").setup({
 		-- 	local opts = { noremap = true, silent = true }
 		-- 	local on_attach = function(_, bufnr)
 		-- 		opts.buffer = bufnr
-
+		--
 		-- 		opts.desc = "Show line diagnostics"
 		-- 		vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, opts)
-
+		--
 		-- 		opts.desc = "Show documentation for what is under cursor"
 		-- 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 		-- 	end
-
+		--
 		-- 	vim.lsp.config("sourcekit", {
 		-- 		-- capabilities = capabilities,
 		-- 		on_attach = on_attach,
@@ -104,7 +113,7 @@ return require("lazy").setup({
 	{ "williamboman/mason-lspconfig.nvim" },
 	-- {
 	-- 	{
-
+	--
 	-- 		"hrsh7th/nvim-cmp",
 	-- 		event = "InsertEnter",
 	-- 		dependencies = {
@@ -119,16 +128,16 @@ return require("lazy").setup({
 	-- 		config = function()
 	-- 			local cmp = require("cmp")
 	-- 			-- local luasnip = require("luasnip")
-
+	--
 	-- 			-- require("luasnip.loaders.from_vscode").lazy_load()
-
+	--
 	-- 			cmp.setup({
 	-- 				snippet = {
 	-- 					expand = function(args)
 	-- 						-- luasnip.lsp_expand(args.body)
 	-- 					end,
 	-- 				},
-
+	--
 	-- 				-- c-n, c-pを汚染する。行儀が悪すぎる
 	-- 				mapping = cmp.mapping.preset.insert({
 	-- 					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -144,7 +153,7 @@ return require("lazy").setup({
 	-- 					-- 		fallback()
 	-- 					-- 	end
 	-- 					-- end, { "i", "s" }),
-
+	--
 	-- 					-- ["<S-Tab>"] = cmp.mapping(function(fallback)
 	-- 					-- 	if cmp.visible() then
 	-- 					-- 		cmp.select_prev_item()
@@ -155,7 +164,7 @@ return require("lazy").setup({
 	-- 					-- 	end
 	-- 					-- end, { "i", "s" }),
 	-- 				}),
-
+	--
 	-- 				sources = cmp.config.sources({
 	-- 					{ name = "nvim_lsp" },
 	-- 					-- { name = "luasnip" },
@@ -189,10 +198,26 @@ return require("lazy").setup({
 		opts = {},
 	},
 
-	-- treesitter
+	-- treesitter (main branch - Neovim 0.11+)
+	-- 参考: https://blog.atusy.net/2025/08/10/nvim-treesitter-main-branch/
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		lazy = false,
 		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter").setup({})
+
+			-- 自動ハイライトの有効化
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("nvim-treesitter-start", {}),
+				callback = function()
+					pcall(vim.treesitter.start)
+					-- インデントの有効化
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
+		end,
 	},
 
 	-- vim-sandwich
@@ -217,7 +242,7 @@ return require("lazy").setup({
 	},
 
 	-- grug-far
-	{ "MagicDuck/grug-far.nvim" },
+	-- { "MagicDuck/grug-far.nvim" },
 
 	-- fzf-lua
 	{
@@ -230,6 +255,32 @@ return require("lazy").setup({
 		"lambdalisue/fern.vim",
 		config = function()
 			vim.g["fern#default_hidden"] = 1
+		end,
+	},
+
+	-- oil.nvim（ファイルマネージャー）
+	{
+		"stevearc/oil.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("oil").setup({
+				default_file_explorer = true,
+				view_options = {
+					show_hidden = true,
+				},
+				keymaps = {
+					["g?"] = "actions.show_help",
+					["<CR>"] = "actions.select",
+					["-"] = "actions.parent",
+					["_"] = "actions.open_cwd",
+					["`"] = "actions.cd",
+					["~"] = "actions.tcd",
+					["gs"] = "actions.change_sort",
+					["gx"] = "actions.open_external",
+					["g."] = "actions.toggle_hidden",
+				},
+			})
+			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 		end,
 	},
 
@@ -269,7 +320,187 @@ return require("lazy").setup({
 	},
 
 	-- gitsigns
-	-- { "lewis6991/gitsigns.nvim" },
+	{
+		"lewis6991/gitsigns.nvim",
+		version = "*",
+		-- claudecode.nvimとの相性が悪い。
+		-- そして、claudecodeと関係なく、ファイルを開いたり保存したりする度にエラーになる。（100％ではない）
+		-- filetypeを限定することで回避できる
+		ft = { "swift", "dart", "lua" },
+		config = function()
+			require("gitsigns").setup({
+				on_attach = function(bufnr)
+					local gitsigns = require("gitsigns")
+
+					local function map(mode, l, r, opts)
+						opts = opts or {}
+						opts.buffer = bufnr
+						-- 右側に hover 専用ウインドウを作る handler
+						vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+							if err then
+								return
+							end
+							if not (result and result.contents) then
+								return
+							end
+
+							-- すでに開いている場合は reuse
+							local win = vim.g.hover_win
+							local buf = vim.g.hover_buf
+
+							if not (win and vim.api.nvim_win_is_valid(win)) then
+								-- 新しいバッファ・ウインドウを作成
+								buf = vim.api.nvim_create_buf(false, true)
+								vim.g.hover_buf = buf
+
+								vim.cmd("vsplit")
+								win = vim.api.nvim_get_current_win()
+								vim.g.hover_win = win
+							end
+
+							-- hover 内容を書き込む
+							local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
+							markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
+							vim.api.nvim_buf_set_lines(buf, 0, -1, false, markdown_lines)
+
+							-- buffer を右側ウインドウに設定
+							vim.api.nvim_win_set_buf(win, buf)
+							vim.api.nvim_win_set_option(win, "wrap", true)
+						end
+						vim.keymap.set(mode, l, r, opts)
+					end
+
+					-- Navigation
+					map("n", "]c", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "]c", bang = true })
+						else
+							gitsigns.nav_hunk("next")
+						end
+					end)
+
+					map("n", "[c", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "[c", bang = true })
+						else
+							gitsigns.nav_hunk("prev")
+						end
+					end)
+
+					-- Actions
+					map("n", "<leader>hs", gitsigns.stage_hunk)
+					map("n", "<leader>hr", gitsigns.reset_hunk)
+					map("v", "<leader>hs", function()
+						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end)
+					map("v", "<leader>hr", function()
+						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end)
+					map("n", "<leader>hS", gitsigns.stage_buffer)
+					map("n", "<leader>hu", gitsigns.undo_stage_hunk)
+					map("n", "<leader>hR", gitsigns.reset_buffer)
+					map("n", "<leader>hp", gitsigns.preview_hunk)
+					map("n", "<leader>hb", function()
+						gitsigns.blame_line({ full = true })
+					end)
+					map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
+					map("n", "<leader>hd", gitsigns.diffthis)
+					map("n", "<leader>hD", function()
+						gitsigns.diffthis("~")
+					end)
+					map("n", "<leader>td", gitsigns.toggle_deleted)
+
+					-- Text object
+					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+				end,
+			})
+		end,
+	},
+
+	-- neogit（Git操作）
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- 必須
+			"sindrets/diffview.nvim", -- 差分表示の強化
+			"nvim-telescope/telescope.nvim", -- Telescope統合
+		},
+		config = function()
+			require("neogit").setup({
+				integrations = {
+					diffview = true, -- diffview.nvimと統合
+					telescope = true, -- Telescopeと統合
+				},
+			})
+			-- キーマップ
+			vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>", { desc = "Neogit" })
+			vim.keymap.set("n", "<leader>gc", "<cmd>Neogit commit<CR>", { desc = "Git commit" })
+			vim.keymap.set("n", "<leader>gp", "<cmd>Neogit push<CR>", { desc = "Git push" })
+			vim.keymap.set("n", "<leader>gl", "<cmd>Neogit pull<CR>", { desc = "Git pull" })
+		end,
+	},
+
+	-- nvim-notify（通知UI）
+	{
+		"rcarriga/nvim-notify",
+		config = function()
+			require("notify").setup({
+				background_colour = "#000000", -- 背景色を指定（透明非対応のため黒を使用）
+			})
+		end,
+	},
+
+	-- noice.nvim（コマンドライン・メッセージUIの改善）
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+		opts = {
+			lsp = {
+				-- LSPのUIをnoiceで上書き
+				override = {
+					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.stylize_markdown"] = true,
+					["cmp.entry.get_documentation"] = true,
+				},
+			},
+			presets = {
+				bottom_search = false, -- 検索を下部に表示
+				command_palette = true, -- コマンドパレットスタイル
+				long_message_to_split = false, -- 長いメッセージを分割表示
+				inc_rename = false, -- inc-rename.nvim用（未使用）
+				lsp_doc_border = true, -- LSPドキュメントにボーダーを付ける
+			},
+		},
+	},
+
+	-- which-key（キーバインドのヘルプ表示）
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- which-keyの設定
+		},
+		config = function(_, opts)
+			local wk = require("which-key")
+			wk.setup(opts)
+			-- グループ名の設定
+			wk.add({
+				{ "<leader>x", group = "Xcodebuild" },
+				{ "<leader>a", group = "AI/Claude" },
+				{ "<leader>g", group = "Git" },
+				{ "<leader>h", group = "Git Hunk" },
+				{ "<leader>l", group = "Telescope" },
+				{ "<leader>b", group = "Buffer" },
+				{ "<leader>k", group = "Highlighter" },
+				{ "<leader>t", group = "Toggle/Test" },
+				{ "<leader>d", group = "Debug" },
+			})
+		end,
+	},
 
 	-- sourcekit-lsp
 	{ "swiftlang/sourcekit-lsp" },
@@ -287,6 +518,11 @@ return require("lazy").setup({
 				code_coverage = {
 					enabled = true,
 				},
+				integrations = {
+					pymobiledevice = {
+						enabled = true,
+					},
+				},
 			})
 
 			vim.keymap.set("n", "<leader>xl", "<cmd>XcodebuildToggleLogs<cr>", { desc = "Toggle Xcodebuild Logs" })
@@ -296,6 +532,7 @@ return require("lazy").setup({
 			vim.keymap.set("n", "<leader>xT", "<cmd>XcodebuildTestClass<cr>", { desc = "Run This Test Class" })
 			vim.keymap.set("n", "<leader>X", "<cmd>XcodebuildPicker<cr>", { desc = "Show All Xcodebuild Actions" })
 			vim.keymap.set("n", "<leader>xd", "<cmd>XcodebuildSelectDevice<cr>", { desc = "Select Device" })
+			vim.keymap.set("n", "<leader>xs", "<cmd>XcodebuildSelectScheme<cr>", { desc = "Select Scheme" })
 			vim.keymap.set("n", "<leader>xp", "<cmd>XcodebuildSelectTestPlan<cr>", { desc = "Select Test Plan" })
 			vim.keymap.set(
 				"n",
@@ -310,6 +547,72 @@ return require("lazy").setup({
 				{ desc = "Show Code Coverage Report" }
 			)
 			vim.keymap.set("n", "<leader>xq", "<cmd>Telescope quickfix<cr>", { desc = "Show QuickFix List" })
+		end,
+	},
+
+	-- nvim-dap (デバッガ)
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"wojciech-kulik/xcodebuild.nvim",
+		},
+		config = function()
+			local xcodebuild = require("xcodebuild.integrations.dap")
+			local dap = require("dap")
+
+			xcodebuild.setup()
+
+			-- デバッグ関連キーバインド
+			vim.keymap.set("n", "<leader>dd", xcodebuild.build_and_debug, { desc = "Build & Debug" })
+			vim.keymap.set("n", "<leader>dr", xcodebuild.debug_without_build, { desc = "Debug Without Building" })
+			vim.keymap.set("n", "<leader>dt", xcodebuild.debug_tests, { desc = "Debug Tests" })
+			vim.keymap.set("n", "<leader>dT", xcodebuild.debug_class_tests, { desc = "Debug Class Tests" })
+			vim.keymap.set("n", "<leader>db", xcodebuild.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+			vim.keymap.set(
+				"n",
+				"<leader>dB",
+				xcodebuild.toggle_message_breakpoint,
+				{ desc = "Toggle Message Breakpoint" }
+			)
+			vim.keymap.set("n", "<leader>dx", xcodebuild.terminate_session, { desc = "Terminate Debugger" })
+
+			-- 標準のDAPキーバインド
+			vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
+			vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Step Over" })
+			vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into" })
+			vim.keymap.set("n", "<leader>dO", dap.step_out, { desc = "Step Out" })
+		end,
+	},
+
+	-- nvim-dap-ui (デバッグUI)
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = {
+			"mfussenegger/nvim-dap",
+			"nvim-neotest/nvim-nio",
+		},
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+
+			dapui.setup()
+
+			-- デバッグセッション開始時に自動でUIを開く
+			dap.listeners.before.attach.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.launch.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated.dapui_config = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited.dapui_config = function()
+				dapui.close()
+			end
+
+			-- DAP UIトグルキーバインド
+			vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Toggle DAP UI" })
 		end,
 	},
 })
@@ -388,6 +691,8 @@ return require("lazy").setup({
 -- 		return true
 -- 	end
 -- 	return false
+-- 	end
+-- 	return false
 -- end
 --
 -- local function is_git_commit_edit()
@@ -462,6 +767,7 @@ return require("lazy").setup({
 -- -- To get ui-select loaded and working with telescope, you need to call
 -- -- load_extension, somewhere after setup function:
 -- require("telescope").load_extension("ui-select")
+--
 --
 --
 --

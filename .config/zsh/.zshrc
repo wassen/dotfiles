@@ -396,3 +396,5 @@ fi
 # export PATH="$HOME/workspace/github.com/fwcd/KotlinLanguageServer/server/build/install/server/bin:$PATH"
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home"
 
+eval "$(ssh-agent -s)" > /dev/null 2>&1
+ssh-add --apple-use-keychain ~/.ssh/dwango_signing_key > /dev/null 2>&1

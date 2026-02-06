@@ -1,0 +1,506 @@
+
+==============================================================================
+conform:                                                                  1 ⚠️
+
+conform.nvim report ~
+- Log file: /Users/kazuki_asayama/.local/state/nvim/conform.log
+- ⚠️ WARNING dart_format unavailable: Command 'dart' not found
+- ✅ OK stylua ready (lua)
+- ✅ OK swiftformat ready (swift)
+
+==============================================================================
+dap:                                                                        ✅
+
+dap: Adapters ~
+
+dap.adapter: lldb-dap ~
+- ✅ OK is executable: xcrun
+
+dap: Sessions ~
+- ✅ OK No active sessions
+
+==============================================================================
+fzf_lua:                                                            3 ⚠️  1 ❌
+
+fzf-lua [required] ~
+- ✅ OK 'fzf' `0.65.2 (brew)`
+- ✅ OK 'git' `git version 2.51.1`
+- ✅ OK 'rg' `ripgrep 14.1.1`
+- ❌ ERROR 'find' `find: illegal option -- -`
+
+fzf-lua [optional] ~
+- ✅ OK `nvim-web-devicons` found
+- ✅ OK 'rg' `ripgrep 14.1.1`
+- ✅ OK 'bat' `bat 0.26.0`
+
+fzf-lua [optional:media] ~
+- ⚠️ WARNING 'viu' not found
+- ⚠️ WARNING 'chafa' not found
+- ⚠️ WARNING 'ueberzugpp' not found
+
+fzf-lua [env] ~
+- ✅ OK `$FZF_DEFAULT_OPTS` is set to:
+  --height 85%                  --reverse                     --border
+  --color fg:252,bg:233,hl:67,fg+:252,bg+:235,hl+:81          --color info:144,prompt:161,spinner:135,pointer:135,marker:118
+- ✅ OK `FZF_DEFAULT_OPTS_FILE` is not set
+
+==============================================================================
+lazy:                                                               3 ⚠️  2 ❌
+
+lazy.nvim ~
+- {lazy.nvim} version `11.17.5`
+- ✅ OK {git} `version 2.51.1`
+- ⚠️ WARNING found existing packages at `/Users/kazuki_asayama/.local/share/nvim/site/pack/packer`
+- ❌ ERROR please remove the file `/Users/kazuki_asayama/.config/nvim/plugin/packer_compiled.lua`
+
+luarocks ~
+- checking `hererocks` installation
+- ✅ OK no plugins require `luarocks`, so you can ignore any warnings below
+- ✅ OK {python3} `Python 3.9.6`
+- ❌ ERROR {/Users/kazuki_asayama/.local/share/nvim/lazy-rocks/hererocks/bin/luarocks} not installed
+- ⚠️ WARNING {/Users/kazuki_asayama/.local/share/nvim/lazy-rocks/hererocks/bin/lua} version `5.1` not installed
+- ⚠️ WARNING Lazy won't be able to install plugins that require `luarocks`.
+  Here's what you can do:
+   - fix your `luarocks` installation
+   - disable *hererocks* with `opts.rocks.hererocks = false`
+   - disable `luarocks` support completely with `opts.rocks.enabled = false`
+
+==============================================================================
+mason:                                                                    9 ⚠️
+
+mason.nvim ~
+- ✅ OK mason.nvim version v2.2.1
+- ✅ OK PATH: prepend
+- ✅ OK Providers: 
+    mason.providers.registry-api
+    mason.providers.client
+- ✅ OK neovim version >= 0.10.0
+
+mason.nvim [Registries] ~
+- ✅ OK Registry `github.com/mason-org/mason-registry version: 2026-02-02-absent-lycra` is installed.
+- ✅ OK Registry `SynthesizedRegistrySource` is installed.
+
+mason.nvim [Core utils] ~
+- ✅ OK unzip: `UnZip 6.00 of 20 April 2009, by Info-ZIP, with modifications by Apple Inc.`
+- ⚠️ WARNING wget: not available
+  - ADVICE:
+    - spawn: wget failed with exit code - and signal -. Could not find executable "wget" in PATH.
+
+- ✅ OK curl: `curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.67.1`
+- ✅ OK gzip: `Ok`
+- ✅ OK tar: `bsdtar 3.5.3 - libarchive 3.7.4 zlib/1.2.12 liblzma/5.4.3 bz2lib/1.0.8 `
+- ✅ OK bash: `GNU bash, version 5.3.3(1)-release (aarch64-apple-darwin24.4.0)`
+
+mason.nvim [Languages] ~
+- ⚠️ WARNING Go: not available
+  - ADVICE:
+    - spawn: go failed with exit code - and signal -. Could not find executable "go" in PATH.
+
+- ⚠️ WARNING cargo: not available
+  - ADVICE:
+    - spawn: cargo failed with exit code - and signal -. Could not find executable "cargo" in PATH.
+
+- ⚠️ WARNING luarocks: not available
+  - ADVICE:
+    - spawn: luarocks failed with exit code - and signal -. Could not find executable "luarocks" in PATH.
+
+- ⚠️ WARNING Composer: not available
+  - ADVICE:
+    - spawn: composer failed with exit code - and signal -. Could not find executable "composer" in PATH.
+
+- ⚠️ WARNING PHP: not available
+  - ADVICE:
+    - spawn: php failed with exit code - and signal -. Could not find executable "php" in PATH.
+
+- ✅ OK Ruby: `ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin25]`
+- ⚠️ WARNING javac: not available
+  - ADVICE:
+    - spawn: javac failed with exit code 1 and signal 0. The operation couldn’t be completed. Unable to locate a Java Runtime.
+      Please visit http://www.java.com for information on installing Java.
+
+
+- ⚠️ WARNING julia: not available
+  - ADVICE:
+    - spawn: julia failed with exit code - and signal -. Could not find executable "julia" in PATH.
+
+- ✅ OK node: `v24.9.0`
+- ⚠️ WARNING java: not available
+  - ADVICE:
+    - spawn: java failed with exit code 1 and signal 0. The operation couldn’t be completed. Unable to locate a Java Runtime.
+      Please visit http://www.java.com for information on installing Java.
+
+
+- ✅ OK python: `Python 3.9.6`
+- ✅ OK npm: `11.6.0`
+- ✅ OK RubyGem: `3.0.3.1`
+- ✅ OK pip: `pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/site-packages/pip (python 3.9)`
+- ✅ OK python venv: `Ok`
+
+==============================================================================
+mason-lspconfig:                                                            ✅
+
+mason-lspconfig.nvim ~
+- ✅ OK Neovim v0.11
+- ✅ OK mason.nvim v2
+
+==============================================================================
+null-ls:                                                                    ✅
+
+- no sources registered
+
+==============================================================================
+nvim-treesitter:                                                            ✅
+
+Requirements ~
+- ✅ OK Neovim was compiled with tree-sitter runtime ABI version 15 (required >=13).
+- ✅ OK tree-sitter-cli 0.26.3 (/opt/homebrew/bin/tree-sitter)
+- ✅ OK tar 3.5.3 (/usr/bin/tar)
+- ✅ OK curl 8.7.1 (/usr/bin/curl)
+  curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.67.1
+  Release-Date: 2024-03-27
+  Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt pop3 pop3s rtsp smb smbs smtp smtps telnet tftp
+  Features: alt-svc AsynchDNS GSS-API HSTS HTTP2 HTTPS-proxy IPv6 Kerberos Largefile libz MultiSSL NTLM SPNEGO SSL threadsafe UnixSockets
+
+OS Info ~
+- machine: arm64
+- version: Darwin Kernel Version 25.2.0: Tue Nov 18 21:08:48 PST 2025; root:xnu-12377.61.12~1/RELEASE_ARM64_T8132
+- sysname: Darwin
+- release: 25.2.0
+
+Install directory for parsers and queries ~
+- /Users/kazuki_asayama/.local/share/nvim/site/
+- ✅ OK is writable.
+- ✅ OK is in runtimepath.
+
+Installed languages     H L F I J ~
+- lua                   ✓ ✓ ✓ ✓ ✓
+- markdown              ✓ . ✓ ✓ ✓
+- markdown_inline       ✓ . . . ✓
+- query                 ✓ ✓ ✓ ✓ ✓
+- swift                 ✓ ✓ ✓ ✓ ✓
+- vim                   ✓ ✓ ✓ . ✓
+- vimdoc                ✓ . . . ✓
+
+  Legend: H[ighlights], L[ocals], F[olds], I[ndents], In[J]ections ~
+
+==============================================================================
+snacks:                                                            21 ⚠️ 11 ❌
+
+Snacks ~
+- ❌ ERROR setup not called
+- ⚠️ WARNING `snacks.nvim` should not be lazy-loaded. Add `lazy=false` to the plugin spec
+- ⚠️ WARNING `snacks.nvim` should have a priority of 1000 or higher. Add `priority=1000` to the plugin spec
+
+Snacks.bigfile ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.dashboard ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.explorer ~
+- ⚠️ WARNING setup {disabled}
+- ✅ OK 'trash' `# Un-recognized argument --version at index 1`
+- ✅ OK 'gio' `2.86.0`
+- ✅ OK System trash command found
+
+Snacks.image ~
+- ⚠️ WARNING setup {disabled}
+- ❌ ERROR None of the tools found: 'kitty', 'wezterm', 'ghostty'
+- ❌ ERROR None of the tools found: 'magick', 'convert'
+- ❌ ERROR `magick` is required to convert images. Only PNG files will be displayed.
+- ✅ OK Terminal Dimensions:
+  - {size}: `0` x `0` pixels
+  - {scale}: `1.00`
+  - {cell}: `0` x `0` pixels
+- ✅ OK Available Treesitter languages:
+    `markdown_inline`, `markdown`
+- ⚠️ WARNING Missing Treesitter languages:
+    `css`, `html`, `javascript`, `latex`, `norg`, `scss`, `svelte`, `tsx`, `typst`, `vue`
+- ⚠️ WARNING Image rendering in docs with missing treesitter parsers won't work
+- ❌ ERROR Tool not found: 'gs'
+- ⚠️ WARNING `gs` is required to render PDF files
+- ❌ ERROR None of the tools found: 'tectonic', 'pdflatex'
+- ⚠️ WARNING `tectonic` or `pdflatex` is required to render LaTeX math expressions
+- ❌ ERROR Tool not found: 'mmdc'
+- ⚠️ WARNING `mmdc` is required to render Mermaid diagrams
+- ❌ ERROR your terminal does not support the kitty graphics protocol
+- supported terminals: `kitty`, `wezterm`, `ghostty`
+
+Snacks.input ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.lazygit ~
+- ✅ OK {lazygit} installed
+
+Snacks.notifier ~
+- ⚠️ WARNING setup {disabled}
+- ❌ ERROR is not ready
+
+Snacks.picker ~
+- ⚠️ WARNING setup {disabled}
+- ⚠️ WARNING `vim.ui.select` for `Snacks.picker` is not enabled
+- ⚠️ WARNING Missing Treesitter languages:
+    `regex`
+- ✅ OK 'git' `git version 2.51.1`
+- ✅ OK 'rg' `ripgrep 14.1.1`
+- ✅ OK `Snacks.picker.grep()` is available
+- ❌ ERROR None of the tools found: 'fd', 'fdfind'
+- ✅ OK 'find'
+- ✅ OK `Snacks.picker.files()` is available
+- ❌ ERROR 'fd' `v8.4` is required for searching with `Snacks.picker.explorer()`
+- ✅ OK `SQLite3` is available
+
+Snacks.quickfile ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.scope ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.scroll ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.statuscolumn ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.terminal ~
+- ✅ OK shell configured
+  - `vim.o.shell`: /bin/zsh
+  - `parsed`: { "/bin/zsh" }
+
+Snacks.toggle ~
+- ✅ OK {which-key} is installed
+
+Snacks.words ~
+- ⚠️ WARNING setup {disabled}
+
+==============================================================================
+telescope:                                                                1 ⚠️
+
+Checking for required plugins ~
+- ✅ OK plenary installed.
+- ✅ OK nvim-treesitter installed.
+
+Checking external dependencies ~
+- ✅ OK rg: found ripgrep 14.1.1
+- ⚠️ WARNING fd: not found. Install [sharkdp/fd](https://github.com/sharkdp/fd) for extended capabilities
+
+===== Installed extensions ===== ~
+
+Telescope Extension: `notify` ~
+- No healthcheck provided
+
+Telescope Extension: `ui-select` ~
+- No healthcheck provided
+
+==============================================================================
+vim.deprecated:                                                             ✅
+
+- ✅ OK No deprecated functions detected
+
+==============================================================================
+vim.health:                                                                 ✅
+
+Configuration ~
+- ✅ OK no issues found
+
+Runtime ~
+- ✅ OK $VIMRUNTIME: /opt/homebrew/Cellar/neovim/0.11.5_1/share/nvim/runtime
+
+Performance ~
+- ✅ OK Build type: Release
+
+Remote Plugins ~
+- ✅ OK Up to date
+
+terminal ~
+- key_backspace (kbs) terminfo entry: `key_backspace=^H`
+- key_dc (kdch1) terminfo entry: `key_dc=\E[3~`
+- $TERM_PROGRAM="vscode"
+- $COLORTERM="truecolor"
+
+External Tools ~
+- ✅ OK ripgrep 14.1.1 (/opt/homebrew/bin/rg)
+
+==============================================================================
+vim.lsp:                                                                    ✅
+
+- LSP log level : WARN
+- Log path: /Users/kazuki_asayama/.local/state/nvim/lsp.log
+- Log size: 3685 KB
+
+vim.lsp: Active Clients ~
+- No active clients
+
+vim.lsp: Enabled Configurations ~
+- dartls:
+  - cmd: { "fvm", "dart", "language-server", "--protocol=lsp" }
+  - filetypes: dart
+  - init_options: {
+      closingLabels = true,
+      flutterOutline = true,
+      onlyAnalyzeProjectsWithOpenFiles = true,
+      outline = true,
+      suggestFromUnimportedLibraries = true
+    }
+  - on_attach: <function @/Users/kazuki_asayama/.config/nvim/lua/plugin/lsp.lua:1>
+  - settings: {
+      dart = {
+        completeFunctionCalls = true,
+        lineLength = 120,
+        showTodos = true
+      }
+    }
+
+- lua_ls:
+  - on_attach: <function @/Users/kazuki_asayama/.config/nvim/lua/plugin/lsp.lua:1>
+  - settings: {
+      Lua = {
+        workspace = {
+          library = { "/opt/homebrew/Cellar/neovim/0.11.5_1/share/nvim/runtime/lua" }
+        }
+      }
+    }
+
+- sourcekit:
+  - cmd: { "xcrun", "sourcekit-lsp", "-Xswiftc", "-sdk", "-Xswiftc", "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.1.sdk", "-Xswiftc", "-target", "-Xswiftc", "x86_64-apple-ios17.5-simulator" }
+  - filetypes: swift
+  - on_attach: <function @/Users/kazuki_asayama/.config/nvim/lua/plugin/lsp.lua:1>
+
+
+vim.lsp: File Watcher ~
+- file watching "(workspace/didChangeWatchedFiles)" disabled on all clients
+
+vim.lsp: Position Encodings ~
+- No active clients
+
+==============================================================================
+vim.provider:                                                             4 ⚠️
+
+Clipboard (optional) ~
+- ✅ OK Clipboard tool found: pbcopy
+
+Node.js provider (optional) ~
+- Node.js: v24.9.0
+
+- ⚠️ WARNING Missing "neovim" npm (or yarn, pnpm) package.
+  - ADVICE:
+    - Run in shell: npm install -g neovim
+    - Run in shell (if you use yarn): yarn global add neovim
+    - Run in shell (if you use pnpm): pnpm install -g neovim
+    - You may disable this provider (and warning) by adding `let g:loaded_node_provider = 0` to your init.vim
+
+Perl provider (optional) ~
+- ⚠️ WARNING "Neovim::Ext" cpan module is not installed
+  - ADVICE:
+    - See :help |provider-perl| for more information.
+    - You can disable this provider (and warning) by adding `let g:loaded_perl_provider = 0` to your init.vim
+- ⚠️ WARNING No usable perl executable found
+
+Python 3 provider (optional) ~
+- `g:python3_host_prog` is not set. Searching for pynvim-python in the environment.
+- Executable: /Users/kazuki_asayama/.local/bin/pynvim-python
+- Python version: 3.14.2
+- pynvim version: 0.6.0
+- ✅ OK Latest pynvim is installed.
+
+Python virtualenv ~
+- ✅ OK no $VIRTUAL_ENV
+
+Ruby provider (optional) ~
+- Ruby: ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin25]
+- ⚠️ WARNING `neovim-ruby-host` not found.
+  - ADVICE:
+    - Run `gem install neovim` to ensure the neovim RubyGem is installed.
+    - Run `gem environment` to ensure the gem bin directory is in $PATH.
+    - If you are using rvm/rbenv/chruby, try "rehashing".
+    - See :help |g:ruby_host_prog| for non-standard gem installations.
+    - You can disable this provider (and warning) by adding `let g:loaded_ruby_provider = 0` to your init.vim
+
+==============================================================================
+vim.treesitter:                                                             ✅
+
+Treesitter features ~
+- Treesitter ABI support: min 13, max 15
+- WASM parser support: false
+
+Treesitter parsers ~
+- ✅ OK Parser: c                         ABI: 15, path: /opt/homebrew/Cellar/neovim/0.11.5_1/lib/nvim/parser/c.so
+- ✅ OK Parser: lua                       ABI: 15, path: /Users/kazuki_asayama/.local/share/nvim/site/parser/lua.so
+- ✅ OK Parser: lua                  (not loaded), path: /Users/kazuki_asayama/.local/share/nvim/lazy/nvim-treesitter/parser/lua.so
+- ✅ OK Parser: lua                  (not loaded), path: /opt/homebrew/Cellar/neovim/0.11.5_1/lib/nvim/parser/lua.so
+- ✅ OK Parser: markdown                  ABI: 15, path: /Users/kazuki_asayama/.local/share/nvim/site/parser/markdown.so
+- ✅ OK Parser: markdown             (not loaded), path: /Users/kazuki_asayama/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so
+- ✅ OK Parser: markdown             (not loaded), path: /opt/homebrew/Cellar/neovim/0.11.5_1/lib/nvim/parser/markdown.so
+- ✅ OK Parser: markdown_inline           ABI: 15, path: /Users/kazuki_asayama/.local/share/nvim/site/parser/markdown_inline.so
+- ✅ OK Parser: markdown_inline      (not loaded), path: /Users/kazuki_asayama/.local/share/nvim/lazy/nvim-treesitter/parser/markdown_inline.so
+- ✅ OK Parser: markdown_inline      (not loaded), path: /opt/homebrew/Cellar/neovim/0.11.5_1/lib/nvim/parser/markdown_inline.so
+- ✅ OK Parser: query                     ABI: 15, path: /Users/kazuki_asayama/.local/share/nvim/site/parser/query.so
+- ✅ OK Parser: query                (not loaded), path: /Users/kazuki_asayama/.local/share/nvim/lazy/nvim-treesitter/parser/query.so
+- ✅ OK Parser: query                (not loaded), path: /opt/homebrew/Cellar/neovim/0.11.5_1/lib/nvim/parser/query.so
+- ✅ OK Parser: swift                     ABI: 15, path: /Users/kazuki_asayama/.local/share/nvim/site/parser/swift.so
+- ✅ OK Parser: vim                       ABI: 15, path: /Users/kazuki_asayama/.local/share/nvim/site/parser/vim.so
+- ✅ OK Parser: vim                  (not loaded), path: /Users/kazuki_asayama/.local/share/nvim/lazy/nvim-treesitter/parser/vim.so
+- ✅ OK Parser: vim                  (not loaded), path: /opt/homebrew/Cellar/neovim/0.11.5_1/lib/nvim/parser/vim.so
+- ✅ OK Parser: vimdoc                    ABI: 15, path: /Users/kazuki_asayama/.local/share/nvim/site/parser/vimdoc.so
+- ✅ OK Parser: vimdoc               (not loaded), path: /Users/kazuki_asayama/.local/share/nvim/lazy/nvim-treesitter/parser/vimdoc.so
+- ✅ OK Parser: vimdoc               (not loaded), path: /opt/homebrew/Cellar/neovim/0.11.5_1/lib/nvim/parser/vimdoc.so
+
+==============================================================================
+xcodebuild:                                                              18 ⚠️
+
+Checking xcodebuild.nvim ~
+- ✅ OK xcodebuild.nvim: commit #02381ee
+
+Checking OS ~
+- ✅ OK macOS version: 26.2
+
+Checking plugins ~
+- ✅ OK telescope.nvim installed.
+- ✅ OK fzf-lua installed.
+- ✅ OK snacks.nvim installed.
+- ✅ OK nui.nvim installed.
+- ⚠️ WARNING nvim-tree not installed. (Optional to visually manage project files)
+- ⚠️ WARNING neo-tree not installed. (Optional to visually manage project files)
+- ⚠️ WARNING oil.nvim not installed. (Optional to visually manage project files)
+- ✅ OK nvim-dap installed.
+- ✅ OK nvim-dap-ui installed.
+- ✅ OK nvim-treesitter installed.
+- ✅ OK nvim-treesitter: Swift parser installed.
+
+Checking required dependencies ~
+- ✅ OK xcodebuild: version 26.2
+- ✅ OK xcodebuild: installed
+- ✅ OK xcrun: installed
+- ✅ OK xcode-build-server: installed
+
+Checking optional dependencies ~
+- ⚠️ WARNING xcp: not installed. Required to automatically update Xcode project when you add, delete, or move your files. (https://github.com/wojciech-kulik/XcodeProjectCLI)
+- ✅ OK pymobiledevice3: installed
+- ⚠️ WARNING xcbeautify: not installed. Required to nicely format Xcode logs. (https://github.com/cpisciotta/xcbeautify)
+- ✅ OK rg: installed
+- ⚠️ WARNING fd: not installed. Improves performance when searching for files. Required for Assets Manager. (https://github.com/sharkdp/fd)
+- ⚠️ WARNING stdbuf: not installed. Allows to see macOS app logs without launching debugger. (https://formulae.brew.sh/formula/coreutils#default)
+
+Checking debugger ~
+- ✅ OK nvim-dap: lldb-dap adapter configured.
+- ✅ OK nvim-dap: swift configuration found.
+- ✅ OK lldb: xcrun lldb-dap installed
+
+Checking buildServer.json ~
+- ⚠️ WARNING file not found. It is required to ensure that sourcekit-lsp works correctly with Xcode project.
+- ⚠️ WARNING checked path: /Users/kazuki_asayama/dotfiles/buildServer.json
+- ⚠️ WARNING did you run checkhealth from the root of your project?
+- ⚠️ WARNING run `xcode-build-server config -project XYZ.xcodeproj -scheme XYZ` to create it.
+
+Checking .nvim/xcodebuild/settings.json ~
+- ⚠️ WARNING directory not found
+- ⚠️ WARNING checked path: /Users/kazuki_asayama/dotfiles/.nvim/xcodebuild
+- ⚠️ WARNING did you run checkhealth from the root of your project?
+- ⚠️ WARNING run `:XcodebuildSetup` to configure the project.
+
+Checking remote debugger integration (pymobiledevice3) ~
+- ✅ OK `remote_debugger` script installed
+- ⚠️ WARNING passwordless sudo permission for `remote_debugger` is not configured.
+- ⚠️ WARNING debugging on physical devices with iOS 17+ will not work.
+- ⚠️ WARNING see `:help |xcodebuild.remote-debugger`| for more information.
+

@@ -68,13 +68,12 @@ export FZF_DEFAULT_OPTS='
 	--color info:144,prompt:161,spinner:135,pointer:135,marker:118
 '
 
-
 if [ -d $HOME/.anyenv ] ; then
 	export PATH="$HOME/.anyenv/bin:$PATH"
 	eval "$(anyenv init - --no-rehash zsh)"
 fi
 if type pyenv > /dev/null ; then
-    eval "$(pyenv virtualenv-init - --no-rehash zsh)"
+    eval "$(pyenv init -)"
 fi
 
 if hash direnv 2>/dev/null ; then

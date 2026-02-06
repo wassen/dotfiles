@@ -17,7 +17,8 @@ patches
 buildServer.json
 
 # tools
-.claude
+# .claude
+**/.claude/settings.local.json
 # xcodebuild.nvim
 .nvim
 build/

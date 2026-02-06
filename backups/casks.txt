@@ -1,5 +1,7 @@
 aerospace
 amethyst
+android-commandlinetools
+android-platform-tools
 android-studio
 antigravity
 atok
@@ -23,6 +25,7 @@ iterm2
 notion
 raycast
 teensy
+temurin@21
 visual-studio-code
 vivaldi
 xcodes
